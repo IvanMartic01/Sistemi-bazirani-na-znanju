@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15.4
+    container_name: event-app-drools-container
+    restart: always
+    environment:
+      - POSTGRES_DB=event-app-drools
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=martic
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db:/var/lib/postgresql/data
+volumes:
+  db:
+    driver: local
