@@ -6,7 +6,7 @@ export interface EventResponse {
   name: string;
   startDateTime: string;
   endDateTime: string;
-  seats: number;
+  totalSeats: number;
   price: number;
   shortDescription: string;
   detailedDescription: string;

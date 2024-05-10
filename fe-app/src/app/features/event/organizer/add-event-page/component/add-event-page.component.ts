@@ -18,6 +18,7 @@ export class AddEventPageComponent implements OnInit {
   ngOnInit(): void {}
 
   onAddNewFormAction($event: CreateUpdateEventRequest) {
+    console.log($event);
     this.eventService.createEvent($event).subscribe((_) => {
       this.toastrService.success('Event created successfully');
       this.router.navigate(['/event']);

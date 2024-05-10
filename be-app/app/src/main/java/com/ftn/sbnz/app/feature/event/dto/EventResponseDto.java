@@ -14,11 +14,11 @@ public class EventResponseDto {
     private String name;
     private String startDateTime;
     private String endDateTime;
-    private int seats;
+    private int totalSeats;
+    private int numberOfAvailableSeats;
     private double price;
     private String shortDescription;
     private String detailedDescription;
     private String organizationPlan;
     private OrganizerResponseDto organizer;
-    private int numberOfAvailableSeats;
 }

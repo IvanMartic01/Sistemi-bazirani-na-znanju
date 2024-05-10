@@ -7,6 +7,7 @@ import {SharedService} from "../../../service/shared.service";
 import {Router} from "@angular/router";
 import {CreateVisitor} from "../model/create-user/create-visitor.model";
 import {VisitorResponse} from "../../../model/user/visitor-response,model";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-login-form',
@@ -27,6 +28,7 @@ export class LoginFormComponent {
 
   constructor(private authService: AuthService,
               private sharedService:SharedService,
+              private toastrService:ToastrService,
               private router: Router) {}
 
   login() {
@@ -67,6 +69,7 @@ export class LoginFormComponent {
       next: (response:VisitorResponse) => {
         console.log(response);
         this.sharedService.setIsSignIn(true);
+        this.toastrService.success('Account created successfully');
         this.router.navigate(['']);
       },
       error: (error: HttpErrorResponse) => {

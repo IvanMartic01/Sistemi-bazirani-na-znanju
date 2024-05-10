@@ -28,16 +28,14 @@ export class EventFormComponent implements OnInit {
   @Input() isActionButton1Enabled: boolean = false;
   @Input() isActionButton2Enabled: boolean = false;
 
-  eventImage: File = {} as File;
-  imgURL: any;
   eventName: string = '';
   startDateTime: Date | null = null;
   endDateTime: Date | null = null;
-  price: number = 0;
-  seats: number = 0;
-  shortDescription = '';
-  detailedDescription: string = '';
-  organizationPlan: string = '';
+  price: number | null = null;
+  seats: number | null = null;
+  shortDescription: string | null = null;
+  detailedDescription: string | null = null;
+  organizationPlan: string | null = null;
 
   @Output() button1ClickEmit = new EventEmitter();
   @Output() button2ClickEmit = new EventEmitter();
@@ -62,7 +60,7 @@ export class EventFormComponent implements OnInit {
         this.startDateTime = new Date(event.startDateTime);
         this.endDateTime = new Date(event.endDateTime);
         this.price = event.price;
-        this.seats = event.seats;
+        this.seats = event.totalSeats;
         this.shortDescription = event.shortDescription;
         this.detailedDescription = event.detailedDescription;
         this.organizationPlan = event.organizationPlan;
@@ -80,6 +78,31 @@ export class EventFormComponent implements OnInit {
       return;
     }
 
+    if (this.price === null) {
+      this.toastrService.error('Please enter price');
+      return;
+    }
+
+    if (this.seats === null) {
+      this.toastrService.error('Please enter seats');
+      return;
+    }
+
+    if (this.shortDescription === null) {
+      this.toastrService.error('Please enter short description');
+      return;
+    }
+
+    if (this.detailedDescription === null) {
+      this.toastrService.error('Please enter detailed description');
+      return;
+    }
+
+    if (this.organizationPlan === null) {
+      this.toastrService.error('Please enter organization plan');
+      return;
+    }
+
     let eventSaveUpdateRequest: CreateUpdateEventRequest = {
       name: this.eventName,
       startDateTime: this.startDateTime,
@@ -88,10 +111,10 @@ export class EventFormComponent implements OnInit {
       totalSeats: this.seats,
       shortDescription: this.shortDescription,
       detailedDescription: this.detailedDescription,
-      organizationPlan: this.eventName,
+      organizationPlan: this.organizationPlan,
     };
     console.log(eventSaveUpdateRequest)
-    this.button1ClickEmit.emit({ "data":eventSaveUpdateRequest, "image":this.eventImage});
+    this.button1ClickEmit.emit(eventSaveUpdateRequest);
   }
 
   emitButton2Click(): void {

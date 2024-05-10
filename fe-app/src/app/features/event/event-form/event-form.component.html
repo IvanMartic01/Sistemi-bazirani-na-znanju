@@ -2,72 +2,91 @@
   <form class="form" action="" method="post">
     <h3>{{ formTitle }}</h3>
     <img src="https://source.unsplash.com/random/500x500?sig=1" width="100%" height="500px" alt="image" class="image" />
-      <input
-        name="eventName"
-        [(ngModel)]="eventName"
-        [readOnly]="isFormReadOnly"
-        placeholder="Event name"
-        type="text"
-        required
-        autofocus
-      />
-    <div class="form-section input-shadow">
-      <input
-        name="startDateTime"
-        [(ngModel)]="startDateTime"
-        [readOnly]="isFormReadOnly"
-        class="input-margin-right-10"
-        type="text"
-        placeholder="Start date"
-        onfocus="(this.type='datetime-local')"
-      />
-      <input
-        name="endDateTime"
-        [(ngModel)]="endDateTime"
-        [readOnly]="isFormReadOnly"
-        class="input-margin-left-10 input-shadow"
-        type="text"
-        placeholder="End date"
-        onfocus="(this.type='datetime-local')"
-      />
-    </div>
-    <div class="form-section input-shadow">
-      <input
-        name="price"
-        [(ngModel)]="price"
-        [readOnly]="isFormReadOnly"
-        class="input-margin-right-10"
-        placeholder="Price"
-        type="number"
-        required
-      />
 
-      <input
-        name="seats"
-        [(ngModel)]="seats"
-        [readOnly]="isFormReadOnly"
-        class="input-margin-left-10 input-shadow"
-        placeholder="Number of seats"
-        type="number"
-        required
-      />
-    </div>
+    <label style="margin-top: 30px" for="eventName">Event Name</label>
+    <input
+      id="eventName"
+      name="eventName"
+      [(ngModel)]="eventName"
+      [readOnly]="isFormReadOnly"
+      placeholder="Event name"
+      type="text"
+      required
+      autofocus
+    />
+
+
+    <label for="startDateTime">Start Date</label>
+    <input
+      id="startDateTime"
+      name="startDateTime"
+      [ngModel]="startDateTime | date: 'short'"
+      (ngModelChange)="startDateTime = $event"
+      [readOnly]="isFormReadOnly"
+      class="input-margin-right-10"
+      type="text"
+      placeholder="Start date"
+      onfocus="(this.type='datetime-local')"
+    />
+    <label for="endDateTime">End Date</label>
+    <input
+      id="endDateTime"
+      name="endDateTime"
+      [ngModel]="endDateTime | date: 'short'"
+      (ngModelChange)="endDateTime = $event"
+      [readOnly]="isFormReadOnly"
+      class="input-shadow"
+      type="text"
+      placeholder="End date"
+      onfocus="(this.type='datetime-local')"
+    />
+
+    <label for="price">Price</label>
+    <input
+      id="price"
+      name="price"
+      [(ngModel)]="price"
+      [readOnly]="isFormReadOnly"
+      class="input-margin-right-10"
+      placeholder="Price"
+      type="number"
+      required
+    />
+
+    <label for="seats" style="margin-top: 1.5%">Number of Seats</label>
+    <input
+      id="seats"
+      name="seats"
+      [(ngModel)]="seats"
+      [readOnly]="isFormReadOnly"
+      class="input-shadow"
+      placeholder="Number of seats"
+      type="number"
+      required
+    />
+
     <div style="margin-top: 30px">
+      <label for="shortDescription">Short Description</label>
       <textarea
+        id="shortDescription"
         name="shortDescription"
         [(ngModel)]="shortDescription"
         [readOnly]="isFormReadOnly"
         placeholder="Short description...."
         required
       ></textarea>
+      <label for="detailedDescription">Detailed Description</label>
       <textarea
+        id="detailedDescription"
         name="detailedDescription"
         [(ngModel)]="detailedDescription"
         [readOnly]="isFormReadOnly"
         placeholder="Detail description...."
         required
       ></textarea>
+      <label for="organizationPlan">Organization Plan</label>
       <textarea
+        id="organizationPlan"
         name="organizationPlan"
         [(ngModel)]="organizationPlan"
         [readOnly]="isFormReadOnly"
