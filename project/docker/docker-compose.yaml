@@ -2,7 +2,7 @@ version: '3.8'
 services:
   db:
     image: postgres:15.4
-    container_name: event-app-drools-container
+    container_name: drools-db
     restart: always
     environment:
       - POSTGRES_DB=event-app-drools
@@ -11,7 +11,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./db:/var/lib/postgresql/data
+      - ./db:/var/lib/postgresql/data2
 volumes:
   db:
     driver: local

@@ -1,0 +1,355 @@
+{
+	"info": {
+		"_postman_id": "b1ed7b66-e591-4683-ae58-c6b0e4f8d9b3",
+		"name": "event-app-drools",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "24996958"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "register visitor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Ivan\",\n    \"email\": \"{{NEW_VISITOR_EMAIL}}\",\n    \"password\": \"{{PASSWORD}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/auth/register-visitor"
+					},
+					"response": []
+				},
+				{
+					"name": "register organizer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Ivan\",\n    \"email\": \"{{NEW_ORGANIZER_EMAIL}}\",\n    \"password\": \"{{PASSWORD}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{BASE_URL}}/auth/register-organizer"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "event",
+			"item": [
+				{
+					"name": "visitor",
+					"item": [
+						{
+							"name": "get available",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{TOKEN}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{BASE_URL}}/event/visitor-available"
+							},
+							"response": []
+						},
+						{
+							"name": "get reserved",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{TOKEN}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{BASE_URL}}/event/visitor-reserved"
+							},
+							"response": []
+						},
+						{
+							"name": "get visited",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{TOKEN}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{BASE_URL}}/event/visitor-visited"
+							},
+							"response": []
+						},
+						{
+							"name": "reserve",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{TOKEN}}"
+									}
+								},
+								"method": "PUT",
+								"header": [],
+								"url": "{{BASE_URL}}/event/{{PENDING_EVENT_ID}}/reserve"
+							},
+							"response": []
+						},
+						{
+							"name": "cancel reserveation",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{TOKEN}}"
+									}
+								},
+								"method": "PUT",
+								"header": [],
+								"url": "{{BASE_URL}}/event/{{PENDING_EVENT_ID}}/cancel-reservation"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "organizer",
+					"item": [
+						{
+							"name": "get finished",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{TOKEN}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{BASE_URL}}/event/organizer-finished"
+							},
+							"response": []
+						},
+						{
+							"name": "get pending",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{TOKEN}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{BASE_URL}}/event/organizer-pending"
+							},
+							"response": []
+						},
+						{
+							"name": "create new event",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{TOKEN}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Created event\",\n    \"startDateTime\": \"2025-12-01T18:00:00\",\n    \"endDateTime\": \"2025-12-02T20:00:00\",\n    \"price\": 100.0,\n    \"totalSeats\": 50,\n    \"shortDescription\": \"This is a short description of the created event.\",\n    \"detailedDescription\": \"This is a more detailed description of the created event.\",\n    \"organizationPlan\": \"This is the organization plan for the created event.\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/event"
+							},
+							"response": []
+						},
+						{
+							"name": "delete event",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{TOKEN}}"
+									}
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": "{{BASE_URL}}/event/{{PENDING_EVENT_ID}}"
+							},
+							"response": []
+						},
+						{
+							"name": "update event",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{TOKEN}}"
+									}
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"UPDATET event\",\n    \"startDateTime\": \"2022-12-01T18:00:00\",\n    \"endDateTime\": \"2022-12-02T20:00:00\",\n    \"price\": 100.0,\n    \"totalSeats\": 0,\n    \"shortDescription\": \"This is a short description of the UPDATET event.\",\n    \"detailedDescription\": \"This is a more detailed description of the UPDATET event.\",\n    \"organizationPlan\": \"This is the organization plan for the UPDATET event.\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{BASE_URL}}/event/{{PENDING_EVENT_ID}}"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "LOGIN VISITOR",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.globals.set(\"TOKEN\", responseData.token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{VISITOR_1_EMAIL}}\",\n    \"password\": \"{{PASSWORD}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BASE_URL}}/auth/generate-token"
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN ORGANIZER",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.globals.set(\"TOKEN\", responseData.token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{ORGANIZER_1_EMAIL}}\",\n    \"password\": \"{{PASSWORD}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BASE_URL}}/auth/generate-token"
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN ADMIN",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.globals.set(\"TOKEN\", responseData.token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{ADMIN_1_EMAIL}}\",\n    \"password\": \"{{PASSWORD}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BASE_URL}}/auth/generate-token"
+			},
+			"response": []
+		},
+		{
+			"name": "get by id Copy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{TOKEN}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "{{BASE_URL}}/event/{{PENDING_EVENT_ID}}"
+			},
+			"response": []
+		}
+	]
+}

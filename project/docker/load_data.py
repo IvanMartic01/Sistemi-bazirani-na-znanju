@@ -1,7 +1,7 @@
 import requests
 
 def load_user_data():
-    url = "http://localhost:8080/api/auth/user/load-data"
+    url = "http://localhost:8080/api/auth/load-user-data"
     try:
         response = requests.post(url)
         if response.status_code == 200:
