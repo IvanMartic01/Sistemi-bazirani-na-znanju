@@ -1,0 +1,54 @@
+.navbar {
+  position: fixed;
+  width: 55px;
+  top:0;
+  height: 100vh;
+  z-index: 100;
+  background-color: white;
+  overflow:hidden;
+  transition:width .3s ease;
+  cursor:pointer;
+  box-shadow:4px 7px 10px rgba(0,0,0,.4);
+
+  &:hover {
+    width:220px;
+  }
+  @media screen and (min-width: 600px) {
+    width: 55px;
+  }
+}
+
+.nav-elements {
+  margin-top: 10px;
+  margin-left: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 100%;
+  width: 100%;
+}
+
+.material-icons.large {
+  font-size: 40px;
+}
+
+
+.nav-element {
+  display: flex;
+  margin-bottom: 40px;
+  white-space: nowrap;
+
+
+}
+.p-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 20px;
+  font-weight: bold;
+
+  &:hover {
+    color: #666666;
+  }
+}

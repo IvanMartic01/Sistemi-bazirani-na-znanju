@@ -1,0 +1,10 @@
+<app-event-form
+  actionButton1Text="Save"
+  actionButton2Text="Delete"
+  formTitle="Edit Form"
+  [isFormReadOnly]="false"
+  [isActionButton1Enabled]="true"
+  [isActionButton2Enabled]="true"
+  (button1ClickEmit)="onUpdate($event)"
+  (button2ClickEmit)="onDelete($event)"
+></app-event-form>

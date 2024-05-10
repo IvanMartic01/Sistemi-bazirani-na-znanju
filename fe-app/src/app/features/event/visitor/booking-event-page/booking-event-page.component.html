@@ -1,0 +1,9 @@
+<app-event-form
+  formTitle="Book Event"
+  [isFormReadOnly]="true"
+></app-event-form>
+
+<div class="top-right">
+  <button *ngIf="!isReserved" (click)="reserve()">RESERVE</button>
+  <button *ngIf="isReserved" (click)="cancelReservation()">CANCEL RESERVATION</button>
+</div>

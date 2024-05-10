@@ -1,0 +1,97 @@
+<div class="container">
+  <form class="form" action="" method="post">
+    <h3>{{ formTitle }}</h3>
+    <img src="https://source.unsplash.com/random/500x500?sig=1" width="100%" height="500px" alt="image" class="image" />
+      <input
+        name="eventName"
+        [(ngModel)]="eventName"
+        [readOnly]="isFormReadOnly"
+        placeholder="Event name"
+        type="text"
+        required
+        autofocus
+      />
+    <div class="form-section input-shadow">
+      <input
+        name="startDateTime"
+        [(ngModel)]="startDateTime"
+        [readOnly]="isFormReadOnly"
+        class="input-margin-right-10"
+        type="text"
+        placeholder="Start date"
+        onfocus="(this.type='datetime-local')"
+      />
+      <input
+        name="endDateTime"
+        [(ngModel)]="endDateTime"
+        [readOnly]="isFormReadOnly"
+        class="input-margin-left-10 input-shadow"
+        type="text"
+        placeholder="End date"
+        onfocus="(this.type='datetime-local')"
+      />
+    </div>
+    <div class="form-section input-shadow">
+      <input
+        name="price"
+        [(ngModel)]="price"
+        [readOnly]="isFormReadOnly"
+        class="input-margin-right-10"
+        placeholder="Price"
+        type="number"
+        required
+      />
+
+      <input
+        name="seats"
+        [(ngModel)]="seats"
+        [readOnly]="isFormReadOnly"
+        class="input-margin-left-10 input-shadow"
+        placeholder="Number of seats"
+        type="number"
+        required
+      />
+    </div>
+    <div style="margin-top: 30px">
+      <textarea
+        name="shortDescription"
+        [(ngModel)]="shortDescription"
+        [readOnly]="isFormReadOnly"
+        placeholder="Short description...."
+        required
+      ></textarea>
+      <textarea
+        name="detailedDescription"
+        [(ngModel)]="detailedDescription"
+        [readOnly]="isFormReadOnly"
+        placeholder="Detail description...."
+        required
+      ></textarea>
+      <textarea
+        name="organizationPlan"
+        [(ngModel)]="organizationPlan"
+        [readOnly]="isFormReadOnly"
+        placeholder="Event plan...."
+        required
+      ></textarea>
+    </div>
+
+    <div >
+      <button
+        *ngIf="isActionButton1Enabled"
+        (click)="emitButton1Click()"
+        class="purple-button"
+      >
+        {{ actionButton1Text }}
+      </button>
+      <button
+        *ngIf="isActionButton2Enabled"
+        (click)="emitButton2Click()"
+        class="purple-button"
+        style="background-color: red"
+      >
+        {{ actionButton2Text }}
+      </button>
+    </div>
+  </form>
+</div>

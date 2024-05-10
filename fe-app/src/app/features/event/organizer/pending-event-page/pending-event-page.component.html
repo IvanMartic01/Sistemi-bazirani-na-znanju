@@ -1,0 +1,6 @@
+<app-event-list class="center-list"
+  [events]="pendingEvents"
+  (onCardClickEmitter)="showEvent($event)"
+></app-event-list>
+
+<div *ngIf="pendingEvents.length === 0" class="no-content">No Available Events</div>

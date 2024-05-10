@@ -1,0 +1,30 @@
+<nav *ngIf="isSignIn && authService.getRole() === 'ORGANIZER'" class="navbar">
+  <i class="fa-thin fa-house"></i>
+  <div class="nav-elements">
+    <div class="nav-element" (click)="goToAddNewEvent()">
+      <span class="material-icons large">celebration</span>
+      <div class="p-flex">
+        <div>New Event</div>
+      </div>
+    </div>
+    <div class="nav-element" (click)="goToFinishedEvents()">
+      <span class="material-icons large">event_busy</span>
+      <div class="p-flex">
+        <div>Finished Events</div>
+      </div>
+    </div>
+    <div class="nav-element" (click)="goToPendingEvents()">
+      <span class="material-icons large">event</span>
+      <div class="p-flex">
+        <div>Pending Events</div>
+      </div>
+    </div>
+    <div class="nav-element" (click)="signOut()">
+      <span class="material-icons large">logout</span>
+      <div class="p-flex">
+        <div>Logout</div>
+      </div>
+    </div>
+  </div>
+</nav>
+

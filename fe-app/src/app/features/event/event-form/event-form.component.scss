@@ -1,0 +1,116 @@
+.container {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.form {
+  background: #f9f9f9;
+  padding: 25px;
+  margin: 50px 0;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  border-radius: 12px;
+}
+
+h3 {
+  color: #f96;
+  font-size: 40px;
+  text-align: center;
+  font-weight: 600;
+}
+h4 {
+  margin: 5px 0 15px;
+  display: block;
+  font-size: 13px;
+}
+
+fieldset {
+  border: medium none !important;
+  margin: 0 0 10px;
+  min-width: 100%;
+  padding: 0;
+  width: 100%;
+}
+
+input,
+textarea {
+  width: 100%;
+  background: #fff;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+textarea {
+  height: 100px;
+  max-width: 100%;
+  resize: none;
+}
+
+.form-section {
+  display: flex;
+}
+
+.input-margin-right-10 {
+  margin-right: 10px;
+}
+
+.input-margin-left-10 {
+  margin-left: 10px;
+}
+
+.map {
+  max-height: 300px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+button {
+  margin-top: 15px;
+  padding: 18px;
+  width: 100%;
+}
+
+.map {
+  height: 300px;
+}
+
+.map-section {
+  margin-top: 30px;
+}
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.inputfile + label {
+  font-size: 1.25em;
+  font-weight: 700;
+  color: white;
+  background-color: var(--primary-color);
+  text-align: center;
+  display: inline-block;
+  padding: 10px 20px;
+  cursor: pointer;
+  width: 100%; // Added this line
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+  background-color: var(--primary-color);
+}
+
+.input-file-margin {
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+}

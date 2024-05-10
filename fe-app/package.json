@@ -1,0 +1,49 @@
+{
+  "name": "fe-event-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "build:prod": "ng build --configuration production --base-href https://rodrigokamada.github.io/angular-tomtom/",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "test:headless": "ng test --watch=false --browsers=ChromeHeadless"
+  },
+  "dependencies": {
+    "@angular/animations": "^14.1.0",
+    "@angular/common": "^14.1.0",
+    "@angular/compiler": "^14.1.0",
+    "@angular/core": "^14.1.0",
+    "@angular/forms": "^14.1.0",
+    "@angular/platform-browser": "^14.1.0",
+    "@angular/platform-browser-dynamic": "^14.1.0",
+    "@angular/router": "^14.1.0",
+    "@auth0/angular-jwt": "^5.2.0",
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@tomtom-international/web-sdk-maps": "^6.20.0",
+    "bootstrap": "^5.2.0",
+    "bootstrap-icons": "^1.9.1",
+    "font-awesome": "^4.7.0",
+    "material-icons": "^1.13.12",
+    "ngx-toastr": "^15.2.2",
+    "rxjs": "~7.5.6",
+    "tslib": "^2.4.0",
+    "zone.js": "~0.11.7"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^14.1.0",
+    "@angular/cli": "^14.1.0",
+    "@angular/compiler-cli": "^14.1.0",
+    "@types/jasmine": "~4.0.3",
+    "jasmine-core": "~4.2.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.1.1",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.0.0",
+    "typescript": "~4.7.4"
+  }
+}
