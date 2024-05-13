@@ -5,25 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3fa4d6e5-caca-4ee5-aa5e-f8e11adf1e30" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/target/generated-sources/annotations/com/ftn/sbnz/app/core/user/organizer/mapper/OrganizerMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/target/generated-sources/annotations/com/ftn/sbnz/app/core/user/visitor/VisitorMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/target/generated-sources/annotations/com/ftn/sbnz/app/feature/event/mapper/EventMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/AppApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/AppApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/visitor/VisitorMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/visitor/VisitorMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/app/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kjar/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/model/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/ModelApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/UserEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/target/classes/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/model/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/model/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/target/model-1.0.0.jar.original" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +98,7 @@
       <option name="presentableId" value="Default" />
       <updated>1715574402678</updated>
       <workItem from="1715574403703" duration="596000" />
-      <workItem from="1715585485307" duration="641000" />
+      <workItem from="1715585485307" duration="1706000" />
     </task>
     <servers />
   </component>
