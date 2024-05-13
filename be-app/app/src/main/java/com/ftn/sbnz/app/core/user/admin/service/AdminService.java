@@ -1,6 +1,7 @@
 package com.ftn.sbnz.app.core.user.admin.service;
 
-import com.ftn.sbnz.app.core.user.admin.db.AdminEntity;
+
+import com.ftn.sbnz.model.core.AdminEntity;
 
 import java.util.Optional;
 

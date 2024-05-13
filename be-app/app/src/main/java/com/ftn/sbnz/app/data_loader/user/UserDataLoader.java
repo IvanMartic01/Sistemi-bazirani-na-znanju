@@ -1,12 +1,12 @@
 package com.ftn.sbnz.app.data_loader.user;
 
-import com.ftn.sbnz.app.core.user.abstract_user.db.model.Role;
-import com.ftn.sbnz.app.core.user.admin.db.AdminEntity;
 import com.ftn.sbnz.app.core.user.admin.service.AdminService;
-import com.ftn.sbnz.app.core.user.organizer.db.OrganizerEntity;
 import com.ftn.sbnz.app.core.user.organizer.service.OrganizerService;
-import com.ftn.sbnz.app.core.user.visitor.db.VisitorEntity;
 import com.ftn.sbnz.app.core.user.visitor.service.VisitorService;
+import com.ftn.sbnz.model.core.AdminEntity;
+import com.ftn.sbnz.model.core.OrganizerEntity;
+import com.ftn.sbnz.model.core.Role;
+import com.ftn.sbnz.model.core.VisitorEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

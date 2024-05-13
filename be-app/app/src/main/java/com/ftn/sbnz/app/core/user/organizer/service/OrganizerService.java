@@ -1,6 +1,7 @@
 package com.ftn.sbnz.app.core.user.organizer.service;
 
-import com.ftn.sbnz.app.core.user.organizer.db.OrganizerEntity;
+
+import com.ftn.sbnz.model.core.OrganizerEntity;
 
 import java.util.Optional;
 

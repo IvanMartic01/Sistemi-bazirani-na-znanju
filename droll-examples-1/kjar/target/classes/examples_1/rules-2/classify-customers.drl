@@ -1,0 +1,24 @@
+//created on: Mar 27, 2017
+package rules.rules_2
+
+
+import com.ftn.sbnz.model.examples_1.Customer;
+import com.ftn.sbnz.model.examples_1.Order;
+
+rule "Categorize Customer - Gold"
+    when
+	     $c: Customer(category == Customer.Category.NA)
+	     $o: Order(customer == $c, orderLines.size() > 10)
+    then
+        System.out.println("Categorize Customer - Gold");
+        modify($c){ setCategory(Customer.Category.GOLD) }
+
+end
+
+rule "simple attribute example"
+	enabled false // Kada je postavljeno na false, pravilo se neće aktivirati čak i ako su svi uslovi u when delu zadovoljeni.
+	when
+		Customer()
+	then
+		System.out.println("we have a customer");
+end

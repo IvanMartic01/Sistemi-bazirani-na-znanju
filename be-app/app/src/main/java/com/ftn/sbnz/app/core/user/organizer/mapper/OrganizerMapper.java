@@ -1,9 +1,9 @@
 package com.ftn.sbnz.app.core.user.organizer.mapper;
 
-import com.ftn.sbnz.app.core.user.abstract_user.db.model.Role;
 import com.ftn.sbnz.app.core.user.organizer.OrganizerResponseDto;
-import com.ftn.sbnz.app.core.user.organizer.db.OrganizerEntity;
 import com.ftn.sbnz.app.feature.auth.dto.user.request.CreateOrganizerDto;
+import com.ftn.sbnz.model.core.OrganizerEntity;
+import com.ftn.sbnz.model.core.Role;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;

@@ -1,0 +1,13 @@
+package cep_2;
+import com.ftn.sbnz.model.examples_2.HeartAttackEvent;
+import com.ftn.sbnz.model.examples_2.HeartBeatEvent;
+
+rule "No heart beat in the last 5 seconds!"
+    when
+        not(
+            HeartBeatEvent() over window:time(5s)
+        )
+    then
+        insert(new HeartAttackEvent());
+        drools.halt();
+end

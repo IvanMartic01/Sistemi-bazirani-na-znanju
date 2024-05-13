@@ -1,5 +1,6 @@
 package com.ftn.sbnz.app.core.user.admin.db;
 
+import com.ftn.sbnz.model.core.AdminEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

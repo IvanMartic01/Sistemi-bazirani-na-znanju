@@ -1,8 +1,8 @@
 package com.ftn.sbnz.app.core.user.admin.service.impl;
 
-import com.ftn.sbnz.app.core.user.admin.db.AdminEntity;
 import com.ftn.sbnz.app.core.user.admin.db.AdminRepository;
 import com.ftn.sbnz.app.core.user.admin.service.AdminService;
+import com.ftn.sbnz.model.core.AdminEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

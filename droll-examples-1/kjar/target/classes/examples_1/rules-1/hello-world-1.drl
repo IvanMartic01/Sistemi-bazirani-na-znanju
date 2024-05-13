@@ -1,0 +1,21 @@
+package rules.rules_1
+
+import com.ftn.sbnz.model.examples_1.Message
+
+rule "Hello World"
+
+    when
+        $m: Message(status == Message.HELLO, myMessage: message)
+    then
+        System.out.println(myMessage);
+        modify($m){setMessage("Goodbye cruel world"), setStatus( Message.GOODBYE) };
+end
+
+rule "GoodBye"
+    //include attributes such as "salience" here...
+    when
+        $m: Message(status == Message.GOODBYE, myMessage: message)
+    then
+        modify($m){setMessage("Goodbye cruel world"), setStatus( Message.ZDRAVO) };
+        System.out.println(myMessage);
+end

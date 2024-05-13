@@ -1,7 +1,7 @@
 package com.ftn.sbnz.app.feature.event.repository;
 
 
-import com.ftn.sbnz.app.feature.event.model.EventEntity;
+import com.ftn.sbnz.model.event.EventEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

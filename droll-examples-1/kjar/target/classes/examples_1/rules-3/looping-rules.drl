@@ -1,0 +1,34 @@
+package rules.rules_3
+
+import com.ftn.sbnz.model.examples_1.Order;
+import com.ftn.sbnz.model.examples_1.Item
+
+rule "Apply 10% discount on notepads"
+    agenda-group "withLoop"
+    when
+        $i: Item(name == "notepad")
+    then
+        System.out.println("Pozvano");
+        modify($i) {
+            setSalePrice($i.getSalePrice() * 0.9)
+        }
+        update($i);
+end
+
+rule "Apply 10% discount on notepads BUT ONLY ONCE"
+    no-loop true
+    agenda-group "withNoLoop"
+    when $i: Item(name == "notepad")
+    then modify($i){setSalePrice($i.getSalePrice()*0.9) }
+    update($i);
+end
+
+rule "Lock"
+    lock-on-active true
+    when
+        $i: Item(name == "notepad")
+    then
+        System.out.println("POZVAO");
+        modify($i){setSalePrice($i.getSalePrice()*0.9) }
+        update($i);
+end

@@ -3,8 +3,8 @@ package com.ftn.sbnz.app.data_loader.event;
 import com.ftn.sbnz.app.core.user.organizer.service.OrganizerService;
 import com.ftn.sbnz.app.core.user.visitor.service.VisitorService;
 import com.ftn.sbnz.app.data_loader.user.UserDataConstants;
-import com.ftn.sbnz.app.feature.event.model.EventEntity;
 import com.ftn.sbnz.app.feature.event.service.EventService;
+import com.ftn.sbnz.model.event.EventEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,8 @@
 package com.ftn.sbnz.app.core.user.abstract_user.service.impl;
 
 import com.ftn.sbnz.app.core.user.abstract_user.db.UserRepository;
-import com.ftn.sbnz.app.core.user.abstract_user.db.model.UserEntity;
 import com.ftn.sbnz.app.core.user.abstract_user.service.UserService;
+import com.ftn.sbnz.model.core.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

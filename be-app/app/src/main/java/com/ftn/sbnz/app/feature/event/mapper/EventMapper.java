@@ -1,10 +1,10 @@
 package com.ftn.sbnz.app.feature.event.mapper;
 
-import com.ftn.sbnz.app.core.user.organizer.db.OrganizerEntity;
 import com.ftn.sbnz.app.core.user.organizer.mapper.OrganizerMapper;
 import com.ftn.sbnz.app.feature.event.dto.CreateUpdateEventRequestDto;
 import com.ftn.sbnz.app.feature.event.dto.EventResponseDto;
-import com.ftn.sbnz.app.feature.event.model.EventEntity;
+import com.ftn.sbnz.model.core.OrganizerEntity;
+import com.ftn.sbnz.model.event.EventEntity;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

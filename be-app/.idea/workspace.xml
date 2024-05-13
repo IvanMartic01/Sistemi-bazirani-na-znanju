@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3fa4d6e5-caca-4ee5-aa5e-f8e11adf1e30" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/test/controller/TestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/test/service/TestService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kjar/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kjar/src/main/java/com/ftn/sbnz/kjar/KjarApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kjar/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kjar/src/test/java/com/ftn/sbnz/kjar/KjarApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kjar/target/classes/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kjar/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kjar/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/ModelApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/test/TestModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/target/classes/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/target/model-1.0.0.jar.original" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/project.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/AppApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/AppApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/drools_config/KjarConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/drools/KjarConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/drools_config/KnowledgeSessionHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/drools/KnowledgeSessionHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/abstract_user/db/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/abstract_user/db/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/abstract_user/db/model/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/abstract_user/db/model/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/UserEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/abstract_user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/abstract_user/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/abstract_user/service/impl/DefaultUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/abstract_user/service/impl/DefaultUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/admin/db/AdminEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/AdminEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/admin/db/AdminRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/admin/db/AdminRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/admin/service/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/admin/service/AdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/admin/service/impl/DefaultAdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/admin/service/impl/DefaultAdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/organizer/db/OrganizerEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/OrganizerEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/organizer/db/OrganizerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/organizer/db/OrganizerRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/organizer/mapper/OrganizerMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/organizer/mapper/OrganizerMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/organizer/service/OrganizerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/organizer/service/OrganizerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/organizer/service/impl/DefaultOrganizerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/organizer/service/impl/DefaultOrganizerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/visitor/VisitorMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/visitor/VisitorMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/visitor/db/VisitorEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/VisitorEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/visitor/db/VisitorRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/visitor/db/VisitorRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/visitor/service/VisitorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/visitor/service/VisitorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/visitor/service/impl/DefaultVisitorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/visitor/service/impl/DefaultVisitorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/data_loader/event/EventDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/data_loader/event/EventDataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/data_loader/user/UserDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/data_loader/user/UserDataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/auth/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/auth/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/auth/service/impl/DefaultAuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/auth/service/impl/DefaultAuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/mapper/EventMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/mapper/EventMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/model/EventEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/event/EventEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/repository/EventRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/repository/EventRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/service/EventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/service/EventService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/service/impl/DefaultEventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/service/impl/DefaultEventService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/web_security/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/web_security/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/web_security/user_details/UserDetailsImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/web_security/user_details/UserDetailsImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/web_security/user_details/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/web_security/user_details/UserDetailsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/resources/META-INF/kmodule.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/src/main/resources/META-INF/kmodule.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/resources/rules/test_rules.drl" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/src/main/resources/rules/test_rules.drl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/target/app-0.0.1-SNAPSHOT.jar.original" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/target/classes/META-INF/kmodule.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/target/classes/META-INF/kmodule.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/target/classes/rules/test_rules.drl" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/target/classes/rules/test_rules.drl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/target/generated-sources/annotations/com/ftn/sbnz/app/core/user/organizer/mapper/OrganizerMapperImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/target/generated-sources/annotations/com/ftn/sbnz/app/core/user/visitor/VisitorMapperImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/target/generated-sources/annotations/com/ftn/sbnz/app/feature/event/mapper/EventMapperImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/app/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/app/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 0
+}]]></component>
+  <component name="ProjectId" id="2gOhCLGRAlnSZ9mXiDfgtfjfugI" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/martic/d/git/private/FAX-4/fax/Sistemi-bazirani-na-znanju/be-app",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.configurations.included.in.services": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.AppApplication">
+    <configuration name="AppApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="app" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ftn.sbnz.app.AppApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="KjarApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="kjar" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ftn.sbnz.kjar.KjarApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ModelApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="model" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ftn.sbnz.model.ModelApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3fa4d6e5-caca-4ee5-aa5e-f8e11adf1e30" name="Changes" comment="" />
+      <created>1715574402678</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1715574402678</updated>
+      <workItem from="1715574403703" duration="596000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

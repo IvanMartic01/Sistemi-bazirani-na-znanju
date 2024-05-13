@@ -1,7 +1,7 @@
 package com.ftn.sbnz.app.web_security.user_details;
 
 import com.ftn.sbnz.app.core.user.abstract_user.db.UserRepository;
-import com.ftn.sbnz.app.core.user.abstract_user.db.model.UserEntity;
+import com.ftn.sbnz.model.core.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

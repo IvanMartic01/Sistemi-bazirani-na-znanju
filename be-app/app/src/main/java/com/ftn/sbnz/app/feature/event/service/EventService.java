@@ -2,7 +2,7 @@ package com.ftn.sbnz.app.feature.event.service;
 
 import com.ftn.sbnz.app.feature.event.dto.CreateUpdateEventRequestDto;
 import com.ftn.sbnz.app.feature.event.dto.EventResponseDto;
-import com.ftn.sbnz.app.feature.event.model.EventEntity;
+import com.ftn.sbnz.model.event.EventEntity;
 
 import java.util.Collection;
 import java.util.UUID;

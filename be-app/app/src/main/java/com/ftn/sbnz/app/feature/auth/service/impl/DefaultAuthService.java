@@ -1,16 +1,13 @@
 package com.ftn.sbnz.app.feature.auth.service.impl;
 
-import com.ftn.sbnz.app.core.user.abstract_user.db.model.UserEntity;
 import com.ftn.sbnz.app.core.user.abstract_user.exception.UserAlreadyExistException;
 import com.ftn.sbnz.app.core.user.abstract_user.exception.UserNotFoundException;
 import com.ftn.sbnz.app.core.user.abstract_user.service.UserService;
 import com.ftn.sbnz.app.core.user.organizer.OrganizerResponseDto;
-import com.ftn.sbnz.app.core.user.organizer.db.OrganizerEntity;
 import com.ftn.sbnz.app.core.user.organizer.mapper.OrganizerMapper;
 import com.ftn.sbnz.app.core.user.organizer.service.OrganizerService;
 import com.ftn.sbnz.app.core.user.visitor.VisitorMapper;
 import com.ftn.sbnz.app.core.user.visitor.VisitorResponseDto;
-import com.ftn.sbnz.app.core.user.visitor.db.VisitorEntity;
 import com.ftn.sbnz.app.core.user.visitor.service.VisitorService;
 import com.ftn.sbnz.app.feature.auth.dto.login.TokenResponseDto;
 import com.ftn.sbnz.app.feature.auth.dto.login.UserCredentialsDto;
@@ -20,6 +17,9 @@ import com.ftn.sbnz.app.feature.auth.exception.InvalidCredentialsException;
 import com.ftn.sbnz.app.feature.auth.service.AuthService;
 import com.ftn.sbnz.app.web_security.jwt.JwtService;
 import com.ftn.sbnz.app.web_security.user_details.UserDetailsImpl;
+import com.ftn.sbnz.model.core.OrganizerEntity;
+import com.ftn.sbnz.model.core.UserEntity;
+import com.ftn.sbnz.model.core.VisitorEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;

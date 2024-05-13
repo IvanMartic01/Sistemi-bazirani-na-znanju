@@ -1,8 +1,8 @@
 package com.ftn.sbnz.app.core.user.organizer.service.impl;
 
-import com.ftn.sbnz.app.core.user.organizer.db.OrganizerEntity;
 import com.ftn.sbnz.app.core.user.organizer.db.OrganizerRepository;
 import com.ftn.sbnz.app.core.user.organizer.service.OrganizerService;
+import com.ftn.sbnz.model.core.OrganizerEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

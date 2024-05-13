@@ -1,17 +1,17 @@
 package com.ftn.sbnz.app.feature.event.service.impl;
 
 import com.ftn.sbnz.app.core.other.exception.StartDateIsAfterEndDateException;
-import com.ftn.sbnz.app.core.user.organizer.db.OrganizerEntity;
-import com.ftn.sbnz.app.core.user.visitor.db.VisitorEntity;
 import com.ftn.sbnz.app.feature.auth.service.AuthService;
 import com.ftn.sbnz.app.feature.event.dto.CreateUpdateEventRequestDto;
 import com.ftn.sbnz.app.feature.event.dto.EventResponseDto;
 import com.ftn.sbnz.app.feature.event.exception.EventException;
 import com.ftn.sbnz.app.feature.event.exception.EventNotFoundException;
 import com.ftn.sbnz.app.feature.event.mapper.EventMapper;
-import com.ftn.sbnz.app.feature.event.model.EventEntity;
 import com.ftn.sbnz.app.feature.event.repository.EventRepository;
 import com.ftn.sbnz.app.feature.event.service.EventService;
+import com.ftn.sbnz.model.core.OrganizerEntity;
+import com.ftn.sbnz.model.core.VisitorEntity;
+import com.ftn.sbnz.model.event.EventEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

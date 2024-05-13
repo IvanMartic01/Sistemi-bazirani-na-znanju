@@ -1,15 +1,15 @@
 package com.ftn.sbnz.app.feature.auth.service;
 
 
-import com.ftn.sbnz.app.core.user.abstract_user.db.model.UserEntity;
 import com.ftn.sbnz.app.core.user.organizer.OrganizerResponseDto;
-import com.ftn.sbnz.app.core.user.organizer.db.OrganizerEntity;
 import com.ftn.sbnz.app.core.user.visitor.VisitorResponseDto;
-import com.ftn.sbnz.app.core.user.visitor.db.VisitorEntity;
 import com.ftn.sbnz.app.feature.auth.dto.login.TokenResponseDto;
 import com.ftn.sbnz.app.feature.auth.dto.login.UserCredentialsDto;
 import com.ftn.sbnz.app.feature.auth.dto.user.request.CreateOrganizerDto;
 import com.ftn.sbnz.app.feature.auth.dto.user.request.CreateVisitorDto;
+import com.ftn.sbnz.model.core.OrganizerEntity;
+import com.ftn.sbnz.model.core.UserEntity;
+import com.ftn.sbnz.model.core.VisitorEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface AuthService {
