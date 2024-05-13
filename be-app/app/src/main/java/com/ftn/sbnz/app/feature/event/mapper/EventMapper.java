@@ -19,9 +19,7 @@ public interface EventMapper {
     @Mapping(target = "name", source = "dto.name")
     EventEntity toEntity(CreateUpdateEventRequestDto dto, OrganizerEntity organizer);
 
-    @Mapping(target = "totalSeats", source = "totalSeats")
     EventResponseDto toDto(EventEntity entity);
-    @Mapping(target = "totalSeats", source = "totalSeats")
     Collection<EventResponseDto> toDto (Collection<EventEntity> entities);
 
 
