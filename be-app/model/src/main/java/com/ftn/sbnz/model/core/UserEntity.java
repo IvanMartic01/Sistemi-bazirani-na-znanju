@@ -1,7 +1,5 @@
 package com.ftn.sbnz.model.core;
 
-
-
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
