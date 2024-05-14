@@ -21,4 +21,5 @@ public class EventResponseDto {
     private String detailedDescription;
     private String organizationPlan;
     private OrganizerResponseDto organizer;
+    private String type;
 }

@@ -6,10 +6,13 @@ import com.ftn.sbnz.app.core.user.visitor.service.VisitorService;
 import com.ftn.sbnz.model.core.AdminEntity;
 import com.ftn.sbnz.model.core.OrganizerEntity;
 import com.ftn.sbnz.model.core.Role;
-import com.ftn.sbnz.model.core.VisitorEntity;
+import com.ftn.sbnz.model.core.visitor.VisitorEntity;
+import com.ftn.sbnz.model.core.visitor.VisitorEventPreference;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
 
 import static com.ftn.sbnz.app.data_loader.user.UserDataConstants.*;
 
@@ -30,12 +33,17 @@ public class UserDataLoader {
     }
 
     private VisitorEntity getVisitor_1() {
+        HashSet<VisitorEventPreference> preferences = new HashSet<>();
+        preferences.add(VisitorEventPreference.SPORTING_EVENTS);
+        preferences.add(VisitorEventPreference.CULTURAL_ACTIVITIES);
+
         return VisitorEntity.builder()
                 .id(VISITOR_ID)
                 .email(VISITOR_EMAIL)
                 .password(passwordEncoder.encode(PASSWORD))
                 .role(Role.VISITOR)
                 .name(VISITOR_NAME)
+                .preferences(preferences)
                 .enabled(true)
                 .build();
     }

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-05-13T13:34:21+0200",
+    date = "2024-05-15T00:26:54+0200",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.2 (Eclipse Adoptium)"
 )
 @Component
@@ -78,6 +78,9 @@ public class EventMapperImpl implements EventMapper {
         eventResponseDto.detailedDescription( entity.getDetailedDescription() );
         eventResponseDto.organizationPlan( entity.getOrganizationPlan() );
         eventResponseDto.organizer( organizerMapper.toDto( entity.getOrganizer() ) );
+        if ( entity.getType() != null ) {
+            eventResponseDto.type( entity.getType().name() );
+        }
 
         return eventResponseDto.build();
     }

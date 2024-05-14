@@ -1,6 +1,6 @@
 package com.ftn.sbnz.app.core.user.visitor.db;
 
-import com.ftn.sbnz.model.core.VisitorEntity;
+import com.ftn.sbnz.model.core.visitor.VisitorEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

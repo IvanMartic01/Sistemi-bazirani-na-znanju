@@ -19,7 +19,7 @@ import com.ftn.sbnz.app.web_security.jwt.JwtService;
 import com.ftn.sbnz.app.web_security.user_details.UserDetailsImpl;
 import com.ftn.sbnz.model.core.OrganizerEntity;
 import com.ftn.sbnz.model.core.UserEntity;
-import com.ftn.sbnz.model.core.VisitorEntity;
+import com.ftn.sbnz.model.core.visitor.VisitorEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;

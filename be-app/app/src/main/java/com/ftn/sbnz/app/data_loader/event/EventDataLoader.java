@@ -5,6 +5,7 @@ import com.ftn.sbnz.app.core.user.visitor.service.VisitorService;
 import com.ftn.sbnz.app.data_loader.user.UserDataConstants;
 import com.ftn.sbnz.app.feature.event.service.EventService;
 import com.ftn.sbnz.model.event.EventEntity;
+import com.ftn.sbnz.model.event.EventType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -49,6 +50,7 @@ public class EventDataLoader {
                 .shortDescription("Short description")
                 .detailedDescription("Detailed description")
                 .organizationPlan("Organization plan")
+                .type(EventType.CONCERT)
                 .organizer(organizer)
                 .visitors(List.of(visitor))
                 .build();
@@ -71,6 +73,7 @@ public class EventDataLoader {
                 .organizationPlan("Organization plan")
                 .organizer(organizer)
                 .visitors(List.of())
+                .type(EventType.HIKING)
                 .build();
     }
 
@@ -90,7 +93,8 @@ public class EventDataLoader {
                 .detailedDescription("Detailed description")
                 .organizationPlan("Organization plan")
                 .organizer(organizer)
-                .visitors(List.of(visitor))
+                .visitors(List.of())
+                .type(EventType.MUSEUM_VISIT)
                 .build();
     }
 
@@ -111,6 +115,7 @@ public class EventDataLoader {
                 .organizationPlan("Organization plan")
                 .organizer(organizer)
                 .visitors(List.of(visitor))
+                .type(EventType.CYCLING)
                 .build();
     }
 }

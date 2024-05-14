@@ -2,7 +2,7 @@ package com.ftn.sbnz.app.core.user.visitor.service.impl;
 
 import com.ftn.sbnz.app.core.user.visitor.db.VisitorRepository;
 import com.ftn.sbnz.app.core.user.visitor.service.VisitorService;
-import com.ftn.sbnz.model.core.VisitorEntity;
+import com.ftn.sbnz.model.core.visitor.VisitorEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

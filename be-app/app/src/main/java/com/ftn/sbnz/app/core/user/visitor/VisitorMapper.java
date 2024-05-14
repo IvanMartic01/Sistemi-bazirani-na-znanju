@@ -2,7 +2,7 @@ package com.ftn.sbnz.app.core.user.visitor;
 
 import com.ftn.sbnz.app.feature.auth.dto.user.request.CreateVisitorDto;
 import com.ftn.sbnz.model.core.Role;
-import com.ftn.sbnz.model.core.VisitorEntity;
+import com.ftn.sbnz.model.core.visitor.VisitorEntity;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;

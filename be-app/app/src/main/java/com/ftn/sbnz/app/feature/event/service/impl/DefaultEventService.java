@@ -1,5 +1,6 @@
 package com.ftn.sbnz.app.feature.event.service.impl;
 
+import com.ftn.sbnz.app.core.drools.KnowledgeSessionHelper;
 import com.ftn.sbnz.app.core.other.exception.StartDateIsAfterEndDateException;
 import com.ftn.sbnz.app.feature.auth.service.AuthService;
 import com.ftn.sbnz.app.feature.event.dto.CreateUpdateEventRequestDto;
@@ -10,9 +11,12 @@ import com.ftn.sbnz.app.feature.event.mapper.EventMapper;
 import com.ftn.sbnz.app.feature.event.repository.EventRepository;
 import com.ftn.sbnz.app.feature.event.service.EventService;
 import com.ftn.sbnz.model.core.OrganizerEntity;
-import com.ftn.sbnz.model.core.VisitorEntity;
+import com.ftn.sbnz.model.core.visitor.VisitorEntity;
 import com.ftn.sbnz.model.event.EventEntity;
 import lombok.RequiredArgsConstructor;
+import org.kie.api.runtime.ClassObjectFilter;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -261,6 +265,25 @@ public class DefaultEventService implements EventService {
                 .stream()
                 .filter(event -> !isEventStarted(event) && isEventHaveAvailableSeats(event) && !isEventAlreadyReservedByVisitor(event, visitor))
                 .toList();
+    }
+
+    @Override
+    public Collection<EventResponseDto> getRecommendedEvents() {
+        VisitorEntity visitor = authService.getVisitorForCurrentSession();
+        Collection<EventEntity> availableEvents = getAllAvailableEvents(visitor);
+
+        KieContainer kieContainer = KnowledgeSessionHelper.createRuleBase();
+        KieSession kSession = KnowledgeSessionHelper.getStatefulKnowledgeSession(kieContainer, "test-k-session-1"); // TODO promeniti
+
+        kSession.insert(visitor);
+        for (EventEntity event : availableEvents) {
+            kSession.insert(event);
+        }
+        kSession.fireAllRules();
+
+        Collection<EventEntity> recommendedEvents = (Collection<EventEntity>) kSession.getObjects(new ClassObjectFilter(EventEntity.class));
+
+        return eventMapper.toDto(recommendedEvents);
     }
 
     private boolean hasOrganizerCreatedEvent(EventEntity event, OrganizerEntity organizerEntity) {

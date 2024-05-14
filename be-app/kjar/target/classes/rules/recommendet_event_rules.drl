@@ -1,0 +1,40 @@
+package rules;
+dialect  "mvel"
+
+import com.ftn.sbnz.model.event.EventEntity;
+import com.ftn.sbnz.model.event.EventType;
+
+import com.ftn.sbnz.model.core.visitor.VisitorEntity;
+import com.ftn.sbnz.model.core.visitor.VisitorEventPreference;
+
+import java.util.List;
+
+rule "recommendet_event_rules"
+    when
+        $visitor : VisitorEntity()
+        $recomendetEvents : List() from collect(EventEntity())
+    then
+        for(EventEntity event : $recomendetEvents) {
+            if($visitor.getPreferences().contains(VisitorEventPreference.OUTDOOR_ACTIVITIES)) {
+                if(event.getType() == EventType.HIKING || event.getType() == EventType.CYCLING || event.getType() == EventType.PICNIC) {
+                    $recomendetEvents.add(event);
+                }
+            } else if ($visitor.getPreferences().contains(VisitorEventPreference.CULTURAL_ACTIVITIES)) {
+                if(event.getType() == EventType.MUSEUM_VISIT || event.getType() == EventType.GALLERY_VISIT || event.getType() == EventType.CONCERT) {
+                    $recomendetEvents.add(event);
+                }
+            } else if ($visitor.getPreferences().contains(VisitorEventPreference.FAMILY_ENTERTAINMENT)) {
+                if(event.getType() == EventType.ZOO_VISIT || event.getType() == EventType.AQUARIUM_VISIT || event.getType() == EventType.THEME_PARK_VISIT) {
+                    $recomendetEvents.add(event);
+                }
+            } else if ($visitor.getPreferences().contains(VisitorEventPreference.SPORTING_EVENTS)) {
+                if(event.getType() == EventType.BASKETBALL_GAME || event.getType() == EventType.FOOTBALL_MATCH || event.getType() == EventType.BOXING_MATCH) {
+                    $recomendetEvents.add(event);
+                }
+            } else if ($visitor.getPreferences().contains(VisitorEventPreference.RELAXING_ACTIVITIES)) {
+                if(event.getType() == EventType.WELLNESS_CENTER || event.getType() == EventType.SPA_TREATMENT || event.getType() == EventType.SPA_VISIT) {
+                    $recomendetEvents.add(event);
+                }
+            }
+        }
+end

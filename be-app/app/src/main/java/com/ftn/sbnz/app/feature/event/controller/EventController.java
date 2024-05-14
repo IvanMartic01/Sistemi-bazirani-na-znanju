@@ -71,4 +71,9 @@ public class EventController {
     public Collection<EventResponseDto> getAllAvailableEvents() {
         return eventService.getAllAvailableEvents();
     }
+
+    @GetMapping("/recommended")
+    public Collection<EventResponseDto> getRecommendedEvents() {
+        return eventService.getRecommendedEvents();
+    }
 }

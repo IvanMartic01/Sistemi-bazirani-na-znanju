@@ -31,4 +31,6 @@ public interface EventService {
     Collection<EventResponseDto> getAllVisitorReservedEvents();
 
     Collection<EventResponseDto> getAllAvailableEvents();
+
+    Collection<EventResponseDto> getRecommendedEvents();
 }

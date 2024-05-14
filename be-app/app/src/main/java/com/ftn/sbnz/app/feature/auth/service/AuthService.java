@@ -9,7 +9,7 @@ import com.ftn.sbnz.app.feature.auth.dto.user.request.CreateOrganizerDto;
 import com.ftn.sbnz.app.feature.auth.dto.user.request.CreateVisitorDto;
 import com.ftn.sbnz.model.core.OrganizerEntity;
 import com.ftn.sbnz.model.core.UserEntity;
-import com.ftn.sbnz.model.core.VisitorEntity;
+import com.ftn.sbnz.model.core.visitor.VisitorEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface AuthService {

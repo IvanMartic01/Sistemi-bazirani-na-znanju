@@ -1,7 +1,7 @@
 package com.ftn.sbnz.app.core.user.visitor.service;
 
 
-import com.ftn.sbnz.model.core.VisitorEntity;
+import com.ftn.sbnz.model.core.visitor.VisitorEntity;
 
 import java.util.Optional;
 

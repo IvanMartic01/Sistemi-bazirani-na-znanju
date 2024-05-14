@@ -1,7 +1,7 @@
 package com.ftn.sbnz.model.event;
 
 import com.ftn.sbnz.model.core.OrganizerEntity;
-import com.ftn.sbnz.model.core.VisitorEntity;
+import com.ftn.sbnz.model.core.visitor.VisitorEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -58,6 +58,10 @@ public class EventEntity {
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "visitor_id"))
     private Collection<VisitorEntity> visitors = new ArrayList<>();
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private EventType type;
 
     private int numberOfAvailableSeats;
 }
