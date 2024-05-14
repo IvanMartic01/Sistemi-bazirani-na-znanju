@@ -35,7 +35,7 @@ public class UserDataLoader {
     private VisitorEntity getVisitor_1() {
         HashSet<VisitorEventPreference> preferences = new HashSet<>();
         preferences.add(VisitorEventPreference.SPORTING_EVENTS);
-        preferences.add(VisitorEventPreference.CULTURAL_ACTIVITIES);
+        preferences.add(VisitorEventPreference.CULTURAL_EVENTS);
 
         return VisitorEntity.builder()
                 .id(VISITOR_ID)

@@ -5,34 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3fa4d6e5-caca-4ee5-aa5e-f8e11adf1e30" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kjar/src/main/java/com/ftn/sbnz/kjar/KjarApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/kjar/src/main/resources/rules/recommendet_event_rules.drl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/visitor/VisitorEventPreference.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/event/EventType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/visitor/VisitorMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/visitor/VisitorMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/visitor/db/VisitorRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/visitor/db/VisitorRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/visitor/service/VisitorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/visitor/service/VisitorService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/visitor/service/impl/DefaultVisitorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/core/user/visitor/service/impl/DefaultVisitorService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/data_loader/event/EventDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/data_loader/event/EventDataLoader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/data_loader/user/UserDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/data_loader/user/UserDataLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/auth/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/auth/service/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/auth/service/impl/DefaultAuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/auth/service/impl/DefaultAuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/controller/EventController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/controller/EventController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/dto/EventResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/dto/EventResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/service/EventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/service/EventService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/service/impl/DefaultEventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/service/impl/DefaultEventService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/target/generated-sources/annotations/com/ftn/sbnz/app/core/user/organizer/mapper/OrganizerMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/target/generated-sources/annotations/com/ftn/sbnz/app/core/user/organizer/mapper/OrganizerMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/target/generated-sources/annotations/com/ftn/sbnz/app/core/user/visitor/VisitorMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/target/generated-sources/annotations/com/ftn/sbnz/app/core/user/visitor/VisitorMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/target/generated-sources/annotations/com/ftn/sbnz/app/feature/event/mapper/EventMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/target/generated-sources/annotations/com/ftn/sbnz/app/feature/event/mapper/EventMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kjar/target/kjar-1.0.0.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/target/kjar-1.0.0.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kjar/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kjar/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/VisitorEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/visitor/VisitorEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/event/EventEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/event/EventEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/model/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/model/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kjar/src/main/resources/META-INF/kmodule.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/src/main/resources/META-INF/kmodule.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kjar/src/main/resources/rules/recommendet_event_rules.drl" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/src/main/resources/rules/recommendet_event_rules.drl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kjar/target/classes/rules/recommendet_event_rules.drl" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/target/classes/rules/recommendet_event_rules.drl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/visitor/VisitorEventPreference.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/visitor/VisitorEventPreference.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,7 +121,7 @@
       <workItem from="1715585485307" duration="1706000" />
       <workItem from="1715599917721" duration="3933000" />
       <workItem from="1715659823459" duration="20000" />
-      <workItem from="1715717522847" duration="7917000" />
+      <workItem from="1715717522847" duration="10816000" />
     </task>
     <servers />
   </component>
@@ -160,11 +138,6 @@
           <url>file://$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/data_loader/user/UserDataLoaderController.java</url>
           <line>16</line>
           <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/service/impl/DefaultEventService.java</url>
-          <line>271</line>
-          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
