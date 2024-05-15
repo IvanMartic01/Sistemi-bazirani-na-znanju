@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fa4d6e5-caca-4ee5-aa5e-f8e11adf1e30" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/kjar/src/main/resources/rules/recommendet_event_rules.drl" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/src/main/resources/rules/recommendet_event_rules.drl" afterDir="false" />
-    </list>
+    <list default="true" id="3fa4d6e5-caca-4ee5-aa5e-f8e11adf1e30" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -116,7 +114,7 @@
       <workItem from="1715585485307" duration="1706000" />
       <workItem from="1715599917721" duration="3933000" />
       <workItem from="1715659823459" duration="20000" />
-      <workItem from="1715717522847" duration="17399000" />
+      <workItem from="1715717522847" duration="18322000" />
     </task>
     <servers />
   </component>

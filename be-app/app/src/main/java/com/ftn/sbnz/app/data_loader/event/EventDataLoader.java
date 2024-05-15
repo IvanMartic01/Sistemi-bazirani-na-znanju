@@ -73,7 +73,7 @@ public class EventDataLoader {
                 .organizationPlan("Organization plan")
                 .organizer(organizer)
                 .visitors(List.of())
-                .type(EventType.HIKING)
+                .type(EventType.FOOTBALL_MATCH)
                 .build();
     }
 
