@@ -273,7 +273,7 @@ public class DefaultEventService implements EventService {
         Collection<EventEntity> availableEvents = getAllAvailableEvents(visitor);
 
         KieContainer kieContainer = KnowledgeSessionHelper.createRuleBase();
-        KieSession kSession = KnowledgeSessionHelper.getStatefulKnowledgeSession(kieContainer, "test-k-session-1"); // TODO promeniti
+        KieSession kSession = KnowledgeSessionHelper.getStatefulKnowledgeSession(kieContainer, "test-k-session-2"); // TODO promeniti
 
         kSession.insert(visitor);
         for (EventEntity event : availableEvents) {

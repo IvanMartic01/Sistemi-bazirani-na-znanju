@@ -72,7 +72,7 @@ public class EventController {
         return eventService.getAllAvailableEvents();
     }
 
-    @GetMapping("/recommended")
+    @GetMapping("/visitor-recommended")
     public Collection<EventResponseDto> getRecommendedEvents() {
         return eventService.getRecommendedEvents();
     }

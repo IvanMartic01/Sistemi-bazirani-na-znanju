@@ -13,7 +13,6 @@ export class AvailableEventsPageComponent implements OnInit {
 
   availableEvents:Array<EventResponse> = [];
 
-
   constructor(private eventService:EventService,
               private toastrService:ToastrService,
               private router:Router) { }

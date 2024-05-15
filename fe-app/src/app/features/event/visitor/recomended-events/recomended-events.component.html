@@ -1,0 +1,6 @@
+<app-event-list class="center-list"
+                [events]="recommendedEvents"
+                (onCardClickEmitter)="goToEventDetailsPage($event)"
+></app-event-list>
+
+<div *ngIf="recommendedEvents.length === 0" class="no-content">No Available Events</div>

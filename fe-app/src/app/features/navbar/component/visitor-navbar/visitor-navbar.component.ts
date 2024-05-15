@@ -23,6 +23,10 @@ export class VisitorNavbarComponent {
   gotAvailableEvents():void {
     this.router.navigate(['available-events'])
   }
+
+  goToRecommendedEvents() {
+    this.router.navigate(['recommended-events'])
+  }
   // VISITOR
   goToVisitedEvents():void {
     this.router.navigate(['visited-events'])
@@ -32,11 +36,9 @@ export class VisitorNavbarComponent {
     this.router.navigate(['reserved-events'])
   }
 
-
   signOut(): void {
     this.isSignIn = false;
     this.authService.signOut();
     this.router.navigate([''])
   }
-
 }

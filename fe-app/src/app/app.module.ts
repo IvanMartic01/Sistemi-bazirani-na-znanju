@@ -23,6 +23,7 @@ import { VisitedEventsPageComponent } from './features/event/visitor/visited-eve
 import { BookingEventPageComponent } from './features/event/visitor/booking-event-page/booking-event-page.component';
 import { ReservedEventsPageComponent } from './features/event/visitor/reserved-events-page/reserved-events-page.component';
 import { PendingEventPageComponent } from './features/event/organizer/pending-event-page/pending-event-page.component';
+import { RecomendedEventsComponent } from './features/event/visitor/recomended-events/recomended-events.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { PendingEventPageComponent } from './features/event/organizer/pending-ev
     BookingEventPageComponent,
     ReservedEventsPageComponent,
     PendingEventPageComponent,
+    RecomendedEventsComponent,
   ],
   imports: [
     BrowserModule,

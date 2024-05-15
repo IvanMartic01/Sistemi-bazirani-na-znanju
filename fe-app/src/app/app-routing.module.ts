@@ -17,12 +17,14 @@ import {
   ReservedEventsPageComponent
 } from "./features/event/visitor/reserved-events-page/reserved-events-page.component";
 import {PendingEventPageComponent} from "./features/event/organizer/pending-event-page/pending-event-page.component";
+import {RecomendedEventsComponent} from "./features/event/visitor/recomended-events/recomended-events.component";
 
 const routes: Routes = [
   { path: '', component: LoginFormComponent }, // canActivate: [NotAuthorizedGuard]
   { path: 'event-details/:id', component: EventDetailsPageComponent }, // canActivate: [VisitorPagesGuard]
 
   { path: 'available-events', component: AvailableEventsPageComponent }, // canActivate: [VisitorPagesGuard]
+  { path: 'recommended-events', component: RecomendedEventsComponent }, // canActivate: [VisitorPagesGuard]
   { path: 'visited-events', component: VisitedEventsPageComponent },
   { path: 'reserved-events', component: ReservedEventsPageComponent },
 

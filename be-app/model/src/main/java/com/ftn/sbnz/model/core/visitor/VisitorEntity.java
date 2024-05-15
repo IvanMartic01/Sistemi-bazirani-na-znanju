@@ -25,4 +25,6 @@ public class VisitorEntity extends UserEntity {
     @ElementCollection(targetClass = VisitorEventPreference.class)
     @Builder.Default
     private Collection<VisitorEventPreference> preferences = new HashSet<>();
+
+
 }

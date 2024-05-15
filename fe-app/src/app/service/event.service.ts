@@ -55,4 +55,8 @@ export class EventService {
   getAllAvailableEvents(): Observable<Array<EventResponse>> {
     return this.http.get<Array<EventResponse>>(`${environment.baseUrl}/event/visitor-available`);
   }
+
+  getRecommendedEvents(): Observable<Array<EventResponse>> {
+    return this.http.get<Array<EventResponse>>(`${environment.baseUrl}/event/visitor-recommended`);
+  }
 }
