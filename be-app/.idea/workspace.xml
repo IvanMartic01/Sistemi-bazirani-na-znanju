@@ -5,23 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3fa4d6e5-caca-4ee5-aa5e-f8e11adf1e30" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../fe-app/src/app/features/event/visitor/recomended-events/recomended-events.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fe-app/src/app/features/event/visitor/recomended-events/recomended-events.component.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fe-app/src/app/features/event/visitor/recomended-events/recomended-events.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/data_loader/event/EventDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/data_loader/event/EventDataLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/controller/EventController.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/controller/EventController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/service/impl/DefaultEventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/ftn/sbnz/app/feature/event/service/impl/DefaultEventService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kjar/src/main/resources/rules/recommendet_event_rules.drl" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/src/main/resources/rules/recommendet_event_rules.drl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kjar/target/classes/rules/recommendet_event_rules.drl" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/target/classes/rules/recommendet_event_rules.drl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/visitor/VisitorEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/visitor/VisitorEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/event/EventEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/event/EventEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fe-app/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../fe-app/src/app/app-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fe-app/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../fe-app/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fe-app/src/app/features/event/visitor/available-events-page/available-events-page.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../fe-app/src/app/features/event/visitor/available-events-page/available-events-page.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fe-app/src/app/features/navbar/component/visitor-navbar/visitor-navbar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../fe-app/src/app/features/navbar/component/visitor-navbar/visitor-navbar.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fe-app/src/app/features/navbar/component/visitor-navbar/visitor-navbar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../fe-app/src/app/features/navbar/component/visitor-navbar/visitor-navbar.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fe-app/src/app/service/event.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../fe-app/src/app/service/event.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,7 +116,7 @@
       <workItem from="1715585485307" duration="1706000" />
       <workItem from="1715599917721" duration="3933000" />
       <workItem from="1715659823459" duration="20000" />
-      <workItem from="1715717522847" duration="16935000" />
+      <workItem from="1715717522847" duration="17399000" />
     </task>
     <servers />
   </component>

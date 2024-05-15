@@ -8,37 +8,43 @@ import com.ftn.sbnz.model.core.visitor.VisitorEventPreference;
 
 import java.util.List;
 
-
-
+rule "outdoor_events"
+    when
+        $visitor : VisitorEntity(preferences not contains VisitorEventPreference.OUTDOOR_EVENTS)
+        $event : EventEntity(type == EventType.HIKING || type == EventType.CYCLING || type == EventType.PICNIC)
+    then
+        delete($event);
+end
 
 rule "culture_events"
     when
-        $visitor : VisitorEntity()
-        $event : EventEntity()
+        $visitor : VisitorEntity(preferences not contains VisitorEventPreference.CULTURAL_EVENTS)
+        $event : EventEntity(type == EventType.MUSEUM_VISIT || type == EventType.GALLERY_VISIT || type == EventType.CONCERT)
     then
-     if(!$visitor.getPreferences().contains(VisitorEventPreference.OUTDOOR_EVENTS)) {
-        if ($event.getType() == EventType.HIKING || $event.getType() == EventType.CYCLING || $event.getType() == EventType.PICNIC) {
-            delete($event);
-        }
-    } if (!$visitor.getPreferences().contains(VisitorEventPreference.CULTURAL_EVENTS)) {
-        if($event.getType() == EventType.MUSEUM_VISIT || $event.getType() == EventType.GALLERY_VISIT || $event.getType() == EventType.CONCERT) {
-            delete($event);
-        }
-    } if (!$visitor.getPreferences().contains(VisitorEventPreference.FAMILY_EVENTS)) {
-        if($event.getType() == EventType.ZOO_VISIT || $event.getType() == EventType.AQUARIUM_VISIT || $event.getType() == EventType.THEME_PARK_VISIT) {
-           delete($event);
-        }
-    } if (!$visitor.getPreferences().contains(VisitorEventPreference.SPORTING_EVENTS)) {
-        if($event.getType() == EventType.BASKETBALL_GAME || $event.getType() == EventType.FOOTBALL_MATCH || $event.getType() == EventType.BOXING_MATCH) {
-           delete($event);
-        }
-    } if (!$visitor.getPreferences().contains(VisitorEventPreference.RELAXING_EVENTS)) {
-        if($event.getType() == EventType.WELLNESS_CENTER || $event.getType() == EventType.SPA_TREATMENT || $event.getType() == EventType.SPA_VISIT) {
-            delete($event);
-        }
-    }
+        delete($event);
 end
 
+rule "family_events"
+    when
+        $visitor : VisitorEntity(preferences not contains VisitorEventPreference.FAMILY_EVENTS)
+        $event : EventEntity(type == EventType.ZOO_VISIT || type == EventType.AQUARIUM_VISIT || type == EventType.THEME_PARK_VISIT)
+    then
+        delete($event);
+end
 
+rule "sporting_events"
+    when
+        $visitor : VisitorEntity(preferences not contains VisitorEventPreference.SPORTING_EVENTS)
+        $event : EventEntity(type == EventType.BASKETBALL_GAME || type == EventType.FOOTBALL_MATCH || type == EventType.BOXING_MATCH)
+    then
+        delete($event);
+end
 
+rule "relaxing_events"
+    when
+        $visitor : VisitorEntity(preferences not contains VisitorEventPreference.RELAXING_EVENTS)
+        $event : EventEntity(type == EventType.WELLNESS_CENTER || type == EventType.SPA_TREATMENT || type == EventType.SPA_VISIT)
+    then
+        delete($event);
+end
 

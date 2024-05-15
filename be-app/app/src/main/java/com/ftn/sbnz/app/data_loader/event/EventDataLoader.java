@@ -94,7 +94,7 @@ public class EventDataLoader {
                 .organizationPlan("Organization plan")
                 .organizer(organizer)
                 .visitors(List.of())
-                .type(EventType.MUSEUM_VISIT)
+                .type(EventType.SPA_TREATMENT)
                 .build();
     }
 
