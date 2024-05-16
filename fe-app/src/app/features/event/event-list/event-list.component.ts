@@ -21,6 +21,6 @@ export class EventListComponent implements OnInit {
   }
 
   formatEventType(eventType: string) {
-    return eventType.replace("_", " ");
+    return eventType.replaceAll("_", " ");
   }
 }
