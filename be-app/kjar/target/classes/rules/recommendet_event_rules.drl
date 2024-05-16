@@ -48,3 +48,47 @@ rule "relaxing_events"
         delete($event);
 end
 
+//=======
+
+rule "local_events"
+    when
+        $visitor : VisitorEntity($c: country)
+        $event : EventEntity(!$c.equals(country))
+    then
+        delete($event);
+end
+
+rule "artistic_events"
+    when
+        $visitor : VisitorEntity(preferences not contains VisitorEventPreference.ARTISTIC_EVENTS)
+        $event : EventEntity(type == EventType.ART_WORKSHOP || type == EventType.ART_LECTURE)
+    then
+        delete($event);
+end
+
+rule "adventure_events"
+    when
+        $visitor : VisitorEntity(preferences not contains VisitorEventPreference.ADVENTURE_EVENTS)
+        $event : EventEntity(type == EventType.BALLOON_RIDE || type == EventType.PARAGLIDING)
+    then
+        delete($event);
+end
+
+rule "exotic_events"
+    when
+        $visitor : VisitorEntity(preferences not contains VisitorEventPreference.EXOTIC_EVENTS)
+        $event : EventEntity(type == EventType.MICHELIN_STAR_RESTAURANT)
+    then
+        delete($event);
+end
+
+rule "music_multicultural_events"
+    when
+        $visitor : VisitorEntity(preferences not contains VisitorEventPreference.MUSIC_EVENTS)
+        $event : EventEntity(type == EventType.MULTIPLE_GENRE_CONCERT || type == EventType.CONCERT)
+    then
+        delete($event);
+end
+
+
+

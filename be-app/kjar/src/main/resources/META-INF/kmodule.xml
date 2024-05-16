@@ -8,4 +8,5 @@
     <kbase name="recommend_event" packages="event_rules">
         <ksession name="test-k-session-2"/>
     </kbase>
+
 </kmodule>

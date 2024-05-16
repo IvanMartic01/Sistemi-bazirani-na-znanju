@@ -4,7 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3fa4d6e5-caca-4ee5-aa5e-f8e11adf1e30" name="Changes" comment="" />
+    <list default="true" id="3fa4d6e5-caca-4ee5-aa5e-f8e11adf1e30" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/CountryEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/target/generated-sources/annotations/com/ftn/sbnz/app/core/user/organizer/mapper/OrganizerMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/target/generated-sources/annotations/com/ftn/sbnz/app/core/user/organizer/mapper/OrganizerMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/target/generated-sources/annotations/com/ftn/sbnz/app/core/user/visitor/VisitorMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/target/generated-sources/annotations/com/ftn/sbnz/app/core/user/visitor/VisitorMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/target/generated-sources/annotations/com/ftn/sbnz/app/feature/event/mapper/EventMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/target/generated-sources/annotations/com/ftn/sbnz/app/feature/event/mapper/EventMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kjar/src/main/resources/META-INF/kmodule.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/src/main/resources/META-INF/kmodule.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kjar/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kjar/src/main/resources/rules/recommendet_event_rules.drl" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/src/main/resources/rules/recommendet_event_rules.drl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kjar/target/classes/META-INF/kmodule.xml" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/target/classes/META-INF/kmodule.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kjar/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kjar/target/classes/rules/recommendet_event_rules.drl" beforeDir="false" afterPath="$PROJECT_DIR$/kjar/target/classes/rules/recommendet_event_rules.drl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/UserEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/visitor/VisitorEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/visitor/VisitorEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/visitor/VisitorEventPreference.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/core/visitor/VisitorEventPreference.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/event/EventEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/event/EventEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/event/EventType.java" beforeDir="false" afterPath="$PROJECT_DIR$/model/src/main/java/com/ftn/sbnz/model/event/EventType.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,6 +64,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.AppApplication.executor": "Run",
+    "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/martic/d/git/private/FAX-4/fax/Sistemi-bazirani-na-znanju/be-app",
@@ -53,7 +73,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
     "run.configurations.included.in.services": "true",
@@ -115,11 +135,23 @@
       <workItem from="1715599917721" duration="3933000" />
       <workItem from="1715659823459" duration="20000" />
       <workItem from="1715717522847" duration="18322000" />
+      <workItem from="1715878390416" duration="662000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />

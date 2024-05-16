@@ -1,5 +1,6 @@
 package com.ftn.sbnz.model.event;
 
+import com.ftn.sbnz.model.core.CountryEntity;
 import com.ftn.sbnz.model.core.OrganizerEntity;
 import com.ftn.sbnz.model.core.visitor.VisitorEntity;
 import jakarta.persistence.*;
@@ -62,4 +63,7 @@ public class EventEntity {
     private EventType type;
 
     private int numberOfAvailableSeats;
+
+    @ManyToOne
+    private CountryEntity country;
 }

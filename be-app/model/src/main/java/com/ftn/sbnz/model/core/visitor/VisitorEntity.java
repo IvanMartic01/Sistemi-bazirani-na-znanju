@@ -1,9 +1,8 @@
 package com.ftn.sbnz.model.core.visitor;
 
+import com.ftn.sbnz.model.core.CountryEntity;
 import com.ftn.sbnz.model.core.UserEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,5 +25,6 @@ public class VisitorEntity extends UserEntity {
     @Builder.Default
     private Collection<VisitorEventPreference> preferences = new HashSet<>();
 
-
+    @ManyToOne
+    private CountryEntity country;
 }
