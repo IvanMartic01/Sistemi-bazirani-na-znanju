@@ -19,4 +19,8 @@ export class EventListComponent implements OnInit {
   onCardClick(event: EventResponse): void {
     this.onCardClickEmitter.emit(event);
   }
+
+  formatEventType(eventType: string) {
+    return eventType.replace("_", " ");
+  }
 }

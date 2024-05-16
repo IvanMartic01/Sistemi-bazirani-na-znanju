@@ -12,6 +12,7 @@ import {Router} from "@angular/router";
 export class RecomendedEventsComponent implements OnInit {
 
   recommendedEvents:Array<EventResponse> = [];
+  showNoEventsMessage: boolean = false;
 
   constructor(private eventService:EventService,
               private toastrService:ToastrService,
@@ -19,8 +20,16 @@ export class RecomendedEventsComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventService.getRecommendedEvents().subscribe(
-      events => this.recommendedEvents = events,
-      error => this.toastrService.error(error.error.message));
+      events => {
+        this.recommendedEvents = events
+        if (this.recommendedEvents.length <= 0) {
+          this.showNoEventsMessage = true;
+        }
+      },
+      error => {
+        this.toastrService.error(error.error.message)
+        this.showNoEventsMessage = true;
+      });
   }
 
   goToEventDetailsPage($event:EventResponse): void {

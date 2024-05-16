@@ -13,4 +13,5 @@ export interface EventResponse {
   organizationPlan: string;
   organizer: OrganizerResponse;
   numberOfAvailableSeats: number;
+  type: string;
 }

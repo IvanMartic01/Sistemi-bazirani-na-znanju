@@ -4,7 +4,7 @@
       <img src="https://source.unsplash.com/random/500x500?sig=1"
            alt="card__image"
            class="card__image"
-           height="300px"
+           height="270px"
            width="100%"/>
     </div>
     <div class="card__body">
@@ -14,6 +14,7 @@
       </div>
       <h4>{{event.name}}</h4>
       <p>{{event.shortDescription}}</p>
+      <div><b>{{formatEventType(event.type)}}</b></div>
     </div>
     <div class="card__footer">
       <div class="user">

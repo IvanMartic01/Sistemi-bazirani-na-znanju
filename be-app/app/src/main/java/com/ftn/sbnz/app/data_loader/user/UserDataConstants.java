@@ -24,10 +24,10 @@ public class UserDataConstants {
 
     public static final String PASSWORD = "Password!123";
     // TODO change path to relative
-    public static final byte[] IMAGE_BASE64 = readFile("/home/martic/d/git/private/diplomski/be-event-app/core/src/main/resources/test_images/organizer.jpg");
-
-    @SneakyThrows
-    private static byte[] readFile(String filePath) {
-        return FileUtils.readFileToByteArray(new File(filePath));
-    }
+//    public static final byte[] IMAGE_BASE64 = readFile("/home/martic/d/git/private/diplomski/be-event-app/core/src/main/resources/test_images/organizer.jpg");
+//
+//    @SneakyThrows
+//    private static byte[] readFile(String filePath) {
+//        return FileUtils.readFileToByteArray(new File(filePath));
+//    }
 }

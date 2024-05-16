@@ -11,6 +11,7 @@ import com.ftn.sbnz.app.feature.event.mapper.EventMapper;
 import com.ftn.sbnz.app.feature.event.repository.EventRepository;
 import com.ftn.sbnz.app.feature.event.service.EventService;
 import com.ftn.sbnz.model.core.OrganizerEntity;
+import com.ftn.sbnz.model.core.RecommendedEvent;
 import com.ftn.sbnz.model.core.visitor.VisitorEntity;
 import com.ftn.sbnz.model.event.EventEntity;
 import lombok.RequiredArgsConstructor;
@@ -271,19 +272,26 @@ public class DefaultEventService implements EventService {
     public Collection<EventResponseDto> getRecommendedEvents() {
         VisitorEntity visitor = authService.getVisitorForCurrentSession();
         Collection<EventEntity> availableEvents = getAllAvailableEvents(visitor);
+        Collection<RecommendedEvent> events = availableEvents.stream()
+                .map(event -> new RecommendedEvent(event, false))
+                .toList();
 
         KieContainer kieContainer = KnowledgeSessionHelper.createRuleBase();
         KieSession kSession = KnowledgeSessionHelper.getStatefulKnowledgeSession(kieContainer, "test-k-session-2"); // TODO promeniti
 
         kSession.insert(visitor);
-        for (EventEntity event : availableEvents) {
+        for (RecommendedEvent event : events) {
             kSession.insert(event);
         }
         kSession.fireAllRules();
 
-        Collection<EventEntity> recommendedEvents = (Collection<EventEntity>) kSession.getObjects(new ClassObjectFilter(EventEntity.class));
+        Collection<RecommendedEvent> recommendedEvents = (Collection<RecommendedEvent>) kSession.getObjects(new ClassObjectFilter(RecommendedEvent.class));
+        Collection<EventEntity> filteredEvents = recommendedEvents.stream()
+                .filter(RecommendedEvent::isRecommended)
+                .map(RecommendedEvent::getEvent)
+                .toList();
 
-        return eventMapper.toDto(recommendedEvents);
+        return eventMapper.toDto(filteredEvents);
     }
 
     private boolean hasOrganizerCreatedEvent(EventEntity event, OrganizerEntity organizerEntity) {
