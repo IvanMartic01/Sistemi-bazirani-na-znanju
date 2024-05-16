@@ -127,6 +127,21 @@
 								"url": "{{BASE_URL}}/event/{{PENDING_EVENT_ID}}/cancel-reservation"
 							},
 							"response": []
+						},
+						{
+							"name": "recommended",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{TOKEN}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "{{BASE_URL}}/event/recommended"
+							},
+							"response": []
 						}
 					]
 				},
@@ -227,6 +242,20 @@
 							"response": []
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "test",
+			"item": [
+				{
+					"name": "test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{BASE_URL}}/test"
+					},
+					"response": []
 				}
 			]
 		},
