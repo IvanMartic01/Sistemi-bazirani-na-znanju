@@ -2,18 +2,23 @@ package com.ftn.sbnz.app.feature.event.service.impl;
 
 import com.ftn.sbnz.app.core.drools.KnowledgeSessionHelper;
 import com.ftn.sbnz.app.core.other.exception.StartDateIsAfterEndDateException;
+import com.ftn.sbnz.app.core.user.visitor.service.VisitorService;
 import com.ftn.sbnz.app.feature.auth.service.AuthService;
 import com.ftn.sbnz.app.feature.event.dto.CreateUpdateEventRequestDto;
+import com.ftn.sbnz.app.feature.event.dto.EventPurchaseDto;
 import com.ftn.sbnz.app.feature.event.dto.EventResponseDto;
 import com.ftn.sbnz.app.feature.event.exception.EventException;
 import com.ftn.sbnz.app.feature.event.exception.EventNotFoundException;
 import com.ftn.sbnz.app.feature.event.mapper.EventMapper;
+import com.ftn.sbnz.app.feature.event.mapper.EventPurchaseMapper;
 import com.ftn.sbnz.app.feature.event.repository.EventRepository;
+import com.ftn.sbnz.app.feature.event.service.EventPurchaseService;
 import com.ftn.sbnz.app.feature.event.service.EventService;
 import com.ftn.sbnz.model.core.OrganizerEntity;
 import com.ftn.sbnz.model.core.RecommendedEvent;
 import com.ftn.sbnz.model.core.visitor.VisitorEntity;
 import com.ftn.sbnz.model.event.EventEntity;
+import com.ftn.sbnz.model.event.EventPurchaseEntity;
 import lombok.RequiredArgsConstructor;
 import org.kie.api.runtime.ClassObjectFilter;
 import org.kie.api.runtime.KieContainer;
@@ -31,8 +36,12 @@ public class DefaultEventService implements EventService {
 
     private final EventRepository eventRepository;
 
+    private final EventPurchaseService eventPurchaseService;
+    private final VisitorService visitorService;
     private final AuthService authService;
+
     private final EventMapper eventMapper;
+    private final EventPurchaseMapper eventPurchaseMapper;
 
     @Override
     public EventEntity save(EventEntity eventEntity) {
@@ -133,16 +142,29 @@ public class DefaultEventService implements EventService {
     }
 
     @Override
-    public EventResponseDto reserveEvent(UUID id) {
+    public EventPurchaseDto reserveEvent(UUID id) {
         VisitorEntity newVisitor = authService.getVisitorForCurrentSession();
 
         EventEntity event = eventRepository.findById(id).orElseThrow(EventNotFoundException::new);
         validateReservation(event, newVisitor);
 
-        EventEntity updatedEvent = addVisitorToEvent(event, newVisitor);
-        var savedEvent = eventRepository.save(updatedEvent);
-        return eventMapper.toDto(savedEvent);
+        KieContainer kieContainer = KnowledgeSessionHelper.createRuleBase();
+        KieSession kSession = KnowledgeSessionHelper.getStatefulKnowledgeSession(kieContainer, "test-k-session-3");
+
+        kSession.insert(newVisitor);
+        kSession.insert(event);
+        kSession.fireAllRules();
+
+        EventPurchaseEntity eventPurchase = (EventPurchaseEntity) kSession.getObjects(new ClassObjectFilter(EventPurchaseEntity.class)).iterator().next();
+        VisitorEntity updatedVisitor = (VisitorEntity) kSession.getObjects(new ClassObjectFilter(VisitorEntity.class)).iterator().next();
+        EventEntity updatedEvent = (EventEntity) kSession.getObjects(new ClassObjectFilter(EventEntity.class)).iterator().next();
+        eventPurchaseService.save(eventPurchase);
+        visitorService.save(updatedVisitor);
+        this.save(updatedEvent);
+
+        return eventPurchaseMapper.toDto(eventPurchase);
     }
+
 
     private void validateReservation(EventEntity event, VisitorEntity visitor) {
         if (!isEventHaveAvailableSeats(event)) throw new EventException("Event is full!");

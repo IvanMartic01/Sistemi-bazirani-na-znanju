@@ -9,4 +9,7 @@
         <ksession name="test-k-session-2"/>
     </kbase>
 
+    <kbase name="reserve_events" packages="reserve_event_rules">
+        <ksession name="test-k-session-3"/>
+    </kbase>
 </kmodule>
