@@ -9,4 +9,5 @@ import lombok.experimental.SuperBuilder;
 public class VisitorResponseDto extends UserResponseDto {
 
     private String name;
+    private double money;
 }

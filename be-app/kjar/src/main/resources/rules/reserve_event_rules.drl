@@ -1,0 +1,48 @@
+package reserve_event_rules
+
+import com.ftn.sbnz.model.event.EventEntity;
+import com.ftn.sbnz.model.event.EventPurchaseEntity;
+import com.ftn.sbnz.model.event.EventPurchaseStatus
+
+import java.time.LocalDateTime;
+import com.ftn.sbnz.model.core.visitor.VisitorEntity
+import java.util.UUID;
+
+rule "create padding purchase"
+    when
+        $visitor : VisitorEntity()
+        $event : EventEntity(price < $visitor.money)
+    then
+        EventPurchaseEntity purchase = EventPurchaseEntity.builder()
+        .id(UUID.randomUUID())
+        .event($event)
+        .visitor($visitor)
+        .purchasePrice($event.getPrice())
+        .status(EventPurchaseStatus.UNPAID)
+        .build();
+        insert(purchase);
+end
+
+// event.startDateTime.isBefore(LocalDateTime.now().plusDays(3)) && event.numberOfAvailableSeats > event.totalSeats / 2
+rule "apply discount"
+    salience 2
+    when
+        $purchase : EventPurchaseEntity(status == EventPurchaseStatus.UNPAID && event.startDateTime.isBefore(LocalDateTime.now().plusDays(3)) && event.numberOfAvailableSeats > event.totalSeats / 2)
+    then
+        System.out.println("APPLY DISCOUNT");
+        $purchase.setPurchasePrice($purchase.getPurchasePrice() * 0.5);
+end
+
+rule "reserve event"
+    salience 1
+    when
+        $purchase : EventPurchaseEntity(status == EventPurchaseStatus.UNPAID)
+    then
+        System.out.println("RESERVE EVENT");
+        $purchase.setStatus(EventPurchaseStatus.PAID);
+        EventEntity event = $purchase.getEvent();
+        event.setTotalSeats(event.getTotalSeats() - 1);
+        event.getVisitors().add($purchase.getVisitor());
+        VisitorEntity visitor = $purchase.getVisitor();
+        visitor.setMoney(visitor.getMoney() - $purchase.getPurchasePrice());
+end

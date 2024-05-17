@@ -1,6 +1,7 @@
 package com.ftn.sbnz.app.feature.event.service;
 
 import com.ftn.sbnz.app.feature.event.dto.CreateUpdateEventRequestDto;
+import com.ftn.sbnz.app.feature.event.dto.EventPurchaseDto;
 import com.ftn.sbnz.app.feature.event.dto.EventResponseDto;
 import com.ftn.sbnz.model.event.EventEntity;
 
@@ -16,7 +17,7 @@ public interface EventService {
 
     EventResponseDto updateEvent(UUID id, CreateUpdateEventRequestDto dto);
 
-    EventResponseDto reserveEvent(UUID id);
+    EventPurchaseDto reserveEvent(UUID id);
 
     EventResponseDto cancelReservation(UUID id);
 

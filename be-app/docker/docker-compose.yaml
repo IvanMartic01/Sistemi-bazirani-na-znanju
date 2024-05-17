@@ -7,7 +7,7 @@ services:
     environment:
       - POSTGRES_DB=event-app-drools
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=martic
+      - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
     volumes:

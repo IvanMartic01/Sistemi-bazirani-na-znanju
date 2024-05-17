@@ -1,6 +1,7 @@
 package com.ftn.sbnz.app.feature.event.controller;
 
 import com.ftn.sbnz.app.feature.event.dto.CreateUpdateEventRequestDto;
+import com.ftn.sbnz.app.feature.event.dto.EventPurchaseDto;
 import com.ftn.sbnz.app.feature.event.dto.EventResponseDto;
 import com.ftn.sbnz.app.feature.event.service.EventService;
 import jakarta.validation.Valid;
@@ -38,7 +39,7 @@ public class EventController {
     }
 
     @PutMapping("/{id}/reserve")
-    public EventResponseDto reserveEvent(@PathVariable UUID id) {
+    public EventPurchaseDto reserveEvent(@PathVariable UUID id) {
         return  eventService.reserveEvent(id);
     }
 
