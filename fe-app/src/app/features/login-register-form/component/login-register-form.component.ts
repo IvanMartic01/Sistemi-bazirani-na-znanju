@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { AuthService } from 'src/app/service/auth.service';
 import {LoginRequest} from "../model/login/login-request.model";
 import {TokenResponse} from "../model/login/token-response.model";
@@ -8,13 +8,18 @@ import {Router} from "@angular/router";
 import {CreateVisitor} from "../model/create-user/create-visitor.model";
 import {VisitorResponse} from "../../../model/user/visitor-response,model";
 import {ToastrService} from "ngx-toastr";
+import {CountryDto} from "../../../model/response/country-dto.model";
+import {CountryService} from "../../../service/country.service";
+import {MatDialog} from "@angular/material/dialog";
+import {PreferencesDialogComponent} from "../preferences-dialog/preferences-dialog.component";
+import {EventFormComponent} from "../../event/event-form/event-form.component";
 
 @Component({
   selector: 'app-login-form',
 templateUrl: './login-register-form.component.html',
   styleUrls: ['./login-register-form.component.scss'],
 })
-export class LoginFormComponent {
+export class LoginFormComponent implements OnInit {
   isSignupActive: boolean = true;
 
   // Login
@@ -26,8 +31,38 @@ export class LoginFormComponent {
   registerPassword: string = '';
   fullName: string = '';
 
+  selectedCountry: CountryDto = {} as CountryDto;
+
+  eventTypes: Array<String> = [
+    "HIKING",
+    "CYCLING",
+    "PICNIC",
+    "MUSEUM_VISIT",
+    "GALLERY_VISIT",
+    "CONCERT",
+    "ZOO_VISIT",
+    "AQUARIUM_VISIT",
+    "THEME_PARK_VISIT",
+    "BASKETBALL_GAME",
+    "FOOTBALL_MATCH",
+    "BOXING_MATCH",
+    "WELLNESS_CENTER",
+    "SPA_TREATMENT",
+    "SPA_VISIT",
+    "ART_LECTURE",
+    "ART_WORKSHOP",
+    "PARAGLIDING",
+    "BALLOON_RIDE",
+    "MICHELIN_STAR_RESTAURANT",
+    "MULTIPLE_GENRE_CONCERT"
+  ]
+
+  countries: Array<CountryDto> = [];
+
   constructor(private authService: AuthService,
               private sharedService:SharedService,
+              private countryService: CountryService,
+              private dialog: MatDialog,
               private toastrService:ToastrService,
               private router: Router) {}
 
@@ -76,10 +111,27 @@ export class LoginFormComponent {
         alert(`Status Code: ${error.status}\nMessage: ${error.error.message}`);
       },
     });
-
   }
 
   toggleSignup() {
     this.isSignupActive = !this.isSignupActive;
   }
+
+  ngOnInit(): void {
+    this.countryService.getAllCountries().subscribe({
+      next: response => {
+        this.selectedCountry = response[0];
+        this.countries = response;
+      }, error: error => {
+        if (error instanceof HttpErrorResponse) {
+          console.log(error.error.message);
+        }
+      }
+    })
+  }
+
+  openPreferencesDialog() {
+    this.dialog.open(PreferencesDialogComponent, {});
+  }
+
 }

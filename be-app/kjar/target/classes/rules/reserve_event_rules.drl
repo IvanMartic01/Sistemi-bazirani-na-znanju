@@ -27,7 +27,7 @@ end
 rule "apply discount"
     salience 2
     when
-        $purchase : EventPurchaseEntity(status == EventPurchaseStatus.UNPAID)
+        $purchase : EventPurchaseEntity(status == EventPurchaseStatus.UNPAID && event.startDateTime.isBefore(LocalDateTime.now().plusDays(3)) && event.numberOfAvailableSeats > event.totalSeats / 2)
     then
         System.out.println("APPLY DISCOUNT");
         $purchase.setPurchasePrice($purchase.getPurchasePrice() * 0.5);
@@ -36,7 +36,7 @@ end
 rule "reserve event"
     salience 1
     when
-        $purchase : EventPurchaseEntity(status == EventPurchaseStatus.UNPAID, purchasePrice != null)
+        $purchase : EventPurchaseEntity(status == EventPurchaseStatus.UNPAID)
     then
         System.out.println("RESERVE EVENT");
         $purchase.setStatus(EventPurchaseStatus.PAID);

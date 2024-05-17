@@ -4,6 +4,7 @@ import com.ftn.sbnz.app.feature.event.dto.CreateUpdateEventRequestDto;
 import com.ftn.sbnz.app.feature.event.dto.EventPurchaseDto;
 import com.ftn.sbnz.app.feature.event.dto.EventResponseDto;
 import com.ftn.sbnz.app.feature.event.service.EventService;
+import com.ftn.sbnz.model.event.EventType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -77,4 +78,5 @@ public class EventController {
     public Collection<EventResponseDto> getRecommendedEvents() {
         return eventService.getRecommendedEvents();
     }
+
 }

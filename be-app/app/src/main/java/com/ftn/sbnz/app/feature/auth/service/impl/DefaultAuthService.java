@@ -1,5 +1,6 @@
 package com.ftn.sbnz.app.feature.auth.service.impl;
 
+import com.ftn.sbnz.app.core.country.service.CountryService;
 import com.ftn.sbnz.app.core.user.abstract_user.exception.UserAlreadyExistException;
 import com.ftn.sbnz.app.core.user.abstract_user.exception.UserNotFoundException;
 import com.ftn.sbnz.app.core.user.abstract_user.service.UserService;
@@ -17,6 +18,7 @@ import com.ftn.sbnz.app.feature.auth.exception.InvalidCredentialsException;
 import com.ftn.sbnz.app.feature.auth.service.AuthService;
 import com.ftn.sbnz.app.web_security.jwt.JwtService;
 import com.ftn.sbnz.app.web_security.user_details.UserDetailsImpl;
+import com.ftn.sbnz.model.core.CountryEntity;
 import com.ftn.sbnz.model.core.OrganizerEntity;
 import com.ftn.sbnz.model.core.UserEntity;
 import com.ftn.sbnz.model.core.visitor.VisitorEntity;
@@ -32,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -44,6 +47,7 @@ public class DefaultAuthService  implements AuthService {
     private final UserService userService;
     private final VisitorService visitorService;
     private final OrganizerService organizerService;
+    private final CountryService countryService;
 
     private final VisitorMapper visitorMapper;
     private final OrganizerMapper organizerMapper;
@@ -81,6 +85,8 @@ public class DefaultAuthService  implements AuthService {
 
         VisitorEntity newVisitor = visitorMapper.toEntity(requestDto, passwordEncoder);
         VisitorEntity newActivatedVisitor = newVisitor.toBuilder().enabled(true).build();
+        CountryEntity country = countryService.getEntityById(UUID.fromString(requestDto.getCountryId()));
+        newActivatedVisitor.setCountry(country);
         VisitorEntity savedVisitor = visitorService.save(newActivatedVisitor);
         return visitorMapper.toDto(savedVisitor);
     }

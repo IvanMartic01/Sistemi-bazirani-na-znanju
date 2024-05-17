@@ -4,6 +4,7 @@ import com.ftn.sbnz.app.feature.event.dto.CreateUpdateEventRequestDto;
 import com.ftn.sbnz.app.feature.event.dto.EventPurchaseDto;
 import com.ftn.sbnz.app.feature.event.dto.EventResponseDto;
 import com.ftn.sbnz.model.event.EventEntity;
+import com.ftn.sbnz.model.event.EventType;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -34,4 +35,5 @@ public interface EventService {
     Collection<EventResponseDto> getAllAvailableEvents();
 
     Collection<EventResponseDto> getRecommendedEvents();
+
 }

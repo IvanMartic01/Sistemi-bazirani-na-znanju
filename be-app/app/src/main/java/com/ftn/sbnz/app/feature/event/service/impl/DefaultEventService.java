@@ -19,6 +19,7 @@ import com.ftn.sbnz.model.core.RecommendedEvent;
 import com.ftn.sbnz.model.core.visitor.VisitorEntity;
 import com.ftn.sbnz.model.event.EventEntity;
 import com.ftn.sbnz.model.event.EventPurchaseEntity;
+import com.ftn.sbnz.model.event.EventType;
 import lombok.RequiredArgsConstructor;
 import org.kie.api.runtime.ClassObjectFilter;
 import org.kie.api.runtime.KieContainer;
