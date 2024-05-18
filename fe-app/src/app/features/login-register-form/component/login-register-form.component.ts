@@ -143,23 +143,10 @@ export class LoginFormComponent implements OnInit {
     })
   }
 
-
   preferencesOpened: boolean = false;
 
-  openPreferencesWindow() {
-    this.preferencesOpened = true;
-  }
-
-  closePreferencesWindow() {
-    this.preferencesOpened = false;
-  }
-
-  formatPreference(preference: string) {
-    return preference.replaceAll("_", " ");
-  }
-
-  checkPreference(preference: { preference: string, checked: boolean}) {
-    preference.checked = !preference.checked;
+  updatePreferenceOpened(opened: boolean) {
+    this.preferencesOpened = opened;
   }
 
 }

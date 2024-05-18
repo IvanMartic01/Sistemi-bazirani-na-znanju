@@ -25,6 +25,7 @@ import { ReservedEventsPageComponent } from './features/event/visitor/reserved-e
 import { PendingEventPageComponent } from './features/event/organizer/pending-event-page/pending-event-page.component';
 import { RecomendedEventsComponent } from './features/event/visitor/recomended-events/recomended-events.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { PreferencePickerComponent } from './global_components/preference-picker/preference-picker.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {MatDialogModule} from "@angular/material/dialog";
     ReservedEventsPageComponent,
     PendingEventPageComponent,
     RecomendedEventsComponent,
+    PreferencePickerComponent,
   ],
   imports: [
     BrowserModule,

@@ -41,4 +41,7 @@ public class CreateUpdateEventRequestDto {
     @NotBlank(message = "Organization plan is mandatory")
     @NotNull(message = "Organization plan is mandatory")
     private String organizationPlan;
+
+    @NotBlank(message = "Type is mandatory!")
+    private String type;
 }

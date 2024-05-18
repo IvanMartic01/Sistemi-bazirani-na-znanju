@@ -8,4 +8,6 @@ export interface CreateUpdateEventRequest {
   shortDescription: string;
   detailedDescription: string;
   organizationPlan: string;
+  type: string;
+
 }

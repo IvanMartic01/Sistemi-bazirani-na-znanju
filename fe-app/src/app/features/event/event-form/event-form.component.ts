@@ -112,6 +112,7 @@ export class EventFormComponent implements OnInit {
       shortDescription: this.shortDescription,
       detailedDescription: this.detailedDescription,
       organizationPlan: this.organizationPlan,
+      type: this.selectedEventType
     };
     console.log(eventSaveUpdateRequest)
     this.button1ClickEmit.emit(eventSaveUpdateRequest);
@@ -120,4 +121,35 @@ export class EventFormComponent implements OnInit {
   emitButton2Click(): void {
     this.button2ClickEmit.emit(this.event);
   }
+
+  eventTypes: Array<string> = [
+    "HIKING",
+    "CYCLING",
+    "PICNIC",
+    "MUSEUM_VISIT",
+    "GALLERY_VISIT",
+    "CONCERT",
+    "ZOO_VISIT",
+    "AQUARIUM_VISIT",
+    "THEME_PARK_VISIT",
+    "BASKETBALL_GAME",
+    "FOOTBALL_MATCH",
+    "BOXING_MATCH",
+    "WELLNESS_CENTER",
+    "SPA_TREATMENT",
+    "SPA_VISIT",
+    "ART_LECTURE",
+    "ART_WORKSHOP",
+    "PARAGLIDING",
+    "BALLOON_RIDE",
+    "MICHELIN_STAR_RESTAURANT",
+    "MULTIPLE_GENRE_CONCERT"
+  ]
+
+  selectedEventType: string = this.eventTypes[0];
+
+  formatPreference(preference: string) {
+    return preference.replaceAll("_", " ");
+  }
+
 }

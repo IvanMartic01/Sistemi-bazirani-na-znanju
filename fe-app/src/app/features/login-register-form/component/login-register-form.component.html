@@ -26,7 +26,7 @@
       <select [(ngModel)]="selectedCountry" name="cars" style="padding: 10px; border-radius: 10px">
         <option *ngFor="let country of countries" [value]="country">{{ country.city }}, {{ country.name }}</option>
       </select>
-      <button (click)="openPreferencesWindow()" style="font-size: 14px; font-weight: 400">Pick preferences</button>
+      <button (click)="updatePreferenceOpened(true)" style="font-size: 14px; font-weight: 400">Pick preferences</button>
       <div class="checkbox">
         <input type="checkbox" id="signupCheck" />
         <label for="signupCheck">I accept all terms & conditions</label>
@@ -58,11 +58,6 @@
   </div>
 </section>
 
-<div class="preferences-container" *ngIf="preferencesOpened">
-  <div class="preferences-container-exit-button"><span (click)="closePreferencesWindow()">✖</span></div>
-  <div class="preference-card" *ngFor="let preference of visitorPreferences" (click)="checkPreference(preference)">
-    <div *ngIf="!preference.checked" class="preference-checked-square">□</div>
-    <div *ngIf="preference.checked" class="preference-checked">✔</div>
-    <p class="preference-name">{{ formatPreference(preference.preference) }}</p>
-  </div>
-</div>
+<app-preference-picker [preferences]="visitorPreferences"
+                       [preferencesOpened]="preferencesOpened"
+                       (closingEventEmitter)="updatePreferenceOpened($event)"></app-preference-picker>
