@@ -23,6 +23,10 @@
         [(ngModel)]="registerPassword"
         name="password"
       />
+      <select [(ngModel)]="selectedCountry" name="cars" style="padding: 10px; border-radius: 10px">
+        <option *ngFor="let country of countries" [value]="country">{{ country.city }}, {{ country.name }}</option>
+      </select>
+      <button (click)="updatePreferenceOpened(true)" style="font-size: 14px; font-weight: 400">Pick preferences</button>
       <div class="checkbox">
         <input type="checkbox" id="signupCheck" />
         <label for="signupCheck">I accept all terms & conditions</label>
@@ -53,3 +57,7 @@
     </form>
   </div>
 </section>
+
+<app-preference-picker [preferences]="visitorPreferences"
+                       [preferencesOpened]="preferencesOpened"
+                       (closingEventEmitter)="updatePreferenceOpened($event)"></app-preference-picker>

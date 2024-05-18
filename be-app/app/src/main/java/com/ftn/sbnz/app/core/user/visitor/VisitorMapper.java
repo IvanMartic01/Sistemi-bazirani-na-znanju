@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.UUID;
 
-@Mapper
+@Mapper(uses = {})
 public interface VisitorMapper {
 
     VisitorEntity toEntity(CreateVisitorDto dto, PasswordEncoder passwordEncoder);

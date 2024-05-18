@@ -19,6 +19,7 @@ import com.ftn.sbnz.model.core.RecommendedEvent;
 import com.ftn.sbnz.model.core.visitor.VisitorEntity;
 import com.ftn.sbnz.model.event.EventEntity;
 import com.ftn.sbnz.model.event.EventPurchaseEntity;
+import com.ftn.sbnz.model.event.EventType;
 import lombok.RequiredArgsConstructor;
 import org.kie.api.runtime.ClassObjectFilter;
 import org.kie.api.runtime.KieContainer;
@@ -59,6 +60,11 @@ public class DefaultEventService implements EventService {
         OrganizerEntity organizer = authService.getOrganizerForCurrentSession();
 
         EventEntity eventToBeSaved = eventMapper.toEntity(dto, organizer);
+        try {
+            eventToBeSaved.setType(Enum.valueOf(EventType.class, dto.getType()));
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Invalid event type!");
+        }
         EventEntity savedEvent = eventRepository.save(eventToBeSaved);
         return eventMapper.toDto(savedEvent);
     }

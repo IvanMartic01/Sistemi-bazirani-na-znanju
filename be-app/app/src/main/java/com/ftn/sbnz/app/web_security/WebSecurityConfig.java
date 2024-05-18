@@ -28,6 +28,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/test").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/event/load-data").permitAll()
+                        .requestMatchers("/api/country/all").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

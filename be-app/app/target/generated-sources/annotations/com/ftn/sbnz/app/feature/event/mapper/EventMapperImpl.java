@@ -5,6 +5,7 @@ import com.ftn.sbnz.app.feature.event.dto.CreateUpdateEventRequestDto;
 import com.ftn.sbnz.app.feature.event.dto.EventResponseDto;
 import com.ftn.sbnz.model.core.OrganizerEntity;
 import com.ftn.sbnz.model.event.EventEntity;
+import com.ftn.sbnz.model.event.EventType;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,8 +15,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-05-17T02:55:54+0200",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.2 (Eclipse Adoptium)"
+    date = "2024-05-18T13:14:36+0200",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.3 (Eclipse Adoptium)"
 )
 @Component
 public class EventMapperImpl implements EventMapper {
@@ -45,6 +46,9 @@ public class EventMapperImpl implements EventMapper {
             eventEntity.shortDescription( dto.getShortDescription() );
             eventEntity.detailedDescription( dto.getDetailedDescription() );
             eventEntity.organizationPlan( dto.getOrganizationPlan() );
+            if ( dto.getType() != null ) {
+                eventEntity.type( Enum.valueOf( EventType.class, dto.getType() ) );
+            }
         }
         if ( organizer != null ) {
             eventEntity.id( organizer.getId() );

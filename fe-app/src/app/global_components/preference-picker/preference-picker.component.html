@@ -1,0 +1,8 @@
+<div class="preferences-container" *ngIf="preferencesOpened">
+  <div class="preferences-container-exit-button"><span (click)="closePreferencesWindow()">✖</span></div>
+  <div class="preference-card" *ngFor="let preference of preferences" (click)="checkPreference(preference)">
+    <div *ngIf="!preference.checked" class="preference-checked-square">□</div>
+    <div *ngIf="preference.checked" class="preference-checked">✔</div>
+    <p class="preference-name">{{ formatPreference(preference.preference) }}</p>
+  </div>
+</div>
