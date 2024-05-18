@@ -10,9 +10,6 @@ import {VisitorResponse} from "../../../model/user/visitor-response,model";
 import {ToastrService} from "ngx-toastr";
 import {CountryDto} from "../../../model/response/country-dto.model";
 import {CountryService} from "../../../service/country.service";
-import {MatDialog} from "@angular/material/dialog";
-import {PreferencesDialogComponent} from "../preferences-dialog/preferences-dialog.component";
-import {EventFormComponent} from "../../event/event-form/event-form.component";
 
 @Component({
   selector: 'app-login-form',
@@ -57,12 +54,23 @@ export class LoginFormComponent implements OnInit {
     "MULTIPLE_GENRE_CONCERT"
   ]
 
+  visitorPreferences: Array<{ preference: string, checked: boolean }> = [
+    { preference: "OUTDOOR_EVENTS", checked: false },
+    { preference: "CULTURAL_EVENTS", checked: false },
+    { preference: "FAMILY_EVENTS", checked: false },
+    { preference: "SPORTING_EVENTS", checked: false },
+    { preference: "RELAXING_EVENTS", checked: false },
+    { preference: "ADVENTURE_EVENTS", checked: false },
+    { preference: "ARTISTIC_EVENTS", checked: false },
+    { preference: "EXOTIC_EVENTS", checked: false },
+    { preference: "MUSIC_EVENTS", checked: false },
+  ]
+
   countries: Array<CountryDto> = [];
 
   constructor(private authService: AuthService,
               private sharedService:SharedService,
               private countryService: CountryService,
-              private dialog: MatDialog,
               private toastrService:ToastrService,
               private router: Router) {}
 
@@ -93,11 +101,16 @@ export class LoginFormComponent implements OnInit {
   }
 
   signup() {
+    const preferences: Array<string> = this.visitorPreferences
+      .filter(el => el.checked)
+      .map(el => el.preference);
     let createVisitor: CreateVisitor = {
       email: this.registerEmail,
       password: this.registerPassword,
-      name: this.fullName
-    }
+      name: this.fullName,
+      countryId: this.selectedCountry.id,
+      preferences: preferences
+    };
     console.log(createVisitor);
 
     this.authService.creteVisitorAccount(createVisitor).subscribe({
@@ -130,8 +143,23 @@ export class LoginFormComponent implements OnInit {
     })
   }
 
-  openPreferencesDialog() {
-    this.dialog.open(PreferencesDialogComponent, {});
+
+  preferencesOpened: boolean = false;
+
+  openPreferencesWindow() {
+    this.preferencesOpened = true;
+  }
+
+  closePreferencesWindow() {
+    this.preferencesOpened = false;
+  }
+
+  formatPreference(preference: string) {
+    return preference.replaceAll("_", " ");
+  }
+
+  checkPreference(preference: { preference: string, checked: boolean}) {
+    preference.checked = !preference.checked;
   }
 
 }

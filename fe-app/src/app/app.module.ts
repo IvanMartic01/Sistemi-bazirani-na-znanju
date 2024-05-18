@@ -24,7 +24,6 @@ import { BookingEventPageComponent } from './features/event/visitor/booking-even
 import { ReservedEventsPageComponent } from './features/event/visitor/reserved-events-page/reserved-events-page.component';
 import { PendingEventPageComponent } from './features/event/organizer/pending-event-page/pending-event-page.component';
 import { RecomendedEventsComponent } from './features/event/visitor/recomended-events/recomended-events.component';
-import { PreferencesDialogComponent } from './features/login-register-form/preferences-dialog/preferences-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
@@ -45,7 +44,6 @@ import {MatDialogModule} from "@angular/material/dialog";
     ReservedEventsPageComponent,
     PendingEventPageComponent,
     RecomendedEventsComponent,
-    PreferencesDialogComponent,
   ],
   imports: [
     BrowserModule,

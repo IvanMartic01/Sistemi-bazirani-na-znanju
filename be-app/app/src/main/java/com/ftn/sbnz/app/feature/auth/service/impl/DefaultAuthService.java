@@ -22,6 +22,7 @@ import com.ftn.sbnz.model.core.CountryEntity;
 import com.ftn.sbnz.model.core.OrganizerEntity;
 import com.ftn.sbnz.model.core.UserEntity;
 import com.ftn.sbnz.model.core.visitor.VisitorEntity;
+import com.ftn.sbnz.model.core.visitor.VisitorEventPreference;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -87,6 +88,17 @@ public class DefaultAuthService  implements AuthService {
         VisitorEntity newActivatedVisitor = newVisitor.toBuilder().enabled(true).build();
         CountryEntity country = countryService.getEntityById(UUID.fromString(requestDto.getCountryId()));
         newActivatedVisitor.setCountry(country);
+
+        // adding visitor preferences
+        for (String preference : requestDto.getPreferences()) {
+            try {
+                VisitorEventPreference visitorPreference = Enum.valueOf(VisitorEventPreference.class, preference);
+                newActivatedVisitor.getPreferences().add(visitorPreference);
+            } catch (IllegalArgumentException e) {
+                throw new RuntimeException("Invalid visitor preference!");
+            }
+        }
+
         VisitorEntity savedVisitor = visitorService.save(newActivatedVisitor);
         return visitorMapper.toDto(savedVisitor);
     }

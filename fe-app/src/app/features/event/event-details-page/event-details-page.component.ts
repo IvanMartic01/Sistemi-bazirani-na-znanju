@@ -3,8 +3,6 @@ import {EventService} from "../../../service/event.service";
 import {ActivatedRoute} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {EventResponse} from "../model/event-response.model";
-import {MatDialog} from "@angular/material/dialog";
-import {PreferencesDialogComponent} from "../../login-register-form/preferences-dialog/preferences-dialog.component";
 
 @Component({
   selector: 'app-event-details-page',
