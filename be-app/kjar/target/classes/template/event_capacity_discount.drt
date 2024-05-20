@@ -1,0 +1,21 @@
+template header
+    capacityMin
+    capacityMax
+    discount
+
+package com.example.pricing;
+import com.ftn.sbnz.model.core.visitor.VisitorEntity;
+import com.ftn.sbnz.model.event.EventEntity;
+import com.ftn.sbnz.model.event.EventPurchaseEntity;
+
+template "EventCapacityDiscount"
+
+rule "Price reduction for capacity @{capacityMin} to @{capacityMax}"
+    when
+        $visitor : VisitorEntity()
+        $event : EventEntity(totalSeats >= @{capacityMin}, totalSeats <= @{capacityMax})
+        $purchase : EventPurchaseEntity(event==event, visitor == $visitor)
+    then
+        $purchase.setPurchasePrice($purchase.getPurchasePrice() * (1 - @{discount}));
+end
+end template

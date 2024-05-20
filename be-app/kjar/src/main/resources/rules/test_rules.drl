@@ -1,6 +1,8 @@
 package testRulePackage;
 
 import com.ftn.sbnz.model.test.TestModel;
+import com.ftn.sbnz.model.core.visitor.VisitorEntity;
+
 
 rule "go" salience 10
 when

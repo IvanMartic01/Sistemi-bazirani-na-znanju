@@ -17,19 +17,29 @@ import com.ftn.sbnz.app.feature.event.service.EventService;
 import com.ftn.sbnz.model.core.OrganizerEntity;
 import com.ftn.sbnz.model.core.RecommendedEvent;
 import com.ftn.sbnz.model.core.visitor.VisitorEntity;
+import com.ftn.sbnz.model.event.EventCapacityDiscount;
 import com.ftn.sbnz.model.event.EventEntity;
 import com.ftn.sbnz.model.event.EventPurchaseEntity;
 import com.ftn.sbnz.model.event.EventType;
 import lombok.RequiredArgsConstructor;
+import org.drools.template.ObjectDataCompiler;
+import org.kie.api.builder.Message;
+import org.kie.api.builder.Results;
+import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.ClassObjectFilter;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.internal.utils.KieHelper;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+
+import static com.ftn.sbnz.app.core.drools.KnowledgeSessionHelper.createKieSessionFromDRL;
 
 @RequiredArgsConstructor
 @Service
@@ -164,6 +174,17 @@ public class DefaultEventService implements EventService {
         EventPurchaseEntity eventPurchase = (EventPurchaseEntity) kSession.getObjects(new ClassObjectFilter(EventPurchaseEntity.class)).iterator().next();
         VisitorEntity updatedVisitor = (VisitorEntity) kSession.getObjects(new ClassObjectFilter(VisitorEntity.class)).iterator().next();
         EventEntity updatedEvent = (EventEntity) kSession.getObjects(new ClassObjectFilter(EventEntity.class)).iterator().next();
+
+        kSession.destroy();
+
+        KieSession discountPriceBasedOnCapacityKieSession = createKieSessionWithCompiledRules();
+        discountPriceBasedOnCapacityKieSession.insert(newVisitor);
+        discountPriceBasedOnCapacityKieSession.insert(event);
+        discountPriceBasedOnCapacityKieSession.insert(eventPurchase);
+
+        discountPriceBasedOnCapacityKieSession.fireAllRules();
+        discountPriceBasedOnCapacityKieSession.destroy();
+
         eventPurchaseService.save(eventPurchase);
         visitorService.save(updatedVisitor);
         this.save(updatedEvent);
@@ -171,6 +192,20 @@ public class DefaultEventService implements EventService {
         return eventPurchaseMapper.toDto(eventPurchase);
     }
 
+    private static KieSession createKieSessionWithCompiledRules() {
+        InputStream templateStream = DefaultEventService.class.getResourceAsStream("/template/event_capacity_discount.drt");
+
+        List<EventCapacityDiscount> data = new ArrayList();
+        data.add(new EventCapacityDiscount(0, 100, 0.0));
+        data.add(new EventCapacityDiscount(100, 1000, 0.10));
+        data.add(new EventCapacityDiscount(1000, Integer.MAX_VALUE, 0.20));
+
+        ObjectDataCompiler compiler = new ObjectDataCompiler();
+        String drl = compiler.compile(data, templateStream);
+        System.out.println(drl);
+
+        return createKieSessionFromDRL(drl);
+    }
 
     private void validateReservation(EventEntity event, VisitorEntity visitor) {
         if (!isEventHaveAvailableSeats(event)) throw new EventException("Event is full!");
