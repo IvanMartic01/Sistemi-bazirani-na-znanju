@@ -23,7 +23,6 @@ rule "create padding purchase"
         insert(purchase);
 end
 
-// event.startDateTime.isBefore(LocalDateTime.now().plusDays(3)) && event.numberOfAvailableSeats > event.totalSeats / 2
 rule "apply discount"
     salience 2
     when

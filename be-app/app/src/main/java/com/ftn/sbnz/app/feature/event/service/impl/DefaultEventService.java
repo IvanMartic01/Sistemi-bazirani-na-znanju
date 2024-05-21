@@ -376,9 +376,10 @@ public class DefaultEventService implements EventService {
 
         Collection<EventEntity> eventsWithUpdatedSalePrice = new ArrayList<>();
         for (EventEntity event : allAvailableEvents) {
-            EventPurchaseEntity eventPurchase = calculateEventPurchasePrice(event, visitor);
+            var clonedEvent = event.toBuilder().build();
+            EventPurchaseEntity eventPurchase = calculateEventPurchasePrice(clonedEvent, visitor);
             event.setPrice(eventPurchase.getPurchasePrice());
-            allAvailableEvents.add(event);
+            eventsWithUpdatedSalePrice.add(event);
         }
 
         return eventMapper.toDto(eventsWithUpdatedSalePrice);
@@ -416,7 +417,8 @@ public class DefaultEventService implements EventService {
 
         Collection<EventEntity> eventsWithUpdatedSalePrice = new ArrayList<>();
         for (EventEntity event : filteredEvents) {
-            EventPurchaseEntity eventPurchase = calculateEventPurchasePrice(event, visitor);
+            var clonedEvent = event.toBuilder().build();
+            EventPurchaseEntity eventPurchase = calculateEventPurchasePrice(clonedEvent, visitor);
             event.setPrice(eventPurchase.getPurchasePrice());
             eventsWithUpdatedSalePrice.add(event);
         }
