@@ -17,19 +17,26 @@ import com.ftn.sbnz.app.feature.event.service.EventService;
 import com.ftn.sbnz.model.core.OrganizerEntity;
 import com.ftn.sbnz.model.core.RecommendedEvent;
 import com.ftn.sbnz.model.core.visitor.VisitorEntity;
+import com.ftn.sbnz.model.event.pojo.EventCapacityDiscount;
 import com.ftn.sbnz.model.event.EventEntity;
 import com.ftn.sbnz.model.event.EventPurchaseEntity;
 import com.ftn.sbnz.model.event.EventType;
+import com.ftn.sbnz.model.event.pojo.EventScaleUpPrice;
 import lombok.RequiredArgsConstructor;
+import org.drools.template.ObjectDataCompiler;
 import org.kie.api.runtime.ClassObjectFilter;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+
+import static com.ftn.sbnz.app.core.drools.KnowledgeSessionHelper.createKieSessionFromDRL;
 
 @RequiredArgsConstructor
 @Service
@@ -52,7 +59,21 @@ public class DefaultEventService implements EventService {
     @Override
     public EventResponseDto getEventById(UUID id) {
         EventEntity eventEntity = eventRepository.findById(id).orElseThrow(EventNotFoundException::new);
-        return eventMapper.toDto(eventEntity);
+        EventEntity clonedEvent = eventEntity.toBuilder().build();
+
+        try {
+            VisitorEntity visitor = authService.getVisitorForCurrentSession();
+            var eventPurchaseOptional = eventPurchaseService.getEventPurchaseByEventIdAndVisitorId(eventEntity.getId(), visitor.getId());
+
+            if (eventPurchaseOptional.isPresent()) eventEntity.setPrice(eventPurchaseOptional.get().getPurchasePrice());
+            else {
+                var calculatedPurchase = calculateEventPurchasePrice(clonedEvent, visitor);
+                eventEntity.setPrice(calculatedPurchase.getPurchasePrice());
+            }
+            return eventMapper.toDto(eventEntity);
+        }catch (Exception e) {
+            return eventMapper.toDto(eventEntity);
+        }
     }
 
     @Override
@@ -154,23 +175,72 @@ public class DefaultEventService implements EventService {
         EventEntity event = eventRepository.findById(id).orElseThrow(EventNotFoundException::new);
         validateReservation(event, newVisitor);
 
-        KieContainer kieContainer = KnowledgeSessionHelper.createRuleBase();
-        KieSession kSession = KnowledgeSessionHelper.getStatefulKnowledgeSession(kieContainer, "test-k-session-3");
+        var eventPurchase = calculateEventPurchasePrice(event, newVisitor);
 
-        kSession.insert(newVisitor);
-        kSession.insert(event);
-        kSession.fireAllRules();
-
-        EventPurchaseEntity eventPurchase = (EventPurchaseEntity) kSession.getObjects(new ClassObjectFilter(EventPurchaseEntity.class)).iterator().next();
-        VisitorEntity updatedVisitor = (VisitorEntity) kSession.getObjects(new ClassObjectFilter(VisitorEntity.class)).iterator().next();
-        EventEntity updatedEvent = (EventEntity) kSession.getObjects(new ClassObjectFilter(EventEntity.class)).iterator().next();
         eventPurchaseService.save(eventPurchase);
-        visitorService.save(updatedVisitor);
-        this.save(updatedEvent);
+        visitorService.save(newVisitor);
+        this.save(event);
 
         return eventPurchaseMapper.toDto(eventPurchase);
     }
 
+    private EventPurchaseEntity calculateEventPurchasePrice(EventEntity event, VisitorEntity visitor) {
+        KieContainer kieContainer = KnowledgeSessionHelper.createRuleBase();
+        KieSession kSession = KnowledgeSessionHelper.getStatefulKnowledgeSession(kieContainer, "test-k-session-3");
+
+        kSession.insert(visitor);
+        kSession.insert(event);
+        kSession.fireAllRules();
+
+        EventPurchaseEntity eventPurchase = (EventPurchaseEntity) kSession.getObjects(new ClassObjectFilter(EventPurchaseEntity.class)).iterator().next();
+        kSession.destroy();
+
+        KieSession discountPriceBasedOnCapacityKieSession = createKieSessionWithCompiledRulesForCapacityDiscount();
+        discountPriceBasedOnCapacityKieSession.insert(visitor);
+        discountPriceBasedOnCapacityKieSession.insert(event);
+        discountPriceBasedOnCapacityKieSession.insert(eventPurchase);
+
+        discountPriceBasedOnCapacityKieSession.fireAllRules();
+        discountPriceBasedOnCapacityKieSession.destroy();
+
+        KieSession scaleUpPriceKieSession = createKieSessionWithCompiledRulesForCapacityScaleUp();
+        scaleUpPriceKieSession.insert(visitor);
+        scaleUpPriceKieSession.insert(event);
+        scaleUpPriceKieSession.insert(eventPurchase);
+
+        scaleUpPriceKieSession.fireAllRules();
+        scaleUpPriceKieSession.destroy();
+
+        return eventPurchase;
+    }
+
+    private static KieSession createKieSessionWithCompiledRulesForCapacityDiscount() {
+        InputStream templateStream = DefaultEventService.class.getResourceAsStream("/template/event_capacity_discount.drt");
+
+        List<EventCapacityDiscount> data = new ArrayList();
+        data.add(new EventCapacityDiscount(0, 100, 0.0));
+        data.add(new EventCapacityDiscount(100, 1000, 0.10));
+        data.add(new EventCapacityDiscount(1000, Integer.MAX_VALUE, 0.20));
+
+        ObjectDataCompiler compiler = new ObjectDataCompiler();
+        String drl = compiler.compile(data, templateStream);
+
+        return createKieSessionFromDRL(drl);
+    }
+
+    private static KieSession createKieSessionWithCompiledRulesForCapacityScaleUp() {
+        InputStream templateStream = DefaultEventService.class.getResourceAsStream("/template/event_capacity_scale_up_price.drt");
+
+        List<EventScaleUpPrice> data = new ArrayList();
+        data.add(new EventScaleUpPrice(-0.1, 0.8, 0.10));
+        data.add(new EventScaleUpPrice(0.8, 0.9, 0.20));
+        data.add(new EventScaleUpPrice(0.9, 1.0, 0.30));
+
+        ObjectDataCompiler compiler = new ObjectDataCompiler();
+        String drl = compiler.compile(data, templateStream);
+
+        return createKieSessionFromDRL(drl);
+    }
 
     private void validateReservation(EventEntity event, VisitorEntity visitor) {
         if (!isEventHaveAvailableSeats(event)) throw new EventException("Event is full!");
@@ -188,6 +258,7 @@ public class DefaultEventService implements EventService {
                 .build();
     }
 
+    // TODO ned to be fixed
     @Override
     public EventResponseDto cancelReservation(UUID id) {
         VisitorEntity visitorToBeRemoved = authService.getVisitorForCurrentSession();
@@ -258,7 +329,15 @@ public class DefaultEventService implements EventService {
     public Collection<EventResponseDto> getAllVisitorVisitedEvents() {
         VisitorEntity visitor = authService.getVisitorForCurrentSession();
         var allVisitorVisitedEvents = getAllVisitorVisitedEvents(visitor);
-        return eventMapper.toDto(allVisitorVisitedEvents);
+
+        Collection<EventEntity> eventsWithUpdatedSalePrice = new ArrayList<>();
+        for (EventEntity event : allVisitorVisitedEvents) {
+            eventPurchaseService.getEventPurchaseByEventIdAndVisitorId(event.getId(), visitor.getId())
+                    .ifPresent(eventPurchase -> event.setPrice(eventPurchase.getPurchasePrice()));
+            eventsWithUpdatedSalePrice.add(event);
+        }
+
+        return eventMapper.toDto(eventsWithUpdatedSalePrice);
     }
 
     private List<EventEntity> getAllVisitorVisitedEvents(VisitorEntity visitor) {
@@ -272,7 +351,15 @@ public class DefaultEventService implements EventService {
     public Collection<EventResponseDto> getAllVisitorReservedEvents() {
         VisitorEntity visitor = authService.getVisitorForCurrentSession();
         var allVisitorReservedEvents = getAllVisitorReservedEvents(visitor);
-        return eventMapper.toDto(allVisitorReservedEvents);
+
+        Collection<EventEntity> eventsWithUpdatedSalePrice = new ArrayList<>();
+        for (EventEntity event : allVisitorReservedEvents) {
+            eventPurchaseService.getEventPurchaseByEventIdAndVisitorId(event.getId(), visitor.getId())
+                    .ifPresent(eventPurchase -> event.setPrice(eventPurchase.getPurchasePrice()));
+            eventsWithUpdatedSalePrice.add(event);
+        }
+
+        return eventMapper.toDto(eventsWithUpdatedSalePrice);
     }
 
     private List<EventEntity> getAllVisitorReservedEvents(VisitorEntity visitor) {
@@ -286,7 +373,15 @@ public class DefaultEventService implements EventService {
     public Collection<EventResponseDto> getAllAvailableEvents() {
         VisitorEntity visitor = authService.getVisitorForCurrentSession();
         var allAvailableEvents = getAllAvailableEvents(visitor);
-        return eventMapper.toDto(allAvailableEvents);
+
+        Collection<EventEntity> eventsWithUpdatedSalePrice = new ArrayList<>();
+        for (EventEntity event : allAvailableEvents) {
+            EventPurchaseEntity eventPurchase = calculateEventPurchasePrice(event, visitor);
+            event.setPrice(eventPurchase.getPurchasePrice());
+            allAvailableEvents.add(event);
+        }
+
+        return eventMapper.toDto(eventsWithUpdatedSalePrice);
     }
 
     private Collection<EventEntity> getAllAvailableEvents(VisitorEntity visitor) {
@@ -319,7 +414,14 @@ public class DefaultEventService implements EventService {
                 .map(RecommendedEvent::getEvent)
                 .toList();
 
-        return eventMapper.toDto(filteredEvents);
+        Collection<EventEntity> eventsWithUpdatedSalePrice = new ArrayList<>();
+        for (EventEntity event : filteredEvents) {
+            EventPurchaseEntity eventPurchase = calculateEventPurchasePrice(event, visitor);
+            event.setPrice(eventPurchase.getPurchasePrice());
+            eventsWithUpdatedSalePrice.add(event);
+        }
+
+        return eventMapper.toDto(eventsWithUpdatedSalePrice);
     }
 
     private boolean hasOrganizerCreatedEvent(EventEntity event, OrganizerEntity organizerEntity) {

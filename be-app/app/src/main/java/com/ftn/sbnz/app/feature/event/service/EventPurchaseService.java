@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public interface EventPurchaseService {
     Optional<EventPurchaseEntity> getEventPurchaseById(UUID id);
+    Optional<EventPurchaseEntity> getEventPurchaseByEventIdAndVisitorId(UUID eventId, UUID visitorId);
 
     EventPurchaseEntity save(EventPurchaseEntity eventPurchaseEntity);
 }
