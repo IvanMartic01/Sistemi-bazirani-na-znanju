@@ -21,6 +21,11 @@ public class DefaultEventPurchaseService implements EventPurchaseService {
     }
 
     @Override
+    public Optional<EventPurchaseEntity> getEventPurchaseByEventIdAndVisitorId(UUID eventId, UUID visitorId) {
+        return eventPurchaseRepository.findByEventIdAndVisitorId(eventId, visitorId);
+    }
+
+    @Override
     public EventPurchaseEntity save(EventPurchaseEntity eventPurchaseEntity) {
         return eventPurchaseRepository.save(eventPurchaseEntity);
     }

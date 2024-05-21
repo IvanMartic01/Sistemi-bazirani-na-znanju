@@ -41,7 +41,7 @@ rule "reserve event"
         System.out.println("RESERVE EVENT");
         $purchase.setStatus(EventPurchaseStatus.PAID);
         EventEntity event = $purchase.getEvent();
-        event.setTotalSeats(event.getTotalSeats() - 1);
+        event.setNumberOfAvailableSeats(event.getNumberOfAvailableSeats() - 1);
         event.getVisitors().add($purchase.getVisitor());
         VisitorEntity visitor = $purchase.getVisitor();
         visitor.setMoney(visitor.getMoney() - $purchase.getPurchasePrice());

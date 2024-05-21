@@ -114,7 +114,7 @@ public class EventDataLoader {
                 .startDateTime(LocalDateTime.now().plusDays(10))
                 .endDateTime(LocalDateTime.now().plusDays(11))
                 .totalSeats(100)
-                .numberOfAvailableSeats(99)
+                .numberOfAvailableSeats(100)
                 .price(100)
                 .shortDescription("Short description")
                 .detailedDescription("Detailed description")

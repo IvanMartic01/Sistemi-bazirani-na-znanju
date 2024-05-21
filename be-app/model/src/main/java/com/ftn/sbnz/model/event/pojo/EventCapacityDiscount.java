@@ -1,4 +1,4 @@
-package com.ftn.sbnz.model.event;
+package com.ftn.sbnz.model.event.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
