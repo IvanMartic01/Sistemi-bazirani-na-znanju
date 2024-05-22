@@ -11,16 +11,10 @@ import java.util.UUID;
 rule "create padding purchase"
     when
         $visitor : VisitorEntity()
-        $event : EventEntity(price < $visitor.money)
+        $event : EventEntity()
+        $purchase: EventPurchaseEntity(visitor == $visitor && event == $event, purchasePrice <= $visitor.getMoney() && status == EventPurchaseStatus.NOT_ENABLED)
     then
-        EventPurchaseEntity purchase = EventPurchaseEntity.builder()
-        .id(UUID.randomUUID())
-        .event($event)
-        .visitor($visitor)
-        .purchasePrice($event.getPrice())
-        .status(EventPurchaseStatus.UNPAID)
-        .build();
-        insert(purchase);
+        $purchase.setStatus(EventPurchaseStatus.UNPAID);
 end
 
 rule "apply discount"

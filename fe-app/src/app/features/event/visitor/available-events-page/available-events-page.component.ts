@@ -12,6 +12,7 @@ import {ToastrService} from "ngx-toastr";
 export class AvailableEventsPageComponent implements OnInit {
 
   availableEvents:Array<EventResponse> = [];
+  showNoEventsMessage: boolean = false;
 
   constructor(private eventService:EventService,
               private toastrService:ToastrService,
@@ -19,7 +20,12 @@ export class AvailableEventsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventService.getAllAvailableEvents().subscribe(
-      events => this.availableEvents = events,
+      events => {
+        this.availableEvents = events
+        if (this.availableEvents.length <= 0) {
+          this.showNoEventsMessage = true;
+        }
+      },
       error => this.toastrService.error(error.error.message));
   }
 

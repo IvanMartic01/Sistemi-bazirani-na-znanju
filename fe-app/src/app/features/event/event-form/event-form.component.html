@@ -91,10 +91,12 @@
         placeholder="Event plan...."
         required
       ></textarea>
-      <label for="eventType">Select event type</label>
-      <select id="eventType" name="eventType" [(ngModel)]="selectedEventType" style="padding: 10px; border-radius: 10px; width: 100%">
-        <option *ngFor="let type of eventTypes" [value]="type">{{ formatPreference(type) }}</option>
-      </select>
+      <div *ngIf="!isFormReadOnly" >
+        <label for="eventType">Select event type</label>
+        <select id="eventType" name="eventType" [(ngModel)]="selectedEventType" style="padding: 10px; border-radius: 10px; width: 100%">
+          <option *ngFor="let type of eventTypes" [value]="type">{{ formatPreference(type) }}</option>
+        </select>
+      </div>
     </div>
     <div >
       <button
