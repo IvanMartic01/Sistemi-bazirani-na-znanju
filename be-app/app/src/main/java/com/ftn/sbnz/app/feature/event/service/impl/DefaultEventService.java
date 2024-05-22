@@ -17,6 +17,7 @@ import com.ftn.sbnz.app.feature.event.service.EventService;
 import com.ftn.sbnz.model.core.OrganizerEntity;
 import com.ftn.sbnz.model.core.RecommendedEvent;
 import com.ftn.sbnz.model.core.visitor.VisitorEntity;
+import com.ftn.sbnz.model.event.EventPurchaseStatus;
 import com.ftn.sbnz.model.event.pojo.EventCapacityDiscount;
 import com.ftn.sbnz.model.event.EventEntity;
 import com.ftn.sbnz.model.event.EventPurchaseEntity;
@@ -185,16 +186,16 @@ public class DefaultEventService implements EventService {
     }
 
     private EventPurchaseEntity calculateEventPurchasePrice(EventEntity event, VisitorEntity visitor) {
-        KieContainer kieContainer = KnowledgeSessionHelper.createRuleBase();
-        KieSession kSession = KnowledgeSessionHelper.getStatefulKnowledgeSession(kieContainer, "test-k-session-3");
 
-        kSession.insert(visitor);
-        kSession.insert(event);
-        kSession.fireAllRules();
+        EventPurchaseEntity eventPurchase = EventPurchaseEntity.builder()
+                .id(UUID.randomUUID())
+                .event(event)
+                .visitor(visitor)
+                .status(EventPurchaseStatus.NOT_ENABLED)
+                .purchasePrice(event.getPrice())
+                .build();
 
-        EventPurchaseEntity eventPurchase = (EventPurchaseEntity) kSession.getObjects(new ClassObjectFilter(EventPurchaseEntity.class)).iterator().next();
-        kSession.destroy();
-
+        // template 1 (event capacity discount)
         KieSession discountPriceBasedOnCapacityKieSession = createKieSessionWithCompiledRulesForCapacityDiscount();
         discountPriceBasedOnCapacityKieSession.insert(visitor);
         discountPriceBasedOnCapacityKieSession.insert(event);
@@ -203,6 +204,7 @@ public class DefaultEventService implements EventService {
         discountPriceBasedOnCapacityKieSession.fireAllRules();
         discountPriceBasedOnCapacityKieSession.destroy();
 
+        // template 2 (event capacity scale up price)
         KieSession scaleUpPriceKieSession = createKieSessionWithCompiledRulesForCapacityScaleUp();
         scaleUpPriceKieSession.insert(visitor);
         scaleUpPriceKieSession.insert(event);
@@ -210,6 +212,16 @@ public class DefaultEventService implements EventService {
 
         scaleUpPriceKieSession.fireAllRules();
         scaleUpPriceKieSession.destroy();
+
+        // forward chaining (reserve_event_rules)
+        KieContainer kieContainer = KnowledgeSessionHelper.createRuleBase();
+        KieSession kSession = KnowledgeSessionHelper.getStatefulKnowledgeSession(kieContainer, "test-k-session-3");
+
+        kSession.insert(visitor);
+        kSession.insert(event);
+        kSession.insert(eventPurchase);
+        kSession.fireAllRules();
+        kSession.destroy();
 
         return eventPurchase;
     }
