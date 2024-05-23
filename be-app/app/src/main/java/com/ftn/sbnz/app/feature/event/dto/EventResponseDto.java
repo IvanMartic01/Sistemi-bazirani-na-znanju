@@ -22,4 +22,5 @@ public class EventResponseDto {
     private String organizationPlan;
     private OrganizerResponseDto organizer;
     private String type;
+    private boolean outside;
 }

@@ -9,6 +9,7 @@ import java.util.UUID;
 public interface CountryService {
 
     CountryEntity getEntityById(UUID id);
-    Collection<CountryDto> getAllCountries();
+    Collection<CountryDto> getAll();
+    CountryDto getById(UUID id);
 
 }

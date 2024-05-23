@@ -24,8 +24,15 @@ public class DefaultCountryService implements CountryService {
         return countryRepository.findById(id).orElseThrow(() -> new RuntimeException("Country not found!"));
     }
 
+
+
     @Override
-    public Collection<CountryDto> getAllCountries() {
+    public Collection<CountryDto> getAll() {
         return countryRepository.findAll().stream().map(countryMapper::toDto).toList();
+    }
+
+    @Override
+    public CountryDto getById(UUID id) {
+        return countryMapper.toDto(getEntityById(id));
     }
 }

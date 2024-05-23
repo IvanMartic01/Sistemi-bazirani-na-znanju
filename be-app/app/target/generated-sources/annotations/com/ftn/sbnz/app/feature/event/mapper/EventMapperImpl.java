@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-05-22T22:39:19+0200",
+    date = "2024-05-23T14:58:48+0200",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.3 (Eclipse Adoptium)"
 )
 @Component
@@ -49,6 +49,7 @@ public class EventMapperImpl implements EventMapper {
             if ( dto.getType() != null ) {
                 eventEntity.type( Enum.valueOf( EventType.class, dto.getType() ) );
             }
+            eventEntity.outside( dto.isOutside() );
         }
         if ( organizer != null ) {
             eventEntity.id( organizer.getId() );
@@ -85,6 +86,7 @@ public class EventMapperImpl implements EventMapper {
         if ( entity.getType() != null ) {
             eventResponseDto.type( entity.getType().name() );
         }
+        eventResponseDto.outside( entity.isOutside() );
 
         return eventResponseDto.build();
     }

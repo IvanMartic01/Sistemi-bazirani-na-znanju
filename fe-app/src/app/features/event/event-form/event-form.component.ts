@@ -12,6 +12,9 @@ import {ToastrService} from "ngx-toastr";
 import {EventService} from "../../../service/event.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {EventResponse} from "../model/event-response.model";
+import {CountryDto} from "../../../model/response/country-dto.model";
+import {CountryService} from "../../../service/country.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-event-form',
@@ -20,7 +23,7 @@ import {EventResponse} from "../model/event-response.model";
 })
 export class EventFormComponent implements OnInit {
 
-  event:EventResponse = {} as EventResponse;
+  event: EventResponse = {} as EventResponse;
   @Input() formTitle: string = '';
   @Input() actionButton1Text: string = '';
   @Input() actionButton2Text: string = '';
@@ -36,6 +39,9 @@ export class EventFormComponent implements OnInit {
   shortDescription: string | null = null;
   detailedDescription: string | null = null;
   organizationPlan: string | null = null;
+  isEventOutside: boolean = false;
+  countries: Array<CountryDto> = [];
+  selectedCountryId: string = "";
 
   @Output() button1ClickEmit = new EventEmitter();
   @Output() button2ClickEmit = new EventEmitter();
@@ -44,10 +50,22 @@ export class EventFormComponent implements OnInit {
   constructor(private eventService: EventService,
               private route: ActivatedRoute,
               private toastrService: ToastrService,
+              private countryService: CountryService,
               private router:Router) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
+    this.countryService.getAll().subscribe({
+      next: response => {
+        this.selectedCountryId = response[0].id;
+        this.countries = response;
+      }, error: error => {
+        if (error instanceof HttpErrorResponse) {
+          console.log(error.error.message);
+        }
+      }
+    })
+
     if (!id) {
       return;
     }
@@ -64,6 +82,18 @@ export class EventFormComponent implements OnInit {
         this.shortDescription = event.shortDescription;
         this.detailedDescription = event.detailedDescription;
         this.organizationPlan = event.organizationPlan;
+        this.selectedEventType = event.type;
+        this.isEventOutside = event.outside;
+
+        this.countryService.getById(event.countryId).subscribe({
+          next: response => {
+            this.selectedCountryId = response.id;
+          }, error: error => {
+            if (error instanceof HttpErrorResponse) {
+              console.log(error.error.message);
+            }
+          }
+        })
       },
       error => {
         this.toastrService.error(error.error.message)
@@ -112,7 +142,9 @@ export class EventFormComponent implements OnInit {
       shortDescription: this.shortDescription,
       detailedDescription: this.detailedDescription,
       organizationPlan: this.organizationPlan,
-      type: this.selectedEventType
+      type: this.selectedEventType,
+      outside: this.isEventOutside,
+      countryId: this.selectedCountryId,
     };
     console.log(eventSaveUpdateRequest)
     this.button1ClickEmit.emit(eventSaveUpdateRequest);

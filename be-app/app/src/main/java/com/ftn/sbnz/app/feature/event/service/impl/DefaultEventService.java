@@ -1,5 +1,6 @@
 package com.ftn.sbnz.app.feature.event.service.impl;
 
+import com.ftn.sbnz.app.core.country.service.CountryService;
 import com.ftn.sbnz.app.core.drools.KnowledgeSessionHelper;
 import com.ftn.sbnz.app.core.other.exception.StartDateIsAfterEndDateException;
 import com.ftn.sbnz.app.core.user.visitor.service.VisitorService;
@@ -14,6 +15,7 @@ import com.ftn.sbnz.app.feature.event.mapper.EventPurchaseMapper;
 import com.ftn.sbnz.app.feature.event.repository.EventRepository;
 import com.ftn.sbnz.app.feature.event.service.EventPurchaseService;
 import com.ftn.sbnz.app.feature.event.service.EventService;
+import com.ftn.sbnz.model.core.CountryEntity;
 import com.ftn.sbnz.model.core.OrganizerEntity;
 import com.ftn.sbnz.model.core.RecommendedEvent;
 import com.ftn.sbnz.model.core.visitor.VisitorEntity;
@@ -48,6 +50,7 @@ public class DefaultEventService implements EventService {
     private final EventPurchaseService eventPurchaseService;
     private final VisitorService visitorService;
     private final AuthService authService;
+    private final CountryService countryService;
 
     private final EventMapper eventMapper;
     private final EventPurchaseMapper eventPurchaseMapper;
@@ -82,11 +85,8 @@ public class DefaultEventService implements EventService {
         OrganizerEntity organizer = authService.getOrganizerForCurrentSession();
 
         EventEntity eventToBeSaved = eventMapper.toEntity(dto, organizer);
-        try {
-            eventToBeSaved.setType(Enum.valueOf(EventType.class, dto.getType()));
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Invalid event type!");
-        }
+        CountryEntity country = countryService.getEntityById(UUID.fromString(dto.getCountryId()));
+        eventToBeSaved.setCountry(country);
         EventEntity savedEvent = eventRepository.save(eventToBeSaved);
         return eventMapper.toDto(savedEvent);
     }
@@ -99,6 +99,8 @@ public class DefaultEventService implements EventService {
         validateUpdate(eventToUpdate, organizer, dto);
 
         EventEntity updatedEvent = updateEvent(eventToUpdate, dto);
+        CountryEntity country = countryService.getEntityById(UUID.fromString(dto.getCountryId()));
+        updatedEvent.setCountry(country);
         eventRepository.save(updatedEvent);
         return eventMapper.toDto(updatedEvent);
     }
