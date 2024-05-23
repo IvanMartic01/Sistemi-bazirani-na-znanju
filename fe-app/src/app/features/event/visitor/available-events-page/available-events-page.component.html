@@ -3,4 +3,5 @@
 (onCardClickEmitter)="goToEventDetailsPage($event)"
 ></app-event-list>
 
-<div *ngIf="availableEvents.length === 0" class="no-content">No Available Events</div>
+<div *ngIf="this.showNoEventsMessage" class="no-content">No Available Events</div>
+<div *ngIf="!this.showNoEventsMessage && availableEvents.length <= 0" class="no-content">Loading...</div>

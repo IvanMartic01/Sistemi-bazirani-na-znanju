@@ -9,5 +9,7 @@ export interface CreateUpdateEventRequest {
   detailedDescription: string;
   organizationPlan: string;
   type: string;
+  outside: boolean;
+  countryId: string;
 
 }

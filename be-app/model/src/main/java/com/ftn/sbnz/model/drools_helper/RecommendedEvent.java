@@ -1,4 +1,4 @@
-package com.ftn.sbnz.model.core;
+package com.ftn.sbnz.model.drools_helper;
 
 import com.ftn.sbnz.model.event.EventEntity;
 import lombok.AllArgsConstructor;

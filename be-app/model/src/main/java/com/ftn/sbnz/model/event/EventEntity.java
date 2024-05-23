@@ -63,6 +63,9 @@ public class EventEntity {
     @Enumerated(EnumType.STRING)
     private EventType type;
 
+    @Column(nullable = false)
+    private boolean outside;
+
     private int numberOfAvailableSeats;
 
     @ManyToOne

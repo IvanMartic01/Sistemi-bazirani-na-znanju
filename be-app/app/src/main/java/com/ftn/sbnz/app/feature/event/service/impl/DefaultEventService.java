@@ -1,8 +1,10 @@
 package com.ftn.sbnz.app.feature.event.service.impl;
 
+import com.ftn.sbnz.app.core.country.service.CountryService;
 import com.ftn.sbnz.app.core.drools.KnowledgeSessionHelper;
 import com.ftn.sbnz.app.core.other.exception.StartDateIsAfterEndDateException;
 import com.ftn.sbnz.app.core.user.visitor.service.VisitorService;
+import com.ftn.sbnz.app.core.utils.drools_helper.WeatherBroadcastGenerator;
 import com.ftn.sbnz.app.feature.auth.service.AuthService;
 import com.ftn.sbnz.app.feature.event.dto.CreateUpdateEventRequestDto;
 import com.ftn.sbnz.app.feature.event.dto.EventPurchaseDto;
@@ -14,14 +16,16 @@ import com.ftn.sbnz.app.feature.event.mapper.EventPurchaseMapper;
 import com.ftn.sbnz.app.feature.event.repository.EventRepository;
 import com.ftn.sbnz.app.feature.event.service.EventPurchaseService;
 import com.ftn.sbnz.app.feature.event.service.EventService;
+import com.ftn.sbnz.model.core.CountryEntity;
 import com.ftn.sbnz.model.core.OrganizerEntity;
-import com.ftn.sbnz.model.core.RecommendedEvent;
+import com.ftn.sbnz.model.drools_helper.PrecipitationType;
+import com.ftn.sbnz.model.drools_helper.WeatherBroadcast;
+import com.ftn.sbnz.model.drools_helper.RecommendedEvent;
 import com.ftn.sbnz.model.core.visitor.VisitorEntity;
 import com.ftn.sbnz.model.event.EventPurchaseStatus;
 import com.ftn.sbnz.model.event.pojo.EventCapacityDiscount;
 import com.ftn.sbnz.model.event.EventEntity;
 import com.ftn.sbnz.model.event.EventPurchaseEntity;
-import com.ftn.sbnz.model.event.EventType;
 import com.ftn.sbnz.model.event.pojo.EventScaleUpPrice;
 import lombok.RequiredArgsConstructor;
 import org.drools.template.ObjectDataCompiler;
@@ -31,6 +35,7 @@ import org.kie.api.runtime.KieSession;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,9 +53,12 @@ public class DefaultEventService implements EventService {
     private final EventPurchaseService eventPurchaseService;
     private final VisitorService visitorService;
     private final AuthService authService;
+    private final CountryService countryService;
 
     private final EventMapper eventMapper;
     private final EventPurchaseMapper eventPurchaseMapper;
+
+    private final WeatherBroadcastGenerator weatherBroadcastGenerator;
 
     @Override
     public EventEntity save(EventEntity eventEntity) {
@@ -82,11 +90,8 @@ public class DefaultEventService implements EventService {
         OrganizerEntity organizer = authService.getOrganizerForCurrentSession();
 
         EventEntity eventToBeSaved = eventMapper.toEntity(dto, organizer);
-        try {
-            eventToBeSaved.setType(Enum.valueOf(EventType.class, dto.getType()));
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Invalid event type!");
-        }
+        CountryEntity country = countryService.getEntityById(UUID.fromString(dto.getCountryId()));
+        eventToBeSaved.setCountry(country);
         EventEntity savedEvent = eventRepository.save(eventToBeSaved);
         return eventMapper.toDto(savedEvent);
     }
@@ -99,6 +104,8 @@ public class DefaultEventService implements EventService {
         validateUpdate(eventToUpdate, organizer, dto);
 
         EventEntity updatedEvent = updateEvent(eventToUpdate, dto);
+        CountryEntity country = countryService.getEntityById(UUID.fromString(dto.getCountryId()));
+        updatedEvent.setCountry(country);
         eventRepository.save(updatedEvent);
         return eventMapper.toDto(updatedEvent);
     }
@@ -223,8 +230,19 @@ public class DefaultEventService implements EventService {
         kSession.fireAllRules();
         kSession.destroy();
 
+        // template 3 (seasonal changes discount)
+        KieContainer kieContainer2 = KnowledgeSessionHelper.createRuleBase();
+        KieSession kSession2 = KnowledgeSessionHelper.getStatefulKnowledgeSession(kieContainer2, "test-k-session-3");
+        WeatherBroadcast weatherBroadcast = weatherBroadcastGenerator.generateWeather(event.getStartDateTime().toLocalDate());
+        kSession2.insert(weatherBroadcast);
+        kSession2.insert(event);
+        kSession2.insert(eventPurchase);
+        kSession2.fireAllRules();
+        kSession2.destroy();
+
         return eventPurchase;
     }
+
 
     private static KieSession createKieSessionWithCompiledRulesForCapacityDiscount() {
         InputStream templateStream = DefaultEventService.class.getResourceAsStream("/template/event_capacity_discount.drt");

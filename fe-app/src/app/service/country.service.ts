@@ -13,7 +13,11 @@ export class CountryService {
     private http: HttpClient
   ) { }
 
-  public getAllCountries(): Observable<Array<CountryDto>> {
+  public getAll(): Observable<Array<CountryDto>> {
     return this.http.get<Array<CountryDto>>(`${environment.baseUrl}/country/all`);
+  }
+
+  public getById(id: string): Observable<CountryDto> {
+    return this.http.get<CountryDto>(`${environment.baseUrl}/country/${id}`);
   }
 }

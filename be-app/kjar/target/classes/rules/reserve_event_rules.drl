@@ -2,25 +2,22 @@ package reserve_event_rules
 
 import com.ftn.sbnz.model.event.EventEntity;
 import com.ftn.sbnz.model.event.EventPurchaseEntity;
-import com.ftn.sbnz.model.event.EventPurchaseStatus
+import com.ftn.sbnz.model.event.EventPurchaseStatus;
+import com.ftn.sbnz.model.event.EventType;
 
 import java.time.LocalDateTime;
-import com.ftn.sbnz.model.core.visitor.VisitorEntity
+import com.ftn.sbnz.model.core.visitor.VisitorEntity;
+import com.ftn.sbnz.model.drools_helper.WeatherBroadcast;
+import com.ftn.sbnz.model.drools_helper.PrecipitationType;
 import java.util.UUID;
 
 rule "create padding purchase"
     when
         $visitor : VisitorEntity()
-        $event : EventEntity(price < $visitor.money)
+        $event : EventEntity()
+        $purchase: EventPurchaseEntity(visitor == $visitor && event == $event, purchasePrice <= $visitor.getMoney() && status == EventPurchaseStatus.NOT_ENABLED)
     then
-        EventPurchaseEntity purchase = EventPurchaseEntity.builder()
-        .id(UUID.randomUUID())
-        .event($event)
-        .visitor($visitor)
-        .purchasePrice($event.getPrice())
-        .status(EventPurchaseStatus.UNPAID)
-        .build();
-        insert(purchase);
+        $purchase.setStatus(EventPurchaseStatus.UNPAID);
 end
 
 rule "apply discount"
@@ -44,4 +41,24 @@ rule "reserve event"
         event.getVisitors().add($purchase.getVisitor());
         VisitorEntity visitor = $purchase.getVisitor();
         visitor.setMoney(visitor.getMoney() - $purchase.getPurchasePrice());
+end
+
+rule "too hot discount"
+    salience 3
+    when
+        $purchase: EventPurchaseEntity(event.outside == true)
+        $weather: WeatherBroadcast(temperature > 30.0)
+    then
+        System.out.println("SEASONAL DISCOUNT");
+        $purchase.setPurchasePrice($purchase.getPurchasePrice() * 0.85);
+end
+
+rule "no snow discount"
+    salience 4
+    when
+        $purchase: EventPurchaseEntity(event.type == EventType.WINTER_FESTIVAL)
+        $weather: WeatherBroadcast(precipitation != PrecipitationType.SNOW)
+    then
+        System.out.println("SEASONAL DISCOUNT");
+        $purchase.setPurchasePrice($purchase.getPurchasePrice() * 0.80);
 end

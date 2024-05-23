@@ -28,7 +28,7 @@ export class LoginFormComponent implements OnInit {
   registerPassword: string = '';
   fullName: string = '';
 
-  selectedCountry: CountryDto = {} as CountryDto;
+  selectedCountryId: string = "";
 
   eventTypes: Array<String> = [
     "HIKING",
@@ -108,7 +108,7 @@ export class LoginFormComponent implements OnInit {
       email: this.registerEmail,
       password: this.registerPassword,
       name: this.fullName,
-      countryId: this.selectedCountry.id,
+      countryId: this.selectedCountryId,
       preferences: preferences
     };
     console.log(createVisitor);
@@ -131,9 +131,9 @@ export class LoginFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.countryService.getAllCountries().subscribe({
+    this.countryService.getAll().subscribe({
       next: response => {
-        this.selectedCountry = response[0];
+        this.selectedCountryId = response[0].id;
         this.countries = response;
       }, error: error => {
         if (error instanceof HttpErrorResponse) {

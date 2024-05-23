@@ -12,6 +12,8 @@ com\ftn\sbnz\model\core\AdminEntity$AdminEntityBuilderImpl.class
 com\ftn\sbnz\model\core\CountryEntity$CountryEntityBuilder.class
 com\ftn\sbnz\model\core\visitor\VisitorEventPreference.class
 com\ftn\sbnz\model\event\EventEntity$EventEntityBuilder.class
+com\ftn\sbnz\model\event\pojo\EventCapacityDiscount.class
+com\ftn\sbnz\model\event\pojo\EventScaleUpPrice.class
 com\ftn\sbnz\model\core\visitor\VisitorEntity.class
 com\ftn\sbnz\model\event\EventPurchaseEntity$EventPurchaseEntityBuilder.class
 com\ftn\sbnz\model\core\RecommendedEvent$RecommendedEventBuilder.class
