@@ -1,21 +1,22 @@
 template header
-    eventType
-    condition
-    discount
+    eventType;
+    maxTemperature;
+    minTemperature;
+    precipitationType;
+    discount;
 
 package com.example.pricing;
 import com.ftn.sbnz.model.event.EventPurchaseEntity;
 import com.ftn.sbnz.model.event.EventType;
 import com.ftn.sbnz.model.drools_helper.WeatherBroadcast;
-import com.ftn.sbnz.model.drools_helper.WeatherCondition;
 import com.ftn.sbnz.model.drools_helper.PrecipitationType;
 
 template "SeasonalDiscount"
 
-rule "Seasonal price adjustment for @{eventType} when @{condition}"
+rule "Seasonal price adjustment for @{eventType} when max temperature is @{maxTemperature} and min temperature is @{minTemperature} and precipitation is @{precipitationType}"
     when
         $purchase: EventPurchaseEntity(event.type == @{eventType})
-        $weather: WeatherBroadcast(getWeatherCondition() == @{condition})
+        $weather: WeatherBroadcast(temperature > @{minTemperature}, temperature < @{maxTemperature}, precipitation == @{precipitationType})
     then
         $purchase.setPurchasePrice($purchase.getPurchasePrice() * (1 - @{discount}));
 end

@@ -1,11 +1,14 @@
 package com.ftn.sbnz.app.feature.event.mapper;
 
 import com.ftn.sbnz.app.core.user.organizer.mapper.OrganizerMapper;
+import com.ftn.sbnz.app.feature.event.dto.CreateSpecialOfferRequestDto;
 import com.ftn.sbnz.app.feature.event.dto.CreateUpdateEventRequestDto;
 import com.ftn.sbnz.app.feature.event.dto.EventResponseDto;
 import com.ftn.sbnz.model.core.OrganizerEntity;
 import com.ftn.sbnz.model.event.EventEntity;
 import com.ftn.sbnz.model.event.EventType;
+import com.ftn.sbnz.model.event.SpecialOfferEntity;
+import com.ftn.sbnz.model.event.SpecialOfferType;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-05-24T20:42:50+0200",
+    date = "2024-05-24T21:55:33+0200",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.3 (Eclipse Adoptium)"
 )
 @Component
@@ -49,6 +52,7 @@ public class EventMapperImpl implements EventMapper {
             if ( dto.getType() != null ) {
                 eventEntity.type( Enum.valueOf( EventType.class, dto.getType() ) );
             }
+            eventEntity.specialOffer( createSpecialOfferRequestDtoToSpecialOfferEntity( dto.getSpecialOffer() ) );
         }
         if ( organizer != null ) {
             eventEntity.id( organizer.getId() );
@@ -101,5 +105,20 @@ public class EventMapperImpl implements EventMapper {
         }
 
         return collection;
+    }
+
+    protected SpecialOfferEntity createSpecialOfferRequestDtoToSpecialOfferEntity(CreateSpecialOfferRequestDto createSpecialOfferRequestDto) {
+        if ( createSpecialOfferRequestDto == null ) {
+            return null;
+        }
+
+        SpecialOfferEntity.SpecialOfferEntityBuilder specialOfferEntity = SpecialOfferEntity.builder();
+
+        specialOfferEntity.discount( createSpecialOfferRequestDto.getDiscount() );
+        if ( createSpecialOfferRequestDto.getType() != null ) {
+            specialOfferEntity.type( Enum.valueOf( SpecialOfferType.class, createSpecialOfferRequestDto.getType() ) );
+        }
+
+        return specialOfferEntity.build();
     }
 }

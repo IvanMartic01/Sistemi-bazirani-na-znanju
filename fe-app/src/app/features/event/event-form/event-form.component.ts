@@ -15,6 +15,7 @@ import {EventResponse} from "../model/event-response.model";
 import {CountryDto} from "../../../model/response/country-dto.model";
 import {CountryService} from "../../../service/country.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {CreateSpecialOfferRequest} from "../../../model/request/create-special-offer-request.model";
 
 @Component({
   selector: 'app-event-form',
@@ -131,6 +132,15 @@ export class EventFormComponent implements OnInit {
       return;
     }
 
+    let specialOffer: CreateSpecialOfferRequest | undefined = undefined;
+    if (this.specialOffer.type != this.specialOfferTypes[0]) {  // if it isn't NO_SPECIAL_OFFER
+      specialOffer = this.specialOffer;
+      if (specialOffer.discount <= 0 || specialOffer.discount >= 100) {
+        this.toastrService.error("Special offer discount must be between 0 and 100!");
+        return;
+      }
+    }
+
     let eventSaveUpdateRequest: CreateUpdateEventRequest = {
       name: this.eventName,
       startDateTime: this.startDateTime,
@@ -142,6 +152,7 @@ export class EventFormComponent implements OnInit {
       organizationPlan: this.organizationPlan,
       type: this.selectedEventType,
       countryId: this.selectedCountryId,
+      specialOffer: specialOffer
     };
     console.log(eventSaveUpdateRequest)
     this.button1ClickEmit.emit(eventSaveUpdateRequest);
@@ -173,11 +184,21 @@ export class EventFormComponent implements OnInit {
     "BALLOON_RIDE",
     "MICHELIN_STAR_RESTAURANT",
     "MULTIPLE_GENRE_CONCERT"
-  ]
+  ];
 
+
+  specialOfferTypes: Array<string> = [
+    "NO_SPECIAL_OFFER",
+    "FOR_LOCALS",
+  ];
+
+  specialOffer: CreateSpecialOfferRequest = {
+    discount: 0.0,
+    type: this.specialOfferTypes[0]
+  }
   selectedEventType: string = this.eventTypes[0];
 
-  formatPreference(preference: string) {
+  formatEnum(preference: string) {
     return preference.replaceAll("_", " ");
   }
 

@@ -1,4 +1,3 @@
-C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\model\src\main\java\com\ftn\sbnz\model\drools_helper\WeatherCondition.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\model\src\main\java\com\ftn\sbnz\model\event\EventType.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\model\src\main\java\com\ftn\sbnz\model\core\CountryEntity.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\model\src\main\java\com\ftn\sbnz\model\drools_helper\PrecipitationType.java
@@ -8,6 +7,7 @@ C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\mode
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\model\src\main\java\com\ftn\sbnz\model\core\UserEntity.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\model\src\main\java\com\ftn\sbnz\model\event\pojo\EventCapacityDiscount.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\model\src\main\java\com\ftn\sbnz\model\drools_helper\RecommendedEvent.java
+C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\model\src\main\java\com\ftn\sbnz\model\event\SpecialOfferType.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\model\src\main\java\com\ftn\sbnz\model\event\pojo\EventScaleUpPrice.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\model\src\main\java\com\ftn\sbnz\model\drools_helper\template_object\SeasonalDiscount.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\model\src\main\java\com\ftn\sbnz\model\core\OrganizerEntity.java
@@ -17,3 +17,4 @@ C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\mode
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\model\src\main\java\com\ftn\sbnz\model\core\Role.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\model\src\main\java\com\ftn\sbnz\model\event\EventEntity.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\model\src\main\java\com\ftn\sbnz\model\event\EventPurchaseEntity.java
+C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\model\src\main\java\com\ftn\sbnz\model\event\SpecialOfferEntity.java

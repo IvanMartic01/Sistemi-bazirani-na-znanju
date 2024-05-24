@@ -27,6 +27,7 @@ C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\web_security\WebSecurityConfig.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\feature\event\mapper\EventPurchaseMapper.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\core\user\abstract_user\exception\UserNotFoundException.java
+C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\feature\event\repository\SpecialOfferRepository.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\test\controller\TestController.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\core\country\db\CountryRepository.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\data_loader\country\CountryDataLoader.java
@@ -67,6 +68,7 @@ C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\AppApplication.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\core\user\organizer\OrganizerResponseDto.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\feature\event\service\EventPurchaseService.java
+C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\feature\event\dto\CreateSpecialOfferRequestDto.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\feature\event\exception\EventNotFoundException.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\core\user\visitor\service\impl\DefaultVisitorService.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\web_security\WebRequestConfig.java

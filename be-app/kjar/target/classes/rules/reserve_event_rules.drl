@@ -4,6 +4,8 @@ import com.ftn.sbnz.model.event.EventEntity;
 import com.ftn.sbnz.model.event.EventPurchaseEntity;
 import com.ftn.sbnz.model.event.EventPurchaseStatus;
 import com.ftn.sbnz.model.event.EventType;
+import com.ftn.sbnz.model.event.SpecialOfferType;
+import com.ftn.sbnz.model.event.SpecialOfferEntity;
 
 import java.time.LocalDateTime;
 import com.ftn.sbnz.model.core.visitor.VisitorEntity;
@@ -41,4 +43,14 @@ rule "reserve event"
         event.getVisitors().add($purchase.getVisitor());
         VisitorEntity visitor = $purchase.getVisitor();
         visitor.setMoney(visitor.getMoney() - $purchase.getPurchasePrice());
+end
+
+rule "local event notification"
+    when
+        $visitor: VisitorEntity()
+        $purchase: EventPurchaseEntity(event.country.equals($visitor.country), event.specialOffer != null, event.specialOffer.type == SpecialOfferType.FOR_LOCALS)
+    then
+        System.out.println("APPLY LOCAL DISCOUNT");
+        // TODO: Notify user about discount
+        $purchase.setPurchasePrice($purchase.getPurchasePrice() * (1 - $purchase.getEvent().getSpecialOffer().getDiscount()));
 end

@@ -94,7 +94,7 @@
       <div *ngIf="!isFormReadOnly" >
         <label for="eventType">Select event type</label>
         <select id="eventType" name="eventType" [(ngModel)]="selectedEventType" style="padding: 10px; border-radius: 10px; width: 100%">
-          <option *ngFor="let type of eventTypes" [value]="type">{{ formatPreference(type) }}</option>
+          <option *ngFor="let type of eventTypes" [value]="type">{{ formatEnum(type) }}</option>
         </select>
       </div>
       <div style="margin: 20px 0">
@@ -102,6 +102,27 @@
         <select [(ngModel)]="selectedCountryId" name="countries" id="countries" style="width: 100%; padding: 10px; border-radius: 10px" [disabled]="isFormReadOnly">
           <option *ngFor="let country of countries" [value]="country.id">{{ country.city }}, {{ country.name }}</option>
         </select>
+      </div>
+    </div>
+    <div style="width: 90%; margin: auto" *ngIf="!isFormReadOnly">
+      <label for="specialOffer" style="margin-top: 20px"><b>Special offer</b></label>
+      <div id="specialOffer" style="width: 90%; margin: auto">
+        <div style="margin: 10px 0;">
+          <label for="specialOfferTypes" style="margin-bottom: 10px;">Type</label>
+          <select [(ngModel)]="specialOffer.type" name="specialOfferTypes" id="specialOfferTypes" style="width: 100%; padding: 10px; border-radius: 10px" [disabled]="isFormReadOnly">
+            <option *ngFor="let specialOfferType of specialOfferTypes" [value]="specialOfferType">{{ formatEnum(specialOfferType) }}</option>
+          </select>
+        </div>
+        <div style="margin: 10px 0;" *ngIf="specialOffer.type != specialOfferTypes[0]">
+          <label for="specialOfferDiscount" style="">Discount</label>
+          <input
+            id="specialOfferDiscount"
+            name="specialOfferDiscount"
+            [(ngModel)]="specialOffer.discount"
+            placeholder="Special offer discount"
+            type="number"
+          />
+        </div>
       </div>
     </div>
     <div >
