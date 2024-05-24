@@ -6,6 +6,7 @@ import com.ftn.sbnz.app.core.other.exception.StartDateIsAfterEndDateException;
 import com.ftn.sbnz.app.core.user.visitor.service.VisitorService;
 import com.ftn.sbnz.app.core.utils.drools_helper.WeatherBroadcastGenerator;
 import com.ftn.sbnz.app.feature.auth.service.AuthService;
+import com.ftn.sbnz.app.feature.event.dto.CreateSpecialOfferRequestDto;
 import com.ftn.sbnz.app.feature.event.dto.CreateUpdateEventRequestDto;
 import com.ftn.sbnz.app.feature.event.dto.EventPurchaseDto;
 import com.ftn.sbnz.app.feature.event.dto.EventResponseDto;
@@ -22,10 +23,9 @@ import com.ftn.sbnz.model.drools_helper.PrecipitationType;
 import com.ftn.sbnz.model.drools_helper.WeatherBroadcast;
 import com.ftn.sbnz.model.drools_helper.RecommendedEvent;
 import com.ftn.sbnz.model.core.visitor.VisitorEntity;
-import com.ftn.sbnz.model.event.EventPurchaseStatus;
+import com.ftn.sbnz.model.drools_helper.template_object.SeasonalDiscount;
+import com.ftn.sbnz.model.event.*;
 import com.ftn.sbnz.model.event.pojo.EventCapacityDiscount;
-import com.ftn.sbnz.model.event.EventEntity;
-import com.ftn.sbnz.model.event.EventPurchaseEntity;
 import com.ftn.sbnz.model.event.pojo.EventScaleUpPrice;
 import lombok.RequiredArgsConstructor;
 import org.drools.template.ObjectDataCompiler;
@@ -35,7 +35,6 @@ import org.kie.api.runtime.KieSession;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -92,6 +91,18 @@ public class DefaultEventService implements EventService {
         EventEntity eventToBeSaved = eventMapper.toEntity(dto, organizer);
         CountryEntity country = countryService.getEntityById(UUID.fromString(dto.getCountryId()));
         eventToBeSaved.setCountry(country);
+
+        // Adding special offer if there is one
+        if (dto.getSpecialOffer() != null) {
+            CreateSpecialOfferRequestDto specialOffer = dto.getSpecialOffer();
+            double specialOfferDiscount = specialOffer.getDiscount();
+            SpecialOfferType specialOfferType = Enum.valueOf(SpecialOfferType.class, specialOffer.getType());
+            eventToBeSaved.setSpecialOffer(SpecialOfferEntity.builder()
+                    .discount(specialOfferDiscount)
+                    .type(specialOfferType)
+                    .build());
+        }
+
         EventEntity savedEvent = eventRepository.save(eventToBeSaved);
         return eventMapper.toDto(savedEvent);
     }
@@ -106,7 +117,17 @@ public class DefaultEventService implements EventService {
         EventEntity updatedEvent = updateEvent(eventToUpdate, dto);
         CountryEntity country = countryService.getEntityById(UUID.fromString(dto.getCountryId()));
         updatedEvent.setCountry(country);
-        eventRepository.save(updatedEvent);
+
+        // Updating special offer if there is one
+        if (dto.getSpecialOffer() != null) {
+            CreateSpecialOfferRequestDto specialOffer = dto.getSpecialOffer();
+            double specialOfferDiscount = specialOffer.getDiscount();
+            SpecialOfferType specialOfferType = Enum.valueOf(SpecialOfferType.class, specialOffer.getType());
+            updatedEvent.getSpecialOffer().setDiscount(specialOfferDiscount);
+            updatedEvent.getSpecialOffer().setType(specialOfferType);
+        }
+
+        updatedEvent = eventRepository.save(updatedEvent);
         return eventMapper.toDto(updatedEvent);
     }
 
@@ -231,14 +252,13 @@ public class DefaultEventService implements EventService {
         kSession.destroy();
 
         // template 3 (seasonal changes discount)
-        KieContainer kieContainer2 = KnowledgeSessionHelper.createRuleBase();
-        KieSession kSession2 = KnowledgeSessionHelper.getStatefulKnowledgeSession(kieContainer2, "test-k-session-3");
+        KieSession seasonalDiscountKieSession = createKieSessionWithCompiledRulesForSeasonalDiscount();
         WeatherBroadcast weatherBroadcast = weatherBroadcastGenerator.generateWeather(event.getStartDateTime().toLocalDate());
-        kSession2.insert(weatherBroadcast);
-        kSession2.insert(event);
-        kSession2.insert(eventPurchase);
-        kSession2.fireAllRules();
-        kSession2.destroy();
+        seasonalDiscountKieSession.insert(weatherBroadcast);
+        seasonalDiscountKieSession.insert(event);
+        seasonalDiscountKieSession.insert(eventPurchase);
+        seasonalDiscountKieSession.fireAllRules();
+        seasonalDiscountKieSession.destroy();
 
         return eventPurchase;
     }
@@ -247,7 +267,7 @@ public class DefaultEventService implements EventService {
     private static KieSession createKieSessionWithCompiledRulesForCapacityDiscount() {
         InputStream templateStream = DefaultEventService.class.getResourceAsStream("/template/event_capacity_discount.drt");
 
-        List<EventCapacityDiscount> data = new ArrayList();
+        List<EventCapacityDiscount> data = new ArrayList<>();
         data.add(new EventCapacityDiscount(0, 100, 0.0));
         data.add(new EventCapacityDiscount(100, 1000, 0.10));
         data.add(new EventCapacityDiscount(1000, Integer.MAX_VALUE, 0.20));
@@ -261,10 +281,35 @@ public class DefaultEventService implements EventService {
     private static KieSession createKieSessionWithCompiledRulesForCapacityScaleUp() {
         InputStream templateStream = DefaultEventService.class.getResourceAsStream("/template/event_capacity_scale_up_price.drt");
 
-        List<EventScaleUpPrice> data = new ArrayList();
+        List<EventScaleUpPrice> data = new ArrayList<>();
         data.add(new EventScaleUpPrice(-0.1, 0.8, 0.10));
         data.add(new EventScaleUpPrice(0.8, 0.9, 0.20));
         data.add(new EventScaleUpPrice(0.9, 1.0, 0.30));
+
+        ObjectDataCompiler compiler = new ObjectDataCompiler();
+        String drl = compiler.compile(data, templateStream);
+
+        return createKieSessionFromDRL(drl);
+    }
+
+    private static KieSession createKieSessionWithCompiledRulesForSeasonalDiscount() {
+        InputStream templateStream = DefaultEventService.class.getResourceAsStream("/template/event_seasonal_discount.drt");
+
+        List<SeasonalDiscount> data = new ArrayList<>();
+
+        // outdoor events
+        data.add(new SeasonalDiscount(EventType.HIKING, Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING, 0.15));
+        data.add(new SeasonalDiscount(EventType.CYCLING, Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING, 0.15));
+        data.add(new SeasonalDiscount(EventType.PICNIC, Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING, 0.15));
+        data.add(new SeasonalDiscount(EventType.ZOO_VISIT, Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING, 0.15));
+        data.add(new SeasonalDiscount(EventType.THEME_PARK_VISIT, Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING, 0.15));
+        data.add(new SeasonalDiscount(EventType.FOOTBALL_MATCH, Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING, 0.15));
+        data.add(new SeasonalDiscount(EventType.PARAGLIDING, Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING, 0.15));
+        data.add(new SeasonalDiscount(EventType.BALLOON_RIDE, Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING, 0.15));
+
+        // no snow
+        data.add(new SeasonalDiscount(EventType.WINTER_FESTIVAL, Double.MAX_VALUE, Double.MIN_VALUE, PrecipitationType.NOTHING, 0.2));
+        data.add(new SeasonalDiscount(EventType.WINTER_FESTIVAL, Double.MAX_VALUE, Double.MIN_VALUE, PrecipitationType.RAIN, 0.2));
 
         ObjectDataCompiler compiler = new ObjectDataCompiler();
         String drl = compiler.compile(data, templateStream);

@@ -39,7 +39,6 @@ export class EventFormComponent implements OnInit {
   shortDescription: string | null = null;
   detailedDescription: string | null = null;
   organizationPlan: string | null = null;
-  isEventOutside: boolean = false;
   countries: Array<CountryDto> = [];
   selectedCountryId: string = "";
 
@@ -83,7 +82,6 @@ export class EventFormComponent implements OnInit {
         this.detailedDescription = event.detailedDescription;
         this.organizationPlan = event.organizationPlan;
         this.selectedEventType = event.type;
-        this.isEventOutside = event.outside;
 
         this.countryService.getById(event.countryId).subscribe({
           next: response => {
@@ -143,7 +141,6 @@ export class EventFormComponent implements OnInit {
       detailedDescription: this.detailedDescription,
       organizationPlan: this.organizationPlan,
       type: this.selectedEventType,
-      outside: this.isEventOutside,
       countryId: this.selectedCountryId,
     };
     console.log(eventSaveUpdateRequest)

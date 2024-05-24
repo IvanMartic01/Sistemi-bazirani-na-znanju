@@ -15,4 +15,5 @@ public class WeatherBroadcast {
     private double temperature;
     private LocalDate date;
     private PrecipitationType precipitation;
+
 }

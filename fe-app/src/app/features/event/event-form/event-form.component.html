@@ -103,11 +103,6 @@
           <option *ngFor="let country of countries" [value]="country.id">{{ country.city }}, {{ country.name }}</option>
         </select>
       </div>
-      <div style="margin: 20px 0" *ngIf="!isFormReadOnly">
-        <label for="isOutside">Outside event?</label>
-        <input name="isOutside" id="isOutside" type="checkbox" [(ngModel)]="isEventOutside"/>
-      </div>
-      <p *ngIf="isFormReadOnly">{{ isEventOutside ? "This is an outside event" : "This is an indoor event" }}</p>
     </div>
     <div >
       <button

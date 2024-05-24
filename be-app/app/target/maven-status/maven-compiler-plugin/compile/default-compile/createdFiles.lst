@@ -44,6 +44,7 @@ com\ftn\sbnz\app\core\country\service\impl\DefaultCountryService.class
 com\ftn\sbnz\app\data_loader\user\UserDataLoader.class
 com\ftn\sbnz\app\feature\event\controller\EventController.class
 com\ftn\sbnz\app\data_loader\user\UserDataConstants.class
+com\ftn\sbnz\app\core\utils\drools_helper\WeatherBroadcastGenerator.class
 com\ftn\sbnz\app\core\country\CountryDto.class
 com\ftn\sbnz\app\core\user\admin\db\AdminRepository.class
 com\ftn\sbnz\app\test\service\TestService.class
@@ -62,6 +63,7 @@ com\ftn\sbnz\app\feature\event\service\impl\DefaultEventService.class
 com\ftn\sbnz\app\data_loader\country\CountryDataLoaderController.class
 com\ftn\sbnz\app\web_security\WebRequestConfig.class
 com\ftn\sbnz\app\core\user\visitor\VisitorMapperImpl.class
+com\ftn\sbnz\app\core\utils\drools_helper\WeatherBroadcastGenerator$1.class
 com\ftn\sbnz\app\data_loader\user\UserDataLoaderController.class
 com\ftn\sbnz\app\web_security\WebSecurityConfig.class
 com\ftn\sbnz\app\data_loader\country\CountryDataLoader.class

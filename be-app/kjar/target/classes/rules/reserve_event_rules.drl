@@ -42,23 +42,3 @@ rule "reserve event"
         VisitorEntity visitor = $purchase.getVisitor();
         visitor.setMoney(visitor.getMoney() - $purchase.getPurchasePrice());
 end
-
-rule "too hot discount"
-    salience 3
-    when
-        $purchase: EventPurchaseEntity(event.outside == true)
-        $weather: WeatherBroadcast(temperature > 30.0)
-    then
-        System.out.println("SEASONAL DISCOUNT");
-        $purchase.setPurchasePrice($purchase.getPurchasePrice() * 0.85);
-end
-
-rule "no snow discount"
-    salience 4
-    when
-        $purchase: EventPurchaseEntity(event.type == EventType.WINTER_FESTIVAL)
-        $weather: WeatherBroadcast(precipitation != PrecipitationType.SNOW)
-    then
-        System.out.println("SEASONAL DISCOUNT");
-        $purchase.setPurchasePrice($purchase.getPurchasePrice() * 0.80);
-end

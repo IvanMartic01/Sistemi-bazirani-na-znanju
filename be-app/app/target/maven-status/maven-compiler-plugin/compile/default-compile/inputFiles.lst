@@ -5,6 +5,7 @@ C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\core\user\visitor\VisitorResponseDto.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\feature\auth\dto\login\UserCredentialsDto.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\feature\auth\exception\PasswordMismatchException.java
+C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\core\utils\drools_helper\WeatherBroadcastGenerator.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\feature\auth\controller\AuthController.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\core\country\controller\CountryController.java
 C:\Users\ivand\Desktop\Faks\Projekti\SBNZ\Sistemi-bazirani-na-znanju\be-app\app\src\main\java\com\ftn\sbnz\app\web_security\user_details\UserDetailsServiceImpl.java
