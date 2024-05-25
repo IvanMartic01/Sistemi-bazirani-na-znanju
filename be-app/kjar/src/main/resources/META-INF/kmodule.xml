@@ -12,4 +12,8 @@
     <kbase name="reserve_events" packages="reserve_event_rules">
         <ksession name="test-k-session-3"/>
     </kbase>
+
+    <kbase name="cep" packages="cep_rules">
+        <ksession name="cep-session"/>
+    </kbase>
 </kmodule>

@@ -6,6 +6,7 @@ import com.ftn.sbnz.model.event.EventPurchaseEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,6 +24,16 @@ public class DefaultEventPurchaseService implements EventPurchaseService {
     @Override
     public Optional<EventPurchaseEntity> getEventPurchaseByEventIdAndVisitorId(UUID eventId, UUID visitorId) {
         return eventPurchaseRepository.findByEventIdAndVisitorId(eventId, visitorId);
+    }
+
+    @Override
+    public Collection<EventPurchaseEntity> getEventPurchaseByEventId(UUID eventId) {
+        return eventPurchaseRepository.findByEventId(eventId);
+    }
+
+    @Override
+    public void deleteAllInBatch(Collection<EventPurchaseEntity> purchases) {
+        eventPurchaseRepository.deleteAllInBatch(purchases);
     }
 
     @Override

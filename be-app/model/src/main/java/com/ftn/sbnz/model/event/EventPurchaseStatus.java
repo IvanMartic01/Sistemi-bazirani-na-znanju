@@ -5,4 +5,5 @@ public enum EventPurchaseStatus {
     PAID,
     UNPAID,
     NOT_ENABLED,
+    CANCELLED,
 }

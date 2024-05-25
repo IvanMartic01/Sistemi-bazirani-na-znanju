@@ -36,4 +36,8 @@ public interface EventService {
 
     Collection<EventResponseDto> getRecommendedEvents();
 
+    void sendPromotionMail(EventEntity event);
+
+    void cancelEvent(UUID id);
+
 }

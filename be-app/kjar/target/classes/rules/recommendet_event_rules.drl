@@ -8,48 +8,62 @@ import com.ftn.sbnz.model.core.visitor.VisitorEventPreference;
 
 import com.ftn.sbnz.model.drools_helper.RecommendedEvent;
 
-
 import java.util.List;
+import java.util.Collection;
+
+global Collection<EventEntity> filteredEvents;
 
 
 rule "outdoor_events"
     when
         $visitor : VisitorEntity(preferences contains VisitorEventPreference.OUTDOOR_EVENTS)
-        $event : RecommendedEvent(event.type == EventType.HIKING || event.type == EventType.CYCLING || event.type == EventType.PICNIC)
+//        $event : RecommendedEvent(event.type == EventType.HIKING || event.type == EventType.CYCLING || event.type == EventType.PICNIC)
+        $event : EventEntity(type in (EventType.HIKING, EventType.CYCLING, EventType.PICNIC))
     then
-        $event.setRecommended(true);
+//        $event.setRecommended(true);
+        filteredEvents.add($event);
+
 end
 
 rule "culture_events"
     when
         $visitor : VisitorEntity(preferences contains VisitorEventPreference.CULTURAL_EVENTS)
-        $event : RecommendedEvent(event.type == EventType.MUSEUM_VISIT || event.type == EventType.GALLERY_VISIT || event.type == EventType.CONCERT)
+//        $event : RecommendedEvent(event.type == EventType.MUSEUM_VISIT || event.type == EventType.GALLERY_VISIT || event.type == EventType.CONCERT)
+        $event : EventEntity(type in (EventType.MUSEUM_VISIT, EventType.GALLERY_VISIT, EventType.CONCERT))
     then
-        $event.setRecommended(true);
+//        $event.setRecommended(true);
+        filteredEvents.add($event);
+
 end
 
 rule "family_events"
     when
         $visitor : VisitorEntity(preferences contains VisitorEventPreference.FAMILY_EVENTS)
-        $event : RecommendedEvent(event.type == EventType.ZOO_VISIT || event.type == EventType.AQUARIUM_VISIT || event.type == EventType.THEME_PARK_VISIT)
+//        $event : RecommendedEvent(event.type == EventType.ZOO_VISIT || event.type == EventType.AQUARIUM_VISIT || event.type == EventType.THEME_PARK_VISIT)
+        $event : EventEntity(type in (EventType.ZOO_VISIT, EventType.AQUARIUM_VISIT, EventType.THEME_PARK_VISIT))
     then
-        $event.setRecommended(true);
+//        $event.setRecommended(true);
+        filteredEvents.add($event);
 end
 
 rule "sporting_events"
     when
         $visitor : VisitorEntity(preferences contains VisitorEventPreference.SPORTING_EVENTS)
-        $event : RecommendedEvent(event.type == EventType.BASKETBALL_GAME || event.type == EventType.FOOTBALL_MATCH || event.type == EventType.BOXING_MATCH)
+//        $event : RecommendedEvent(event.type == EventType.BASKETBALL_GAME || event.type == EventType.FOOTBALL_MATCH || event.type == EventType.BOXING_MATCH)
+        $event : EventEntity(type in (EventType.BASKETBALL_GAME, EventType.FOOTBALL_MATCH, EventType.BOXING_MATCH))
     then
-        $event.setRecommended(true);
+//        $event.setRecommended(true);
+        filteredEvents.add($event);
 end
 
 rule "relaxing_events"
     when
         $visitor : VisitorEntity(preferences contains VisitorEventPreference.RELAXING_EVENTS)
-        $event : RecommendedEvent(event.type == EventType.WELLNESS_CENTER || event.type == EventType.SPA_TREATMENT || event.type == EventType.SPA_VISIT)
+//        $event : RecommendedEvent(event.type == EventType.WELLNESS_CENTER || event.type == EventType.SPA_TREATMENT || event.type == EventType.SPA_VISIT)
+        $event : EventEntity(type in (EventType.WELLNESS_CENTER, EventType.SPA_TREATMENT, EventType.SPA_VISIT))
     then
-        $event.setRecommended(true);
+//        $event.setRecommended(true);
+        filteredEvents.add($event);
 end
 
 //=======
@@ -57,41 +71,51 @@ end
 rule "local_events"
     when
         $visitor : VisitorEntity()
-        $event : RecommendedEvent(event.country.equals($visitor.country))
+//        $event : RecommendedEvent(event.country.equals($visitor.country))
+        $event : EventEntity(country.equals($visitor.country))
     then
-        $event.setRecommended(true);
+//        $event.setRecommended(true);
+        filteredEvents.add($event);
 end
 
 rule "artistic_events"
     when
         $visitor : VisitorEntity(preferences contains VisitorEventPreference.ARTISTIC_EVENTS)
-        $event : RecommendedEvent(event.type == EventType.ART_WORKSHOP || event.type == EventType.ART_LECTURE)
+//        $event : RecommendedEvent(event.type == EventType.ART_WORKSHOP || event.type == EventType.ART_LECTURE)
+        $event : EventEntity(type in (EventType.ART_WORKSHOP, EventType.ART_LECTURE))
     then
-        $event.setRecommended(true);
+//        $event.setRecommended(true);
+        filteredEvents.add($event);
 end
 
 rule "adventure_events"
     when
         $visitor : VisitorEntity(preferences contains VisitorEventPreference.ADVENTURE_EVENTS)
-        $event : RecommendedEvent(event.type == EventType.BALLOON_RIDE || event.type == EventType.PARAGLIDING)
+//        $event : RecommendedEvent(event.type == EventType.BALLOON_RIDE || event.type == EventType.PARAGLIDING)
+        $event : EventEntity(type in (EventType.BALLOON_RIDE, EventType.PARAGLIDING))
     then
-        $event.setRecommended(true);
+//        $event.setRecommended(true);
+        filteredEvents.add($event);
 end
 
 rule "exotic_events"
     when
         $visitor : VisitorEntity(preferences contains VisitorEventPreference.EXOTIC_EVENTS)
-        $event : RecommendedEvent(event.type == EventType.MICHELIN_STAR_RESTAURANT)
+//        $event : RecommendedEvent(event.type == EventType.MICHELIN_STAR_RESTAURANT)
+        $event : EventEntity(type in (EventType.MICHELIN_STAR_RESTAURANT))
     then
-        $event.setRecommended(true);
+//        $event.setRecommended(true);
+        filteredEvents.add($event);
 end
 
 rule "music_multicultural_events"
     when
         $visitor : VisitorEntity(preferences contains VisitorEventPreference.MUSIC_EVENTS)
-        $event : RecommendedEvent(event.type == EventType.MULTIPLE_GENRE_CONCERT || event.type == EventType.CONCERT)
+//        $event : RecommendedEvent(event.type == EventType.MULTIPLE_GENRE_CONCERT || event.type == EventType.CONCERT)
+        $event : EventEntity(type in (EventType.MULTIPLE_GENRE_CONCERT, EventType.CONCERT))
     then
-        $event.setRecommended(true);
+//        $event.setRecommended(true);
+        filteredEvents.add($event);
 end
 
 

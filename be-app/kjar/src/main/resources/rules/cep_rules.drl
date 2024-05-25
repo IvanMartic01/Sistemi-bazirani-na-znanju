@@ -1,0 +1,95 @@
+package cep_rules;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import com.ftn.sbnz.model.core.visitor.VisitorEntity;
+import com.ftn.sbnz.model.core.OrganizerEntity;
+import com.ftn.sbnz.model.event.EventEntity;
+import com.ftn.sbnz.model.event.EventPurchaseEntity;
+import com.ftn.sbnz.model.event.EventPurchaseStatus;
+import com.ftn.sbnz.model.event.EventAlterationLogEntity;
+import com.ftn.sbnz.model.event.EventType;
+
+global LocalDateTime now;
+
+rule "Cancel event"
+when
+    // Uslov 1: Dogadjaj još nije poceo
+    $event : EventEntity(startDateTime.isAfter(now))
+
+    // Uslov 2: Kupljeno više od 50% karata u poslednjih 1h i broj posetilaca je manji od 2000
+    $totalPurchased: Number() from accumulate(
+        $purchase: EventPurchaseEntity(event.id == $event.id),
+        count($purchase)
+    )
+    $lastHourPurchase: Number() from accumulate(
+        $purchase: EventPurchaseEntity(event.id == $event.id, purchaseTime.isAfter(now.minusHours(1))),
+        count($purchase)
+    )
+    eval($totalPurchased.doubleValue() * 0.5 < $lastHourPurchase.doubleValue() && $totalPurchased < 2000)
+
+    // Uslov 3: Otkazano vise od 20% karata u poslednjih 1h
+    $totalCancelled : Number() from accumulate(
+        $cancelledPurchase: EventPurchaseEntity(event.id == $event.id, cancellationTime.isAfter(now.minusHours(1))),
+        count($totalCancelled)
+    )
+    eval($totalCancelled.doubleValue() > $totalPurchased.doubleValue() * 0.2)
+
+    // Uslov 4: Izmenjen event 5 puta u poslednja 3 dana
+    $modificationCount : Number() from accumulate(
+        $alteration: EventAlterationLogEntity(event.id == $event.id, alterDate.isAfter(now.minusDays(3))),
+        count($alteration)
+    )
+    eval($modificationCount.intValue() >= 5)
+then
+    // TODO: Izbrisi sve EventPurchaseEntity objekte i taj EventEntity
+    // TODO: Posalji mejl korisnicima da je otkazan event (ali im nemoj vratiti pare)
+end
+
+rule "Promote event via email"
+when
+    // Uslov 3: Dogadjaj zahtijeva promociju
+    $event : EventEntity(type in (EventType.WINTER_FESTIVAL, EventType.CONCERT, EventType.MULTIPLE_GENRE_CONCERT), startDateTime.isBefore(now))
+    $totalPurchased: Number() from accumulate(
+        $purchase: EventPurchaseEntity(event.id == $event.id),
+        count($purchase)
+    )
+
+    // Uslov 1: Broj karata prodatih u zadnjih sat vremena je 70% ili vise
+    $lastHourPurchase : Number() from accumulate(
+        $purchase: EventPurchaseEntity(event.id == $event.id, purchaseTime.isAfter(now.minusHours(1))),
+        count($purchase)
+    )
+    eval($lastHourPurchase.doubleValue() > $totalPurchased.doubleValue() * 0.7)
+
+    // Uslov 2: Broj otkazanih karata u posljednjih 24h je manji od 10%
+    $totalCancelled : Number() from accumulate(
+        $purchase: EventPurchaseEntity(event.id == $event.id, cancellationTime.isAfter(now.minusDays(1))),
+        count($purchase)
+    )
+    eval($totalCancelled.doubleValue() < $totalPurchased.doubleValue() * 0.1)
+then
+    // TODO: Posalji promotivni mejl korisnicima
+end
+
+rule "Promote event with high attendance"
+when
+    $event: EventEntity(
+        visitors.size() > 100,
+        endDateTime.isAfter(now.minusDays(7)),
+        endDateTime.isBefore(now),
+        endDateTime.getHour() >= 18,
+        endDateTime.getHour() <= 22
+    )
+    $avgVisitorCount: Number() from accumulate(
+        $event2: EventEntity(
+            type == $event.type,
+            endDateTime.isAfter(now.minusDays(30)),
+            endDateTime.isBefore(now)
+        ),
+        average($event2.visitors.size())
+    )
+then
+    // TODO: Pokrenuti promociju putem e-mailova
+end

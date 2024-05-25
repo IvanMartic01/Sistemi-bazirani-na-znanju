@@ -4,6 +4,7 @@ import com.ftn.sbnz.model.core.visitor.VisitorEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -27,4 +28,10 @@ public class EventPurchaseEntity {
     private EventPurchaseStatus status;
 
     private Double purchasePrice;
+
+    @Column(nullable = false)
+    private LocalDateTime purchaseTime;
+
+    @Column(nullable = true)
+    private LocalDateTime cancellationTime;
 }

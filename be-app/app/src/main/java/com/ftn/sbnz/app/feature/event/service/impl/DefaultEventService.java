@@ -6,7 +6,6 @@ import com.ftn.sbnz.app.core.other.exception.StartDateIsAfterEndDateException;
 import com.ftn.sbnz.app.core.user.visitor.service.VisitorService;
 import com.ftn.sbnz.app.core.utils.drools_helper.WeatherBroadcastGenerator;
 import com.ftn.sbnz.app.feature.auth.service.AuthService;
-import com.ftn.sbnz.app.feature.event.dto.CreateSpecialOfferRequestDto;
 import com.ftn.sbnz.app.feature.event.dto.CreateUpdateEventRequestDto;
 import com.ftn.sbnz.app.feature.event.dto.EventPurchaseDto;
 import com.ftn.sbnz.app.feature.event.dto.EventResponseDto;
@@ -15,7 +14,7 @@ import com.ftn.sbnz.app.feature.event.exception.EventNotFoundException;
 import com.ftn.sbnz.app.feature.event.mapper.EventMapper;
 import com.ftn.sbnz.app.feature.event.mapper.EventPurchaseMapper;
 import com.ftn.sbnz.app.feature.event.repository.EventRepository;
-import com.ftn.sbnz.app.feature.event.repository.SpecialOfferRepository;
+import com.ftn.sbnz.app.feature.event.service.EventAlterationLogService;
 import com.ftn.sbnz.app.feature.event.service.EventPurchaseService;
 import com.ftn.sbnz.app.feature.event.service.EventService;
 import com.ftn.sbnz.app.feature.event.service.SpecialOfferService;
@@ -23,7 +22,6 @@ import com.ftn.sbnz.model.core.CountryEntity;
 import com.ftn.sbnz.model.core.OrganizerEntity;
 import com.ftn.sbnz.model.drools_helper.PrecipitationType;
 import com.ftn.sbnz.model.drools_helper.WeatherBroadcast;
-import com.ftn.sbnz.model.drools_helper.RecommendedEvent;
 import com.ftn.sbnz.model.core.visitor.VisitorEntity;
 import com.ftn.sbnz.model.drools_helper.template_object.SeasonalDiscount;
 import com.ftn.sbnz.model.event.*;
@@ -31,17 +29,13 @@ import com.ftn.sbnz.model.event.pojo.EventCapacityDiscount;
 import com.ftn.sbnz.model.event.pojo.EventScaleUpPrice;
 import lombok.RequiredArgsConstructor;
 import org.drools.template.ObjectDataCompiler;
-import org.kie.api.runtime.ClassObjectFilter;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static com.ftn.sbnz.app.core.drools.KnowledgeSessionHelper.createKieSessionFromDRL;
 
@@ -56,6 +50,7 @@ public class DefaultEventService implements EventService {
     private final AuthService authService;
     private final CountryService countryService;
     private final SpecialOfferService specialOfferService;
+    private final EventAlterationLogService eventAlterationLogService;
 
     private final EventMapper eventMapper;
     private final EventPurchaseMapper eventPurchaseMapper;
@@ -124,6 +119,11 @@ public class DefaultEventService implements EventService {
         }
 
         updatedEvent = eventRepository.save(updatedEvent);
+        eventAlterationLogService.saveAndGetEntity(EventAlterationLogEntity.builder()
+                .event(updatedEvent)
+                .alterDate(LocalDateTime.now())
+                .organizer(organizer)
+                .build());
         return eventMapper.toDto(updatedEvent);
     }
 
@@ -217,6 +217,7 @@ public class DefaultEventService implements EventService {
                 .visitor(visitor)
                 .status(EventPurchaseStatus.NOT_ENABLED)
                 .purchasePrice(event.getPrice())
+                .purchaseTime(LocalDateTime.now())
                 .build();
 
         // template 1 (event capacity discount)
@@ -467,24 +468,17 @@ public class DefaultEventService implements EventService {
     public Collection<EventResponseDto> getRecommendedEvents() {
         VisitorEntity visitor = authService.getVisitorForCurrentSession();
         Collection<EventEntity> availableEvents = getAllAvailableEvents(visitor);
-        Collection<RecommendedEvent> events = availableEvents.stream()
-                .map(event -> new RecommendedEvent(event, false))
-                .toList();
+        Collection<EventEntity> filteredEvents = new HashSet<>();
 
         KieContainer kieContainer = KnowledgeSessionHelper.createRuleBase();
         KieSession kSession = KnowledgeSessionHelper.getStatefulKnowledgeSession(kieContainer, "test-k-session-2"); // TODO promeniti
+        kSession.setGlobal("filteredEvents", filteredEvents);
 
         kSession.insert(visitor);
-        for (RecommendedEvent event : events) {
+        for (EventEntity event : availableEvents) {
             kSession.insert(event);
         }
         kSession.fireAllRules();
-
-        Collection<RecommendedEvent> recommendedEvents = (Collection<RecommendedEvent>) kSession.getObjects(new ClassObjectFilter(RecommendedEvent.class));
-        Collection<EventEntity> filteredEvents = recommendedEvents.stream()
-                .filter(RecommendedEvent::isRecommended)
-                .map(RecommendedEvent::getEvent)
-                .toList();
 
         Collection<EventEntity> eventsWithUpdatedSalePrice = new ArrayList<>();
         for (EventEntity event : filteredEvents) {
@@ -495,6 +489,25 @@ public class DefaultEventService implements EventService {
         }
 
         return eventMapper.toDto(eventsWithUpdatedSalePrice);
+    }
+
+    @Override
+    public void sendPromotionMail(EventEntity event) {
+        String subject = "Amazing promotion :D";
+        String body = "Go to %s. It starts on %s\nWhen will you learn? WHEN WILL YOU LEARN!? THAT YOUR ACTIONS HAVE CONSEQUENCES!!!"
+                .formatted(event.getType().name().replaceAll("_", " "), event.getStartDateTime().toLocalDate());
+        Collection<VisitorEntity> visitors = visitorService.getAll();
+        for (VisitorEntity visitor : visitors) {
+            // TODO: Send promotion mail
+        }
+    }
+
+    @Override
+    public void cancelEvent(UUID id) {
+        EventEntity event = eventRepository.findById(id).orElseThrow(EventNotFoundException::new);
+        Collection<EventPurchaseEntity> purchases = eventPurchaseService.getEventPurchaseByEventId(event.getId());
+        eventPurchaseService.deleteAllInBatch(purchases);
+        eventRepository.delete(event);
     }
 
     private boolean hasOrganizerCreatedEvent(EventEntity event, OrganizerEntity organizerEntity) {
