@@ -16,6 +16,7 @@ import java.util.UUID;
 public class SpecialOfferEntity {
 
     @Id
+    @GeneratedValue
     private UUID id;
 
     @Column(nullable = false)

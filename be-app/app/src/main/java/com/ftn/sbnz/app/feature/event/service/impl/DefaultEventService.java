@@ -15,8 +15,10 @@ import com.ftn.sbnz.app.feature.event.exception.EventNotFoundException;
 import com.ftn.sbnz.app.feature.event.mapper.EventMapper;
 import com.ftn.sbnz.app.feature.event.mapper.EventPurchaseMapper;
 import com.ftn.sbnz.app.feature.event.repository.EventRepository;
+import com.ftn.sbnz.app.feature.event.repository.SpecialOfferRepository;
 import com.ftn.sbnz.app.feature.event.service.EventPurchaseService;
 import com.ftn.sbnz.app.feature.event.service.EventService;
+import com.ftn.sbnz.app.feature.event.service.SpecialOfferService;
 import com.ftn.sbnz.model.core.CountryEntity;
 import com.ftn.sbnz.model.core.OrganizerEntity;
 import com.ftn.sbnz.model.drools_helper.PrecipitationType;
@@ -53,6 +55,7 @@ public class DefaultEventService implements EventService {
     private final VisitorService visitorService;
     private final AuthService authService;
     private final CountryService countryService;
+    private final SpecialOfferService specialOfferService;
 
     private final EventMapper eventMapper;
     private final EventPurchaseMapper eventPurchaseMapper;
@@ -94,13 +97,8 @@ public class DefaultEventService implements EventService {
 
         // Adding special offer if there is one
         if (dto.getSpecialOffer() != null) {
-            CreateSpecialOfferRequestDto specialOffer = dto.getSpecialOffer();
-            double specialOfferDiscount = specialOffer.getDiscount();
-            SpecialOfferType specialOfferType = Enum.valueOf(SpecialOfferType.class, specialOffer.getType());
-            eventToBeSaved.setSpecialOffer(SpecialOfferEntity.builder()
-                    .discount(specialOfferDiscount)
-                    .type(specialOfferType)
-                    .build());
+            SpecialOfferEntity specialOffer = specialOfferService.saveAndGetEntity(dto.getSpecialOffer());
+            eventToBeSaved.setSpecialOffer(specialOffer);
         }
 
         EventEntity savedEvent = eventRepository.save(eventToBeSaved);
@@ -120,11 +118,9 @@ public class DefaultEventService implements EventService {
 
         // Updating special offer if there is one
         if (dto.getSpecialOffer() != null) {
-            CreateSpecialOfferRequestDto specialOffer = dto.getSpecialOffer();
-            double specialOfferDiscount = specialOffer.getDiscount();
-            SpecialOfferType specialOfferType = Enum.valueOf(SpecialOfferType.class, specialOffer.getType());
-            updatedEvent.getSpecialOffer().setDiscount(specialOfferDiscount);
-            updatedEvent.getSpecialOffer().setType(specialOfferType);
+            SpecialOfferEntity specialOffer = specialOfferService
+                    .updateAndGetEntity(updatedEvent.getSpecialOffer().getId(), dto.getSpecialOffer());
+            updatedEvent.setSpecialOffer(specialOffer);
         }
 
         updatedEvent = eventRepository.save(updatedEvent);

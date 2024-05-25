@@ -134,7 +134,10 @@ export class EventFormComponent implements OnInit {
 
     let specialOffer: CreateSpecialOfferRequest | undefined = undefined;
     if (this.specialOffer.type != this.specialOfferTypes[0]) {  // if it isn't NO_SPECIAL_OFFER
-      specialOffer = this.specialOffer;
+      specialOffer = {
+        discount: this.specialOffer.discount / 100.0,
+        type: this.specialOffer.type
+      }
       if (specialOffer.discount <= 0 || specialOffer.discount >= 100) {
         this.toastrService.error("Special offer discount must be between 0 and 100!");
         return;
