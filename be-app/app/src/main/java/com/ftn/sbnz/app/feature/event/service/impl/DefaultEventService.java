@@ -294,18 +294,18 @@ public class DefaultEventService implements EventService {
         List<SeasonalDiscount> data = new ArrayList<>();
 
         // outdoor events
-        data.add(new SeasonalDiscount(EventType.HIKING, Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING, 0.15));
-        data.add(new SeasonalDiscount(EventType.CYCLING, Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING, 0.15));
-        data.add(new SeasonalDiscount(EventType.PICNIC, Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING, 0.15));
-        data.add(new SeasonalDiscount(EventType.ZOO_VISIT, Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING, 0.15));
-        data.add(new SeasonalDiscount(EventType.THEME_PARK_VISIT, Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING, 0.15));
-        data.add(new SeasonalDiscount(EventType.FOOTBALL_MATCH, Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING, 0.15));
-        data.add(new SeasonalDiscount(EventType.PARAGLIDING, Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING, 0.15));
-        data.add(new SeasonalDiscount(EventType.BALLOON_RIDE, Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING, 0.15));
+        data.add(new SeasonalDiscount(EventType.HIKING.name(), Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
+        data.add(new SeasonalDiscount(EventType.CYCLING.name(), Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
+        data.add(new SeasonalDiscount(EventType.PICNIC.name(), Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
+        data.add(new SeasonalDiscount(EventType.ZOO_VISIT.name(), Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
+        data.add(new SeasonalDiscount(EventType.THEME_PARK_VISIT.name(), Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
+        data.add(new SeasonalDiscount(EventType.FOOTBALL_MATCH.name(), Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
+        data.add(new SeasonalDiscount(EventType.PARAGLIDING.name(), Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
+        data.add(new SeasonalDiscount(EventType.BALLOON_RIDE.name(), Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
 
         // no snow
-        data.add(new SeasonalDiscount(EventType.WINTER_FESTIVAL, Double.MAX_VALUE, Double.MIN_VALUE, PrecipitationType.NOTHING, 0.2));
-        data.add(new SeasonalDiscount(EventType.WINTER_FESTIVAL, Double.MAX_VALUE, Double.MIN_VALUE, PrecipitationType.RAIN, 0.2));
+        data.add(new SeasonalDiscount(EventType.WINTER_FESTIVAL.name(), Double.MAX_VALUE, Double.MIN_VALUE, PrecipitationType.NOTHING.name(), 0.2));
+        data.add(new SeasonalDiscount(EventType.WINTER_FESTIVAL.name(), Double.MAX_VALUE, Double.MIN_VALUE, PrecipitationType.RAIN.name(), 0.2));
 
         ObjectDataCompiler compiler = new ObjectDataCompiler();
         String drl = compiler.compile(data, templateStream);

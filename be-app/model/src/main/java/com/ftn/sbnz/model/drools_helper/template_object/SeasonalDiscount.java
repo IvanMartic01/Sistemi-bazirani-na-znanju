@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class SeasonalDiscount {
-    private EventType eventType;
+    private String eventType;
     private double maxTemperature;
     private double minTemperature;
-    private PrecipitationType precipitationType;
+    private String precipitationType;
     private double discount;
 }

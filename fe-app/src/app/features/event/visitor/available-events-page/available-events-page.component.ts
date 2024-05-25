@@ -26,7 +26,10 @@ export class AvailableEventsPageComponent implements OnInit {
           this.showNoEventsMessage = true;
         }
       },
-      error => this.toastrService.error(error.error.message));
+      error => {
+        this.toastrService.error(error.error.message)
+        this.showNoEventsMessage = true;
+      });
   }
 
   goToEventDetailsPage($event:EventResponse): void {
