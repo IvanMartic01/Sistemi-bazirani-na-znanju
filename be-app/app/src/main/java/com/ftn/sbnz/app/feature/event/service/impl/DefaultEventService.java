@@ -503,8 +503,8 @@ public class DefaultEventService implements EventService {
         Collection<EventAlterationLogEntity> alterLogs = new ArrayList<>();
         for (EventEntity event : allAvailableEvents) {
             var clonedEvent = event.toBuilder().build();
-//            EventPurchaseEntity eventPurchase = calculateEventPurchasePrice(clonedEvent, visitor);
-//            event.setPrice(eventPurchase.getPurchasePrice());
+            EventPurchaseEntity eventPurchase = calculateEventPurchasePrice(clonedEvent, visitor);
+            event.setPrice(eventPurchase.getPurchasePrice());
             Collection<EventAlterationLogEntity> alterLogsForEvent = eventAlterationLogService.getForEvent(event.getId());
             Collection<EventPurchaseEntity> purchasesForEvent = eventPurchaseService.getEventPurchaseByEventId(event.getId());
 
@@ -512,7 +512,7 @@ public class DefaultEventService implements EventService {
             purchases.addAll(purchasesForEvent);
             alterLogs.addAll(alterLogsForEvent);
         }
-        cepRules(eventsWithUpdatedSalePrice, purchases, alterLogs);
+//        cepRules(eventsWithUpdatedSalePrice, purchases, alterLogs);
 
         return eventMapper.toDto(eventsWithUpdatedSalePrice);
     }
