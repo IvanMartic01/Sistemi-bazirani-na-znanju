@@ -3,10 +3,14 @@ package com.ftn.sbnz.model.event;
 import com.ftn.sbnz.model.core.visitor.VisitorEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.kie.api.definition.type.Role;
+import org.kie.api.definition.type.Timestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Role(Role.Type.EVENT)
+@Timestamp("purchaseTime")
 @Getter
 @Setter
 @NoArgsConstructor

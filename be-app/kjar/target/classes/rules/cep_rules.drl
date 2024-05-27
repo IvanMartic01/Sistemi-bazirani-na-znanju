@@ -10,8 +10,12 @@ import com.ftn.sbnz.model.event.EventPurchaseEntity;
 import com.ftn.sbnz.model.event.EventPurchaseStatus;
 import com.ftn.sbnz.model.event.EventAlterationLogEntity;
 import com.ftn.sbnz.model.event.EventType;
+import java.util.Collection;
 
 global LocalDateTime now;
+global Collection<EventEntity> eventsToDelete;
+global Collection<EventPurchaseEntity> purchasesToDelete;
+global Collection<EventEntity> eventsToPromote;
 
 rule "Cancel event"
 when
@@ -24,27 +28,30 @@ when
         count($purchase)
     )
     $lastHourPurchase: Number() from accumulate(
-        $purchase: EventPurchaseEntity(event.id == $event.id, purchaseTime.isAfter(now.minusHours(1))),
+        $purchase: EventPurchaseEntity(event.id == $event.id)
+        over window:time(1h),
         count($purchase)
     )
-    eval($totalPurchased.doubleValue() * 0.5 < $lastHourPurchase.doubleValue() && $totalPurchased < 2000)
+
+    eval($totalPurchased.doubleValue() * 0.5 < $lastHourPurchase.doubleValue() && $totalPurchased.doubleValue() < 2000)
 
     // Uslov 3: Otkazano vise od 20% karata u poslednjih 1h
     $totalCancelled : Number() from accumulate(
-        $cancelledPurchase: EventPurchaseEntity(event.id == $event.id, cancellationTime.isAfter(now.minusHours(1))),
-        count($totalCancelled)
+        $cancelledPurchase: EventPurchaseEntity(event.id == $event.id, status == EventPurchaseStatus.CANCELLED, cancellationTime.isAfter(now.minusHours(1))),
+        count($cancelledPurchase)
     )
     eval($totalCancelled.doubleValue() > $totalPurchased.doubleValue() * 0.2)
 
     // Uslov 4: Izmenjen event 5 puta u poslednja 3 dana
     $modificationCount : Number() from accumulate(
-        $alteration: EventAlterationLogEntity(event.id == $event.id, alterDate.isAfter(now.minusDays(3))),
+        $alteration: EventAlterationLogEntity(event.id == $event.id)
+        over window:time(3d),
         count($alteration)
     )
     eval($modificationCount.intValue() >= 5)
 then
-    // TODO: Izbrisi sve EventPurchaseEntity objekte i taj EventEntity
-    // TODO: Posalji mejl korisnicima da je otkazan event (ali im nemoj vratiti pare)
+    System.out.println("Event to delete: %s".formatted($event.getName()));
+    eventsToDelete.add($event);
 end
 
 rule "Promote event via email"
@@ -57,8 +64,9 @@ when
     )
 
     // Uslov 1: Broj karata prodatih u zadnjih sat vremena je 70% ili vise
-    $lastHourPurchase : Number() from accumulate(
-        $purchase: EventPurchaseEntity(event.id == $event.id, purchaseTime.isAfter(now.minusHours(1))),
+    $lastHourPurchase: Number() from accumulate(
+        $purchase: EventPurchaseEntity(event.id == $event.id)
+        over window:time(1h),
         count($purchase)
     )
     eval($lastHourPurchase.doubleValue() > $totalPurchased.doubleValue() * 0.7)
@@ -70,13 +78,13 @@ when
     )
     eval($totalCancelled.doubleValue() < $totalPurchased.doubleValue() * 0.1)
 then
-    // TODO: Posalji promotivni mejl korisnicima
+    eventsToPromote.add($event);
 end
 
 rule "Promote event with high attendance"
 when
     $event: EventEntity(
-        visitors.size() > 100,
+        getVisitors().size() > 100,
         endDateTime.isAfter(now.minusDays(7)),
         endDateTime.isBefore(now),
         endDateTime.getHour() >= 18,
@@ -88,8 +96,8 @@ when
             endDateTime.isAfter(now.minusDays(30)),
             endDateTime.isBefore(now)
         ),
-        average($event2.visitors.size())
+        average($event2.getVisitors().size())
     )
 then
-    // TODO: Pokrenuti promociju putem e-mailova
+    eventsToPromote.add($event);
 end

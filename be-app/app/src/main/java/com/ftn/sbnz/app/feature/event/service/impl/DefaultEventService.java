@@ -3,6 +3,7 @@ package com.ftn.sbnz.app.feature.event.service.impl;
 import com.ftn.sbnz.app.core.country.service.CountryService;
 import com.ftn.sbnz.app.core.drools.KnowledgeSessionHelper;
 import com.ftn.sbnz.app.core.other.exception.StartDateIsAfterEndDateException;
+import com.ftn.sbnz.app.core.service.MailService;
 import com.ftn.sbnz.app.core.user.visitor.service.VisitorService;
 import com.ftn.sbnz.app.core.utils.drools_helper.WeatherBroadcastGenerator;
 import com.ftn.sbnz.app.feature.auth.service.AuthService;
@@ -13,6 +14,7 @@ import com.ftn.sbnz.app.feature.event.exception.EventException;
 import com.ftn.sbnz.app.feature.event.exception.EventNotFoundException;
 import com.ftn.sbnz.app.feature.event.mapper.EventMapper;
 import com.ftn.sbnz.app.feature.event.mapper.EventPurchaseMapper;
+import com.ftn.sbnz.app.feature.event.repository.EventAlterationLogRepository;
 import com.ftn.sbnz.app.feature.event.repository.EventRepository;
 import com.ftn.sbnz.app.feature.event.service.EventAlterationLogService;
 import com.ftn.sbnz.app.feature.event.service.EventPurchaseService;
@@ -51,6 +53,7 @@ public class DefaultEventService implements EventService {
     private final CountryService countryService;
     private final SpecialOfferService specialOfferService;
     private final EventAlterationLogService eventAlterationLogService;
+    private final MailService mailService;
 
     private final EventMapper eventMapper;
     private final EventPurchaseMapper eventPurchaseMapper;
@@ -121,7 +124,8 @@ public class DefaultEventService implements EventService {
         updatedEvent = eventRepository.save(updatedEvent);
         eventAlterationLogService.saveAndGetEntity(EventAlterationLogEntity.builder()
                 .event(updatedEvent)
-                .alterDate(LocalDateTime.now())
+//                .alterDate(LocalDateTime.now())
+                .alterDate(new Date())
                 .organizer(organizer)
                 .build());
         return eventMapper.toDto(updatedEvent);
@@ -209,6 +213,50 @@ public class DefaultEventService implements EventService {
         return eventPurchaseMapper.toDto(eventPurchase);
     }
 
+    private void cepRules(Collection<EventEntity> events,
+                          Collection<EventPurchaseEntity> purchases,
+                          Collection<EventAlterationLogEntity> eventAlterLogs) {
+        KieContainer kieContainer = KnowledgeSessionHelper.createRuleBase();
+        KieSession kSession = KnowledgeSessionHelper.getStatefulKnowledgeSession(kieContainer, "cep-session");
+        LocalDateTime now = LocalDateTime.now();
+        Collection<EventEntity> eventsToPromote = new HashSet<>();
+        Collection<EventEntity> eventsToDelete = new HashSet<>();
+        Collection<EventPurchaseEntity> purchasesToDelete = new HashSet<>();
+        Collection<VisitorEntity> visitorsForMoneyReturn = new ArrayList<>();
+
+        events.forEach(kSession::insert);
+        purchases.forEach(kSession::insert);
+        eventAlterLogs.forEach(kSession::insert);
+
+        // Setting global variables for .drl file
+        kSession.setGlobal("now", now);
+        kSession.setGlobal("eventsToPromote", eventsToPromote);
+        kSession.setGlobal("eventsToDelete", eventsToDelete);
+        kSession.setGlobal("purchasesToDelete", purchasesToDelete);
+
+        kSession.fireAllRules();
+
+        purchasesToDelete.forEach(purchase -> {
+            VisitorEntity visitor = purchase.getVisitor();
+            visitor.setMoney(visitor.getMoney() + purchase.getPurchasePrice());
+            mailService.sendTextEmail("Event cancelled", visitor.getEmail(),
+                    "%s has been cancelled".formatted(purchase.getEvent().getName()));
+            visitorsForMoneyReturn.add(visitor);
+        });
+        visitorsForMoneyReturn.forEach(visitorService::save);
+
+        eventRepository.deleteAllInBatch(eventsToDelete);
+        eventPurchaseService.deleteAllInBatch(purchasesToDelete);
+
+        Collection<VisitorEntity> allVisitors = visitorService.getAll();
+        for (EventEntity event : eventsToPromote) {
+            allVisitors.forEach(visitor -> mailService.sendTextEmail("EVENT PROMOTION", visitor.getEmail(),
+                    "We are promoting %s".formatted(event.getName())));
+        }
+
+        kSession.destroy();
+    }
+
     private EventPurchaseEntity calculateEventPurchasePrice(EventEntity event, VisitorEntity visitor) {
 
         EventPurchaseEntity eventPurchase = EventPurchaseEntity.builder()
@@ -238,6 +286,15 @@ public class DefaultEventService implements EventService {
         scaleUpPriceKieSession.fireAllRules();
         scaleUpPriceKieSession.destroy();
 
+        // template 3 (seasonal changes discount)
+        KieSession seasonalDiscountKieSession = createKieSessionWithCompiledRulesForSeasonalDiscount();
+        WeatherBroadcast weatherBroadcast = weatherBroadcastGenerator.generateWeather(event.getStartDateTime().toLocalDate());
+        seasonalDiscountKieSession.insert(weatherBroadcast);
+        seasonalDiscountKieSession.insert(event);
+        seasonalDiscountKieSession.insert(eventPurchase);
+        seasonalDiscountKieSession.fireAllRules();
+        seasonalDiscountKieSession.destroy();
+
         // forward chaining (reserve_event_rules)
         KieContainer kieContainer = KnowledgeSessionHelper.createRuleBase();
         KieSession kSession = KnowledgeSessionHelper.getStatefulKnowledgeSession(kieContainer, "test-k-session-3");
@@ -248,18 +305,8 @@ public class DefaultEventService implements EventService {
         kSession.fireAllRules();
         kSession.destroy();
 
-        // template 3 (seasonal changes discount)
-        KieSession seasonalDiscountKieSession = createKieSessionWithCompiledRulesForSeasonalDiscount();
-        WeatherBroadcast weatherBroadcast = weatherBroadcastGenerator.generateWeather(event.getStartDateTime().toLocalDate());
-        seasonalDiscountKieSession.insert(weatherBroadcast);
-        seasonalDiscountKieSession.insert(event);
-        seasonalDiscountKieSession.insert(eventPurchase);
-        seasonalDiscountKieSession.fireAllRules();
-        seasonalDiscountKieSession.destroy();
-
         return eventPurchase;
     }
-
 
     private static KieSession createKieSessionWithCompiledRulesForCapacityDiscount() {
         InputStream templateStream = DefaultEventService.class.getResourceAsStream("/template/event_capacity_discount.drt");
@@ -330,17 +377,22 @@ public class DefaultEventService implements EventService {
                 .build();
     }
 
-    // TODO ned to be fixed
     @Override
     public EventResponseDto cancelReservation(UUID id) {
         VisitorEntity visitorToBeRemoved = authService.getVisitorForCurrentSession();
 
         EventEntity event = eventRepository.findById(id).orElseThrow(EventNotFoundException::new);
         validateCancellation(event, visitorToBeRemoved);
+        EventPurchaseEntity purchaseToBeDeleted = eventPurchaseService
+                .getEventPurchaseByEventIdAndVisitorId(event.getId(), visitorToBeRemoved.getId())
+                .orElseThrow(() -> new EventException("Event purchase not found!"));
 
         EventEntity updatedEvent = removeVisitorFromEvent(event, visitorToBeRemoved);
-        var savedEvent = eventRepository.save(updatedEvent);
-        return eventMapper.toDto(savedEvent);
+        visitorToBeRemoved.setMoney(visitorToBeRemoved.getMoney() + purchaseToBeDeleted.getPurchasePrice());
+        eventPurchaseService.deleteAllInBatch(List.of(purchaseToBeDeleted));
+        updatedEvent = eventRepository.save(updatedEvent);
+        visitorService.save(visitorToBeRemoved);
+        return eventMapper.toDto(updatedEvent);
     }
 
     private EventEntity removeVisitorFromEvent(EventEntity event, VisitorEntity visitorToBeRemoved) {
@@ -447,12 +499,20 @@ public class DefaultEventService implements EventService {
         var allAvailableEvents = getAllAvailableEvents(visitor);
 
         Collection<EventEntity> eventsWithUpdatedSalePrice = new ArrayList<>();
+        Collection<EventPurchaseEntity> purchases = new ArrayList<>();
+        Collection<EventAlterationLogEntity> alterLogs = new ArrayList<>();
         for (EventEntity event : allAvailableEvents) {
             var clonedEvent = event.toBuilder().build();
-            EventPurchaseEntity eventPurchase = calculateEventPurchasePrice(clonedEvent, visitor);
-            event.setPrice(eventPurchase.getPurchasePrice());
+//            EventPurchaseEntity eventPurchase = calculateEventPurchasePrice(clonedEvent, visitor);
+//            event.setPrice(eventPurchase.getPurchasePrice());
+            Collection<EventAlterationLogEntity> alterLogsForEvent = eventAlterationLogService.getForEvent(event.getId());
+            Collection<EventPurchaseEntity> purchasesForEvent = eventPurchaseService.getEventPurchaseByEventId(event.getId());
+
             eventsWithUpdatedSalePrice.add(event);
+            purchases.addAll(purchasesForEvent);
+            alterLogs.addAll(alterLogsForEvent);
         }
+        cepRules(eventsWithUpdatedSalePrice, purchases, alterLogs);
 
         return eventMapper.toDto(eventsWithUpdatedSalePrice);
     }
