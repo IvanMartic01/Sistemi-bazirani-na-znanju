@@ -14,6 +14,5 @@ export interface EventResponse {
   organizer: OrganizerResponse;
   numberOfAvailableSeats: number;
   type: string;
-  outside: boolean;
   countryId: string;
 }

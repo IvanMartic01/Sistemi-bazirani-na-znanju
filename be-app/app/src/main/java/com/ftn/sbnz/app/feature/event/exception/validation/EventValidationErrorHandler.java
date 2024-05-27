@@ -2,8 +2,10 @@ package com.ftn.sbnz.app.feature.event.exception.validation;
 
 
 import com.ftn.sbnz.app.core.other.dto.ErrorResponseDto;
+import com.ftn.sbnz.app.feature.event.exception.CountryNotFoundException;
 import com.ftn.sbnz.app.feature.event.exception.EventException;
 import com.ftn.sbnz.app.feature.event.exception.EventNotFoundException;
+import com.ftn.sbnz.app.feature.event.exception.SpecialOfferNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,6 +24,18 @@ public class EventValidationErrorHandler {
     @ExceptionHandler({EventNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected ResponseEntity<ErrorResponseDto> handleEventNotFoundException(EventNotFoundException e) {
+        return new ResponseEntity<>(new ErrorResponseDto(e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({SpecialOfferNotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected ResponseEntity<ErrorResponseDto> handleSpecialOfferNotFoundException(SpecialOfferNotFoundException e) {
+        return new ResponseEntity<>(new ErrorResponseDto(e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({CountryNotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected ResponseEntity<ErrorResponseDto> handleCountryNotFoundException(CountryNotFoundException e) {
         return new ResponseEntity<>(new ErrorResponseDto(e.getMessage()), HttpStatus.NOT_FOUND);
     }
 

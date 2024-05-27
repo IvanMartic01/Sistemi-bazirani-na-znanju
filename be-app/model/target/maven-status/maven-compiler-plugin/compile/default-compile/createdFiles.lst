@@ -1,8 +1,13 @@
 com\ftn\sbnz\model\core\AdminEntity.class
 com\ftn\sbnz\model\core\Role.class
 com\ftn\sbnz\model\core\OrganizerEntity$OrganizerEntityBuilder.class
+com\ftn\sbnz\model\drools_helper\RecommendedEvent$RecommendedEventBuilder.class
+com\ftn\sbnz\model\event\SpecialOfferType.class
 com\ftn\sbnz\model\core\visitor\VisitorEntity$VisitorEntityBuilder.class
 com\ftn\sbnz\model\core\AdminEntity$AdminEntityBuilder.class
+com\ftn\sbnz\model\drools_helper\template_object\SeasonalDiscount$SeasonalDiscountBuilder.class
+com\ftn\sbnz\model\event\SpecialOfferEntity$SpecialOfferEntityBuilder.class
+com\ftn\sbnz\model\event\SpecialOfferEntity.class
 com\ftn\sbnz\model\core\UserEntity.class
 com\ftn\sbnz\model\event\EventPurchaseEntity.class
 com\ftn\sbnz\model\test\TestModel$TestModelBuilder.class
@@ -10,14 +15,16 @@ com\ftn\sbnz\model\core\CountryEntity.class
 com\ftn\sbnz\model\core\OrganizerEntity.class
 com\ftn\sbnz\model\core\AdminEntity$AdminEntityBuilderImpl.class
 com\ftn\sbnz\model\core\CountryEntity$CountryEntityBuilder.class
+com\ftn\sbnz\model\drools_helper\RecommendedEvent.class
+com\ftn\sbnz\model\drools_helper\PrecipitationType.class
 com\ftn\sbnz\model\core\visitor\VisitorEventPreference.class
 com\ftn\sbnz\model\event\EventEntity$EventEntityBuilder.class
+com\ftn\sbnz\model\drools_helper\template_object\SeasonalDiscount.class
 com\ftn\sbnz\model\event\pojo\EventCapacityDiscount.class
 com\ftn\sbnz\model\event\pojo\EventScaleUpPrice.class
 com\ftn\sbnz\model\core\visitor\VisitorEntity.class
+com\ftn\sbnz\model\drools_helper\WeatherBroadcast$WeatherBroadcastBuilder.class
 com\ftn\sbnz\model\event\EventPurchaseEntity$EventPurchaseEntityBuilder.class
-com\ftn\sbnz\model\core\RecommendedEvent$RecommendedEventBuilder.class
-com\ftn\sbnz\model\core\RecommendedEvent.class
 com\ftn\sbnz\model\test\TestModel.class
 com\ftn\sbnz\model\core\OrganizerEntity$OrganizerEntityBuilderImpl.class
 com\ftn\sbnz\model\event\EventEntity.class
@@ -26,3 +33,4 @@ com\ftn\sbnz\model\core\UserEntity$UserEntityBuilder.class
 com\ftn\sbnz\model\core\UserEntity$UserEntityBuilderImpl.class
 com\ftn\sbnz\model\core\visitor\VisitorEntity$VisitorEntityBuilderImpl.class
 com\ftn\sbnz\model\event\EventPurchaseStatus.class
+com\ftn\sbnz\model\drools_helper\WeatherBroadcast.class

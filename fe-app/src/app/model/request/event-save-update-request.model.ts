@@ -1,3 +1,4 @@
+import {CreateSpecialOfferRequest} from "./create-special-offer-request.model";
 
 export interface CreateUpdateEventRequest {
   name: string;
@@ -9,7 +10,7 @@ export interface CreateUpdateEventRequest {
   detailedDescription: string;
   organizationPlan: string;
   type: string;
-  outside: boolean;
   countryId: string;
+  specialOffer?: CreateSpecialOfferRequest;
 
 }

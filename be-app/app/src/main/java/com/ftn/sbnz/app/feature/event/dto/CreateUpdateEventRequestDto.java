@@ -45,8 +45,8 @@ public class CreateUpdateEventRequestDto {
     @NotBlank(message = "Type is mandatory!")
     private String type;
 
-    private boolean outside;
-
     @NotBlank(message = "Country is mandatory!")
     private String countryId;
+
+    private CreateSpecialOfferRequestDto specialOffer;
 }

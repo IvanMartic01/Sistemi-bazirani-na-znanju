@@ -12,4 +12,12 @@
     <kbase name="reserve_events" packages="reserve_event_rules">
         <ksession name="test-k-session-3"/>
     </kbase>
+
+    <kbase name="cep" packages="cep_rules" eventProcessingMode="stream">
+        <ksession name="cep-session"/>
+    </kbase>
+
+    <kbase name="cep-test" packages="cep_rules" eventProcessingMode="stream">
+        <ksession name="cep-test-session" clockType="pseudo"/>
+    </kbase>
 </kmodule>

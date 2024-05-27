@@ -6,6 +6,7 @@ import com.ftn.sbnz.model.core.visitor.VisitorEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -22,5 +23,10 @@ public class DefaultVisitorService implements VisitorService {
     @Override
     public Optional<VisitorEntity> findByEmail(String email) {
         return visitorRepository.findByEmail(email);
+    }
+
+    @Override
+    public Collection<VisitorEntity> getAll() {
+        return visitorRepository.findAll();
     }
 }

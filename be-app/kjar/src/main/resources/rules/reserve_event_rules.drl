@@ -4,6 +4,8 @@ import com.ftn.sbnz.model.event.EventEntity;
 import com.ftn.sbnz.model.event.EventPurchaseEntity;
 import com.ftn.sbnz.model.event.EventPurchaseStatus;
 import com.ftn.sbnz.model.event.EventType;
+import com.ftn.sbnz.model.event.SpecialOfferType;
+import com.ftn.sbnz.model.event.SpecialOfferEntity;
 
 import java.time.LocalDateTime;
 import com.ftn.sbnz.model.core.visitor.VisitorEntity;
@@ -43,22 +45,12 @@ rule "reserve event"
         visitor.setMoney(visitor.getMoney() - $purchase.getPurchasePrice());
 end
 
-rule "too hot discount"
-    salience 3
+rule "local event notification"
     when
-        $purchase: EventPurchaseEntity(event.outside == true)
-        $weather: WeatherBroadcast(temperature > 30.0)
+        $visitor: VisitorEntity()
+        $purchase: EventPurchaseEntity(event.country.equals($visitor.country), event.specialOffer != null, event.specialOffer.type == SpecialOfferType.FOR_LOCALS)
     then
-        System.out.println("TOO HOT DISCOUNT");
-        $purchase.setPurchasePrice($purchase.getPurchasePrice() * 0.85);
-end
-
-rule "no snow discount"
-    salience 4
-    when
-        $purchase: EventPurchaseEntity(event.type == EventType.WINTER_FESTIVAL)
-        $weather: WeatherBroadcast(precipitation != PrecipitationType.SNOW)
-    then
-        System.out.println("NO SNOW DISCOUNT");
-        $purchase.setPurchasePrice($purchase.getPurchasePrice() * 0.80);
+        System.out.println("APPLY LOCAL DISCOUNT");
+        // TODO: Notify user about discount
+        $purchase.setPurchasePrice($purchase.getPurchasePrice() * (1 - $purchase.getEvent().getSpecialOffer().getDiscount()));
 end
