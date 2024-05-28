@@ -33,14 +33,11 @@ when
         count($purchase)
     )
 
-    eval($totalPurchased.doubleValue() * 0.5 < $lastHourPurchase.doubleValue() && $totalPurchased.doubleValue() < 2000)
-
-    // Uslov 3: Otkazano vise od 20% karata u poslednjih 1h
+    // Uslov 3: Otkazano vise od 20% karata
     $totalCancelled : Number() from accumulate(
-        $cancelledPurchase: EventPurchaseEntity(event.id == $event.id, status == EventPurchaseStatus.CANCELLED, cancellationTime.isAfter(now.minusHours(1))),
+        $cancelledPurchase: EventPurchaseEntity(event.id == $event.id, status == EventPurchaseStatus.CANCELLED),
         count($cancelledPurchase)
     )
-    eval($totalCancelled.doubleValue() > $totalPurchased.doubleValue() * 0.2)
 
     // Uslov 4: Izmenjen event 5 puta u poslednja 3 dana
     $modificationCount : Number() from accumulate(
@@ -48,9 +45,16 @@ when
         over window:time(3d),
         count($alteration)
     )
-    eval($modificationCount.intValue() >= 5)
+
+    eval(($totalPurchased.doubleValue() * 0.5 < $lastHourPurchase.doubleValue() && $totalPurchased.doubleValue() < 2000)
+        || $totalCancelled.doubleValue() > $totalPurchased.doubleValue() * 0.2
+        || $modificationCount.intValue() >= 5)
 then
+    System.out.println("\n\n\n\n\n\n\n\n\n\n\n");
+    System.out.println("Total purchased %s".formatted($totalPurchased));
+    System.out.println("Last hour purchased %s".formatted($lastHourPurchase));
     System.out.println("Event to delete: %s".formatted($event.getName()));
+    System.out.println("\n\n\n\n\n\n\n\n\n\n\n");
     eventsToDelete.add($event);
 end
 
@@ -69,14 +73,14 @@ when
         over window:time(1h),
         count($purchase)
     )
-    eval($lastHourPurchase.doubleValue() > $totalPurchased.doubleValue() * 0.7)
 
     // Uslov 2: Broj otkazanih karata u posljednjih 24h je manji od 10%
     $totalCancelled : Number() from accumulate(
-        $purchase: EventPurchaseEntity(event.id == $event.id, cancellationTime.isAfter(now.minusDays(1))),
+        $purchase: EventPurchaseEntity(event.id == $event.id, status == EventPurchaseStatus.CANCELLED, cancellationTime.isAfter(now.minusDays(1))),
         count($purchase)
     )
-    eval($totalCancelled.doubleValue() < $totalPurchased.doubleValue() * 0.1)
+    eval($lastHourPurchase.doubleValue() > $totalPurchased.doubleValue() * 0.7
+        || $totalCancelled.doubleValue() < $totalPurchased.doubleValue() * 0.1)
 then
     eventsToPromote.add($event);
 end

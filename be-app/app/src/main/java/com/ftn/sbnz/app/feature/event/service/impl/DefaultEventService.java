@@ -265,7 +265,7 @@ public class DefaultEventService implements EventService {
                 .visitor(visitor)
                 .status(EventPurchaseStatus.NOT_ENABLED)
                 .purchasePrice(event.getPrice())
-                .purchaseTime(LocalDateTime.now())
+                .purchaseTime(new Date(System.currentTimeMillis()))
                 .build();
 
         // template 1 (event capacity discount)

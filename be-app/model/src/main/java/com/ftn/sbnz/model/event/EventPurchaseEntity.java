@@ -7,6 +7,7 @@ import org.kie.api.definition.type.Role;
 import org.kie.api.definition.type.Timestamp;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 @Role(Role.Type.EVENT)
@@ -34,7 +35,7 @@ public class EventPurchaseEntity {
     private Double purchasePrice;
 
     @Column(nullable = false)
-    private LocalDateTime purchaseTime;
+    private Date purchaseTime;
 
     @Column(nullable = true)
     private LocalDateTime cancellationTime;
