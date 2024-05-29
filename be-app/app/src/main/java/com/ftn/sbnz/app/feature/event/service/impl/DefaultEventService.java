@@ -326,7 +326,8 @@ public class DefaultEventService implements EventService {
         InputStream templateStream = DefaultEventService.class.getResourceAsStream("/template/event_capacity_scale_up_price.drt");
 
         List<EventScaleUpPrice> data = new ArrayList<>();
-        data.add(new EventScaleUpPrice(-0.1, 0.8, 0.10));
+        data.add(new EventScaleUpPrice(0.0, 0.7, 0.0));
+        data.add(new EventScaleUpPrice(0.7, 0.8, 0.10));
         data.add(new EventScaleUpPrice(0.8, 0.9, 0.20));
         data.add(new EventScaleUpPrice(0.9, 1.0, 0.30));
 

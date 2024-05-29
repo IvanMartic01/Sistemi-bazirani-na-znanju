@@ -13,7 +13,7 @@ template "EventOccupancyPriceIncrease"
 rule "Price increase for capacity @{occupancyMin} to @{occupancyMax} and price increase of @{priceIncrease}"
     when
         $visitor : VisitorEntity()
-        $event : EventEntity((totalSeats - numberOfAvailableSeats) / totalSeats >= @{occupancyMin}, (totalSeats - numberOfAvailableSeats) / totalSeats < @{occupancyMax})
+        $event : EventEntity((totalSeats - numberOfAvailableSeats) / totalSeats > @{occupancyMin}, (totalSeats - numberOfAvailableSeats) / totalSeats <= @{occupancyMax})
         $purchase : EventPurchaseEntity(event == $event, visitor == $visitor)
     then
         System.out.println("IDE GAS" + ($event.getTotalSeats() - $event.getNumberOfAvailableSeats()) / $event.getTotalSeats());

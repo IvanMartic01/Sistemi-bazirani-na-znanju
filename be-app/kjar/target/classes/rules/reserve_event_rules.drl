@@ -49,7 +49,7 @@ rule "local event notification"
     salience 3
     when
         $visitor: VisitorEntity()
-        $purchase: EventPurchaseEntity(event.country.equals($visitor.country), event.specialOffer != null, event.specialOffer.type == SpecialOfferType.FOR_LOCALS)
+        $purchase: EventPurchaseEntity(status == EventPurchaseStatus.UNPAID, visitor == $visitor, event.country.equals($visitor.country), event.specialOffer != null, event.specialOffer.type == SpecialOfferType.FOR_LOCALS)
     then
         System.out.println("APPLY LOCAL DISCOUNT");
         // TODO: Notify user about discount
