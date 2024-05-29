@@ -6,7 +6,6 @@ import com.ftn.sbnz.model.core.OrganizerEntity;
 import com.ftn.sbnz.model.core.Role;
 import com.ftn.sbnz.model.core.visitor.VisitorEntity;
 import com.ftn.sbnz.model.event.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
 import org.drools.core.time.SessionPseudoClock;
 import org.junit.jupiter.api.BeforeAll;
@@ -34,6 +33,7 @@ class AppApplicationTests {
     private static EventEntity pendingEvent;
     private static EventEntity finishedEvent1;
     private static EventEntity finishedEvent2;
+    private static EventEntity finishedEvent3;
     private static OrganizerEntity organizer;
     private static CountryEntity country;
 
@@ -99,6 +99,23 @@ class AppApplicationTests {
                 .shortDescription("Short description 2")
                 .detailedDescription("Detailed description 2")
                 .organizationPlan("Organization plan 2")
+                .organizer(organizer)
+                .visitors(List.of())
+                .type(EventType.FOOTBALL_MATCH)
+                .country(country)
+                .build();
+
+        finishedEvent3 = EventEntity.builder()
+                .id(UUID.randomUUID())
+                .name("Finished event 3")
+                .totalSeats(1000)
+                .numberOfAvailableSeats(1000)
+                .startDateTime(LocalDateTime.now().minusDays(5))
+                .endDateTime(LocalDateTime.now().minusDays(4))
+                .price(1000)
+                .shortDescription("Short description 3")
+                .detailedDescription("Detailed description 3")
+                .organizationPlan("Organization plan 3")
                 .organizer(organizer)
                 .visitors(List.of())
                 .type(EventType.FOOTBALL_MATCH)
@@ -565,6 +582,259 @@ class AppApplicationTests {
         purchases.forEach(kSession::insert);
 
         kSession.setGlobal("now", LocalDateTime.now());
+        kSession.fireAllRules();
+
+        kSession.destroy();
+
+        assertEquals(0, eventsToPromote.size());
+    }
+
+    private LocalDateTime getLocalDateTimeFromPseudoClock(SessionPseudoClock clock) {
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(clock.getCurrentTime()), ZoneOffset.UTC);
+    }
+
+    @Test
+    public void shouldPromote_highAttendance() {
+        KieContainer kieContainer = KnowledgeSessionHelper.createRuleBase();
+        KieSession kSession = KnowledgeSessionHelper.getStatefulKnowledgeSession(kieContainer, "cep-test-session");
+
+        Collection<EventEntity> eventsToPromote = new HashSet<>();
+        Collection<EventEntity> eventsToDelete = new HashSet<>();
+        Collection<EventPurchaseEntity> purchasesToDelete = new HashSet<>();
+
+        kSession.setGlobal("eventsToPromote", eventsToPromote);
+        kSession.setGlobal("eventsToDelete", eventsToDelete);
+        kSession.setGlobal("purchasesToDelete", purchasesToDelete);
+
+        SessionPseudoClock clock = kSession.getSessionClock();
+        clock.advanceTime(0, TimeUnit.MINUTES);
+
+        finishedEvent3.setVisitors(List.of());
+        LocalDateTime start = getLocalDateTimeFromPseudoClock(clock);
+        start = LocalDateTime.of(
+                start.getYear(),
+                start.getMonthValue(),
+                start.getDayOfMonth(),
+                18,
+                0);
+        LocalDateTime end = LocalDateTime.of(
+                start.getYear(),
+                start.getMonthValue(),
+                start.getDayOfMonth(),
+                22,
+                0);
+        finishedEvent3.setStartDateTime(start);
+        finishedEvent3.setEndDateTime(end);
+        Collection<VisitorEntity> visitors = new ArrayList<>();
+        IntStream.range(0, 154).forEach(_ -> {
+            visitors.add(VisitorEntity.builder().id(UUID.randomUUID()).build());
+        });
+        finishedEvent3.setVisitors(visitors);
+
+        final Random random = new Random();
+        final int EVENT_COUNT = 10;
+        Collection<EventEntity> events = new ArrayList<>();
+        IntStream.range(0, EVENT_COUNT).forEach(i -> {
+            LocalDateTime startDateTime = getLocalDateTimeFromPseudoClock(clock);
+            clock.advanceTime(1, TimeUnit.HOURS);
+            LocalDateTime endDateTime = getLocalDateTimeFromPseudoClock(clock);
+            clock.advanceTime(1, TimeUnit.HOURS);
+            EventEntity event = EventEntity.builder()
+                    .id(UUID.randomUUID())
+                    .name("Finished event " + i)
+                    .totalSeats(1000)
+                    .numberOfAvailableSeats(1000)
+                    .startDateTime(startDateTime)
+                    .endDateTime(endDateTime)
+                    .price(1000)
+                    .shortDescription("Short description " + i)
+                    .detailedDescription("Detailed description " + i)
+                    .organizationPlan("Organization plan " + i)
+                    .organizer(organizer)
+                    .visitors(List.of())
+                    .type(EventType.FOOTBALL_MATCH)
+                    .country(country)
+                    .build();
+            int visitorCount = random.nextInt(80, 95);
+            Collection<VisitorEntity> v = new ArrayList<>();
+            IntStream.range(0, visitorCount).forEach(_ -> {
+                v.add(VisitorEntity.builder().id(UUID.randomUUID()).build());
+            });
+            event.setVisitors(v);
+            event.setNumberOfAvailableSeats(event.getNumberOfAvailableSeats() - visitorCount);
+            events.add(event);
+        });
+
+        kSession.insert(finishedEvent3);
+        events.forEach(kSession::insert);
+        clock.advanceTime(4, TimeUnit.DAYS);
+        kSession.setGlobal("now", getLocalDateTimeFromPseudoClock(clock));
+        kSession.fireAllRules();
+
+        kSession.destroy();
+
+        assertEquals(1, eventsToPromote.size());
+    }
+
+    @Test
+    public void shouldNotPromote_lessThan100Visitors() {
+        KieContainer kieContainer = KnowledgeSessionHelper.createRuleBase();
+        KieSession kSession = KnowledgeSessionHelper.getStatefulKnowledgeSession(kieContainer, "cep-test-session");
+
+        Collection<EventEntity> eventsToPromote = new HashSet<>();
+        Collection<EventEntity> eventsToDelete = new HashSet<>();
+        Collection<EventPurchaseEntity> purchasesToDelete = new HashSet<>();
+
+        kSession.setGlobal("eventsToPromote", eventsToPromote);
+        kSession.setGlobal("eventsToDelete", eventsToDelete);
+        kSession.setGlobal("purchasesToDelete", purchasesToDelete);
+
+        SessionPseudoClock clock = kSession.getSessionClock();
+        clock.advanceTime(0, TimeUnit.MINUTES);
+
+        finishedEvent3.setVisitors(List.of());
+        LocalDateTime start = getLocalDateTimeFromPseudoClock(clock);
+        start = LocalDateTime.of(
+                start.getYear(),
+                start.getMonthValue(),
+                start.getDayOfMonth(),
+                18,
+                0);
+        LocalDateTime end = LocalDateTime.of(
+                start.getYear(),
+                start.getMonthValue(),
+                start.getDayOfMonth(),
+                22,
+                0);
+        finishedEvent3.setStartDateTime(start);
+        finishedEvent3.setEndDateTime(end);
+        Collection<VisitorEntity> visitors = new ArrayList<>();
+        IntStream.range(0, 99).forEach(_ -> {
+            visitors.add(VisitorEntity.builder().id(UUID.randomUUID()).build());
+        });
+        finishedEvent3.setVisitors(visitors);
+
+        final Random random = new Random();
+        final int EVENT_COUNT = 10;
+        Collection<EventEntity> events = new ArrayList<>();
+        IntStream.range(0, EVENT_COUNT).forEach(i -> {
+            LocalDateTime startDateTime = getLocalDateTimeFromPseudoClock(clock);
+            clock.advanceTime(1, TimeUnit.HOURS);
+            LocalDateTime endDateTime = getLocalDateTimeFromPseudoClock(clock);
+            clock.advanceTime(1, TimeUnit.HOURS);
+            EventEntity event = EventEntity.builder()
+                    .id(UUID.randomUUID())
+                    .name("Finished event " + i)
+                    .totalSeats(1000)
+                    .numberOfAvailableSeats(1000)
+                    .startDateTime(startDateTime)
+                    .endDateTime(endDateTime)
+                    .price(1000)
+                    .shortDescription("Short description " + i)
+                    .detailedDescription("Detailed description " + i)
+                    .organizationPlan("Organization plan " + i)
+                    .organizer(organizer)
+                    .visitors(List.of())
+                    .type(EventType.FOOTBALL_MATCH)
+                    .country(country)
+                    .build();
+            int visitorCount = random.nextInt(80, 95);
+            Collection<VisitorEntity> v = new ArrayList<>();
+            IntStream.range(0, visitorCount).forEach(_ -> {
+                v.add(VisitorEntity.builder().id(UUID.randomUUID()).build());
+            });
+            event.setVisitors(v);
+            event.setNumberOfAvailableSeats(event.getNumberOfAvailableSeats() - visitorCount);
+            events.add(event);
+        });
+
+        kSession.insert(finishedEvent3);
+        events.forEach(kSession::insert);
+        clock.advanceTime(4, TimeUnit.DAYS);
+        kSession.setGlobal("now", getLocalDateTimeFromPseudoClock(clock));
+        kSession.fireAllRules();
+
+        kSession.destroy();
+
+        assertEquals(0, eventsToPromote.size());
+    }
+
+    @Test
+    public void shouldNotPromote_averageMoreThan100Visitors() {
+        KieContainer kieContainer = KnowledgeSessionHelper.createRuleBase();
+        KieSession kSession = KnowledgeSessionHelper.getStatefulKnowledgeSession(kieContainer, "cep-test-session");
+
+        Collection<EventEntity> eventsToPromote = new HashSet<>();
+        Collection<EventEntity> eventsToDelete = new HashSet<>();
+        Collection<EventPurchaseEntity> purchasesToDelete = new HashSet<>();
+
+        kSession.setGlobal("eventsToPromote", eventsToPromote);
+        kSession.setGlobal("eventsToDelete", eventsToDelete);
+        kSession.setGlobal("purchasesToDelete", purchasesToDelete);
+
+        SessionPseudoClock clock = kSession.getSessionClock();
+        clock.advanceTime(0, TimeUnit.MINUTES);
+
+        finishedEvent3.setVisitors(List.of());
+        LocalDateTime start = getLocalDateTimeFromPseudoClock(clock);
+        start = LocalDateTime.of(
+                start.getYear(),
+                start.getMonthValue(),
+                start.getDayOfMonth(),
+                18,
+                0);
+        LocalDateTime end = LocalDateTime.of(
+                start.getYear(),
+                start.getMonthValue(),
+                start.getDayOfMonth(),
+                22,
+                0);
+        finishedEvent3.setStartDateTime(start);
+        finishedEvent3.setEndDateTime(end);
+        Collection<VisitorEntity> visitors = new ArrayList<>();
+        IntStream.range(0, 154).forEach(_ -> {
+            visitors.add(VisitorEntity.builder().id(UUID.randomUUID()).build());
+        });
+        finishedEvent3.setVisitors(visitors);
+
+        final Random random = new Random();
+        final int EVENT_COUNT = 10;
+        Collection<EventEntity> events = new ArrayList<>();
+        IntStream.range(0, EVENT_COUNT).forEach(i -> {
+            LocalDateTime startDateTime = getLocalDateTimeFromPseudoClock(clock);
+            clock.advanceTime(1, TimeUnit.HOURS);
+            LocalDateTime endDateTime = getLocalDateTimeFromPseudoClock(clock);
+            clock.advanceTime(1, TimeUnit.HOURS);
+            EventEntity event = EventEntity.builder()
+                    .id(UUID.randomUUID())
+                    .name("Finished event " + i)
+                    .totalSeats(1000)
+                    .numberOfAvailableSeats(1000)
+                    .startDateTime(startDateTime)
+                    .endDateTime(endDateTime)
+                    .price(1000)
+                    .shortDescription("Short description " + i)
+                    .detailedDescription("Detailed description " + i)
+                    .organizationPlan("Organization plan " + i)
+                    .organizer(organizer)
+                    .visitors(List.of())
+                    .type(EventType.FOOTBALL_MATCH)
+                    .country(country)
+                    .build();
+            int visitorCount = random.nextInt(100, 110);
+            Collection<VisitorEntity> v = new ArrayList<>();
+            IntStream.range(0, visitorCount).forEach(_ -> {
+                v.add(VisitorEntity.builder().id(UUID.randomUUID()).build());
+            });
+            event.setVisitors(v);
+            event.setNumberOfAvailableSeats(event.getNumberOfAvailableSeats() - visitorCount);
+            events.add(event);
+        });
+
+        kSession.insert(finishedEvent3);
+        events.forEach(kSession::insert);
+        clock.advanceTime(4, TimeUnit.DAYS);
+        kSession.setGlobal("now", getLocalDateTimeFromPseudoClock(clock));
         kSession.fireAllRules();
 
         kSession.destroy();
