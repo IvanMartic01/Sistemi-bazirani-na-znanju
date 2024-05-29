@@ -74,13 +74,13 @@ when
         count($purchase)
     )
 
-    // Uslov 2: Broj otkazanih karata u posljednjih 24h je manji od 10%
+    // Uslov 2: Broj otkazanih karata je manji od 10%
     $totalCancelled : Number() from accumulate(
-        $purchase: EventPurchaseEntity(event.id == $event.id, status == EventPurchaseStatus.CANCELLED, cancellationTime.isAfter(now.minusDays(1))),
+        $purchase: EventPurchaseEntity(event.id == $event.id, status == EventPurchaseStatus.CANCELLED),
         count($purchase)
     )
     eval($lastHourPurchase.doubleValue() > $totalPurchased.doubleValue() * 0.7
-        || $totalCancelled.doubleValue() < $totalPurchased.doubleValue() * 0.1)
+        && $totalCancelled.doubleValue() < $totalPurchased.doubleValue() * 0.1)
 then
     eventsToPromote.add($event);
 end
