@@ -16,8 +16,9 @@ template "SeasonalDiscount"
 rule "Seasonal price adjustment for @{eventType} when max temperature is @{maxTemperature} and min temperature is @{minTemperature} and precipitation is @{precipitationType}"
     when
         $purchase: EventPurchaseEntity(event.type.name().equals("@{eventType}"))
-        $weather: WeatherBroadcast(temperature > @{minTemperature}, temperature < @{maxTemperature}, precipitation.name().equals("@{precipitationType}"))
+        $weather: WeatherBroadcast(temperature > @{minTemperature}, temperature < @{maxTemperature}, precipitation.name().equals("@{precipitationType}"), !getDate().isBefore($purchase.event.getStartDateTime().toLocalDate()) && !getDate().isAfter($purchase.event.getEndDateTime().toLocalDate()))
     then
+        System.out.println("Executed \"SeasonalDiscount\" rule");
         $purchase.setPurchasePrice($purchase.getPurchasePrice() * (1 - @{discount}));
 end
 end template

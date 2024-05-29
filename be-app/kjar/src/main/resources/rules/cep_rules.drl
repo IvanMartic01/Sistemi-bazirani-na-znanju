@@ -74,14 +74,15 @@ when
         count($purchase)
     )
 
-    // Uslov 2: Broj otkazanih karata u posljednjih 24h je manji od 10%
+    // Uslov 2: Broj otkazanih karata je manji od 10%
     $totalCancelled : Number() from accumulate(
-        $purchase: EventPurchaseEntity(event.id == $event.id, status == EventPurchaseStatus.CANCELLED, cancellationTime.isAfter(now.minusDays(1))),
+        $purchase: EventPurchaseEntity(event.id == $event.id, status == EventPurchaseStatus.CANCELLED),
         count($purchase)
     )
     eval($lastHourPurchase.doubleValue() > $totalPurchased.doubleValue() * 0.7
-        || $totalCancelled.doubleValue() < $totalPurchased.doubleValue() * 0.1)
+        && $totalCancelled.doubleValue() < $totalPurchased.doubleValue() * 0.1)
 then
+    System.out.println("Execute rule \"Promote event via email\"");
     eventsToPromote.add($event);
 end
 
@@ -91,17 +92,21 @@ when
         getVisitors().size() > 100,
         endDateTime.isAfter(now.minusDays(7)),
         endDateTime.isBefore(now),
-        endDateTime.getHour() >= 18,
-        endDateTime.getHour() <= 22
+        !startDateTime.isBefore(LocalDateTime.of(startDateTime.getYear(), startDateTime.getMonthValue(), startDateTime.getDayOfMonth(), 18, 0)),
+        !endDateTime.isAfter(LocalDateTime.of(endDateTime.getYear(), endDateTime.getMonthValue(), endDateTime.getDayOfMonth(), 22, 0))
     )
     $avgVisitorCount: Number() from accumulate(
         $event2: EventEntity(
+            $event.id != id,
             type == $event.type,
-            endDateTime.isAfter(now.minusDays(30)),
+            endDateTime.isAfter(now.minusMonths(3)),
             endDateTime.isBefore(now)
         ),
         average($event2.getVisitors().size())
     )
+    eval($avgVisitorCount.doubleValue() < 100.0)
 then
+    System.out.printf("\n%s %s %s\n", $event.getName(), $event.getStartDateTime(), $event.getEndDateTime());
+    System.out.printf("Average: %s\n\n", $avgVisitorCount);
     eventsToPromote.add($event);
 end
