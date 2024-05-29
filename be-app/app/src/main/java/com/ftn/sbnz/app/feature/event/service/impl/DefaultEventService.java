@@ -342,14 +342,14 @@ public class DefaultEventService implements EventService {
         List<SeasonalDiscount> data = new ArrayList<>();
 
         // outdoor events
-        data.add(new SeasonalDiscount(EventType.HIKING.name(), Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
-        data.add(new SeasonalDiscount(EventType.CYCLING.name(), Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
-        data.add(new SeasonalDiscount(EventType.PICNIC.name(), Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
-        data.add(new SeasonalDiscount(EventType.ZOO_VISIT.name(), Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
-        data.add(new SeasonalDiscount(EventType.THEME_PARK_VISIT.name(), Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
-        data.add(new SeasonalDiscount(EventType.FOOTBALL_MATCH.name(), Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
-        data.add(new SeasonalDiscount(EventType.PARAGLIDING.name(), Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
-        data.add(new SeasonalDiscount(EventType.BALLOON_RIDE.name(), Double.MIN_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
+        data.add(new SeasonalDiscount(EventType.HIKING.name(), Double.MAX_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
+        data.add(new SeasonalDiscount(EventType.CYCLING.name(), Double.MAX_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
+        data.add(new SeasonalDiscount(EventType.PICNIC.name(), Double.MAX_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
+        data.add(new SeasonalDiscount(EventType.ZOO_VISIT.name(), Double.MAX_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
+        data.add(new SeasonalDiscount(EventType.THEME_PARK_VISIT.name(), Double.MAX_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
+        data.add(new SeasonalDiscount(EventType.FOOTBALL_MATCH.name(), Double.MAX_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
+        data.add(new SeasonalDiscount(EventType.PARAGLIDING.name(), Double.MAX_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
+        data.add(new SeasonalDiscount(EventType.BALLOON_RIDE.name(), Double.MAX_VALUE, 30.0, PrecipitationType.NOTHING.name(), 0.15));
 
         // no snow
         data.add(new SeasonalDiscount(EventType.WINTER_FESTIVAL.name(), Double.MAX_VALUE, Double.MIN_VALUE, PrecipitationType.NOTHING.name(), 0.2));

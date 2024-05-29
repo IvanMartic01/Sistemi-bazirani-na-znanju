@@ -26,9 +26,8 @@ import static com.ftn.sbnz.app.data_loader.user.UserDataConstants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-@RequiredArgsConstructor
 @SpringBootTest
-class AppApplicationTests {
+class CEPTests {
 
     private static EventEntity pendingEvent;
     private static EventEntity finishedEvent1;
