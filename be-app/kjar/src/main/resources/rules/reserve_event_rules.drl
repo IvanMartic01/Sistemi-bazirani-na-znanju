@@ -14,16 +14,18 @@ import com.ftn.sbnz.model.drools_helper.PrecipitationType;
 import java.util.UUID;
 
 rule "create padding purchase"
+    salience 9
     when
         $visitor : VisitorEntity()
         $event : EventEntity()
         $purchase: EventPurchaseEntity(visitor == $visitor && event == $event, purchasePrice <= $visitor.getMoney() && status == EventPurchaseStatus.NOT_ENABLED)
     then
-        $purchase.setStatus(EventPurchaseStatus.UNPAID);
+        System.out.println("Creating pending purchase");
+        modify($purchase) { setStatus(EventPurchaseStatus.UNPAID) }
 end
 
 rule "apply discount"
-    salience 2
+    salience 8
     when
         $purchase : EventPurchaseEntity(status == EventPurchaseStatus.UNPAID && event.startDateTime.isBefore(LocalDateTime.now().plusDays(3)) && event.numberOfAvailableSeats > event.totalSeats / 2)
     then
@@ -32,7 +34,7 @@ rule "apply discount"
 end
 
 rule "reserve event"
-    salience 1
+    salience 5
     when
         $purchase : EventPurchaseEntity(status == EventPurchaseStatus.UNPAID)
     then
@@ -46,12 +48,11 @@ rule "reserve event"
 end
 
 rule "local event notification"
-    salience 3
+    salience 8
     when
         $visitor: VisitorEntity()
         $purchase: EventPurchaseEntity(status == EventPurchaseStatus.UNPAID, visitor == $visitor, event.country.equals($visitor.country), event.specialOffer != null, event.specialOffer.type == SpecialOfferType.FOR_LOCALS)
     then
         System.out.println("APPLY LOCAL DISCOUNT");
-        // TODO: Notify user about discount
         $purchase.setPurchasePrice($purchase.getPurchasePrice() * (1 - $purchase.getEvent().getSpecialOffer().getDiscount()));
 end

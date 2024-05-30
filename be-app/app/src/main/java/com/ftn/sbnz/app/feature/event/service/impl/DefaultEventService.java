@@ -14,7 +14,6 @@ import com.ftn.sbnz.app.feature.event.exception.EventException;
 import com.ftn.sbnz.app.feature.event.exception.EventNotFoundException;
 import com.ftn.sbnz.app.feature.event.mapper.EventMapper;
 import com.ftn.sbnz.app.feature.event.mapper.EventPurchaseMapper;
-import com.ftn.sbnz.app.feature.event.repository.EventAlterationLogRepository;
 import com.ftn.sbnz.app.feature.event.repository.EventRepository;
 import com.ftn.sbnz.app.feature.event.service.EventAlterationLogService;
 import com.ftn.sbnz.app.feature.event.service.EventPurchaseService;
@@ -29,6 +28,7 @@ import com.ftn.sbnz.model.drools_helper.template_object.SeasonalDiscount;
 import com.ftn.sbnz.model.event.*;
 import com.ftn.sbnz.model.event.pojo.EventCapacityDiscount;
 import com.ftn.sbnz.model.event.pojo.EventScaleUpPrice;
+import jdk.jfr.Event;
 import lombok.RequiredArgsConstructor;
 import org.drools.template.ObjectDataCompiler;
 import org.kie.api.runtime.KieContainer;
@@ -475,7 +475,7 @@ public class DefaultEventService implements EventService {
     @Override
     public Collection<EventResponseDto> getAllVisitorReservedEvents() {
         VisitorEntity visitor = authService.getVisitorForCurrentSession();
-        var allVisitorReservedEvents = getAllVisitorReservedEvents(visitor);
+        List<EventEntity> allVisitorReservedEvents = getAllVisitorReservedEventsByVisitor(visitor);
 
         Collection<EventEntity> eventsWithUpdatedSalePrice = new ArrayList<>();
         for (EventEntity event : allVisitorReservedEvents) {
@@ -487,7 +487,7 @@ public class DefaultEventService implements EventService {
         return eventMapper.toDto(eventsWithUpdatedSalePrice);
     }
 
-    private List<EventEntity> getAllVisitorReservedEvents(VisitorEntity visitor) {
+    private List<EventEntity> getAllVisitorReservedEventsByVisitor(VisitorEntity visitor) {
         return eventRepository.findAllByVisitorsEmail(visitor.getEmail())
                 .stream()
                 .filter(event -> !isEventStarted(event))
