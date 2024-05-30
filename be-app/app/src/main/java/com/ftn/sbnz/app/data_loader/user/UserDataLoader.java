@@ -52,7 +52,7 @@ public class UserDataLoader {
                 .preferences(preferences)
                 .enabled(true)
                 .country(country)
-                .money(9000)
+                .money(1_000_000.0)
                 .build();
     }
 

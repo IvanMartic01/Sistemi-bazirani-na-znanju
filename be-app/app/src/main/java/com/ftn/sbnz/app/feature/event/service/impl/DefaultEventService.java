@@ -14,7 +14,6 @@ import com.ftn.sbnz.app.feature.event.exception.EventException;
 import com.ftn.sbnz.app.feature.event.exception.EventNotFoundException;
 import com.ftn.sbnz.app.feature.event.mapper.EventMapper;
 import com.ftn.sbnz.app.feature.event.mapper.EventPurchaseMapper;
-import com.ftn.sbnz.app.feature.event.repository.EventAlterationLogRepository;
 import com.ftn.sbnz.app.feature.event.repository.EventRepository;
 import com.ftn.sbnz.app.feature.event.service.EventAlterationLogService;
 import com.ftn.sbnz.app.feature.event.service.EventPurchaseService;
@@ -29,6 +28,7 @@ import com.ftn.sbnz.model.drools_helper.template_object.SeasonalDiscount;
 import com.ftn.sbnz.model.event.*;
 import com.ftn.sbnz.model.event.pojo.EventCapacityDiscount;
 import com.ftn.sbnz.model.event.pojo.EventScaleUpPrice;
+import jdk.jfr.Event;
 import lombok.RequiredArgsConstructor;
 import org.drools.template.ObjectDataCompiler;
 import org.kie.api.runtime.KieContainer;
@@ -326,7 +326,8 @@ public class DefaultEventService implements EventService {
         InputStream templateStream = DefaultEventService.class.getResourceAsStream("/template/event_capacity_scale_up_price.drt");
 
         List<EventScaleUpPrice> data = new ArrayList<>();
-        data.add(new EventScaleUpPrice(-0.1, 0.8, 0.10));
+        data.add(new EventScaleUpPrice(0.0, 0.7, 0.0));
+        data.add(new EventScaleUpPrice(0.7, 0.8, 0.10));
         data.add(new EventScaleUpPrice(0.8, 0.9, 0.20));
         data.add(new EventScaleUpPrice(0.9, 1.0, 0.30));
 
@@ -474,7 +475,7 @@ public class DefaultEventService implements EventService {
     @Override
     public Collection<EventResponseDto> getAllVisitorReservedEvents() {
         VisitorEntity visitor = authService.getVisitorForCurrentSession();
-        var allVisitorReservedEvents = getAllVisitorReservedEvents(visitor);
+        List<EventEntity> allVisitorReservedEvents = getAllVisitorReservedEventsByVisitor(visitor);
 
         Collection<EventEntity> eventsWithUpdatedSalePrice = new ArrayList<>();
         for (EventEntity event : allVisitorReservedEvents) {
@@ -486,7 +487,7 @@ public class DefaultEventService implements EventService {
         return eventMapper.toDto(eventsWithUpdatedSalePrice);
     }
 
-    private List<EventEntity> getAllVisitorReservedEvents(VisitorEntity visitor) {
+    private List<EventEntity> getAllVisitorReservedEventsByVisitor(VisitorEntity visitor) {
         return eventRepository.findAllByVisitorsEmail(visitor.getEmail())
                 .stream()
                 .filter(event -> !isEventStarted(event))

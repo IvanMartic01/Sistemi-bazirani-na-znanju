@@ -29,7 +29,7 @@ export class AvailableEventsPageComponent implements OnInit {
       error => {
         this.toastrService.error(error.error.message)
         this.showNoEventsMessage = true;
-      n});
+      });
   }
 
   goToEventDetailsPage($event:EventResponse): void {

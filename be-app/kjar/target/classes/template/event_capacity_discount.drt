@@ -13,7 +13,7 @@ template "EventCapacityDiscount"
 rule "Price reduction for capacity @{capacityMin} to @{capacityMax}"
     when
         $visitor : VisitorEntity()
-        $event : EventEntity(totalSeats >= @{capacityMin}, totalSeats <= @{capacityMax})
+        $event : EventEntity(totalSeats >= @{capacityMin}, totalSeats < @{capacityMax})
         $purchase : EventPurchaseEntity(event==event, visitor == $visitor)
     then
         $purchase.setPurchasePrice($purchase.getPurchasePrice() * (1 - @{discount}));

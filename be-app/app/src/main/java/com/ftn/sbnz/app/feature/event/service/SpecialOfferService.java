@@ -9,5 +9,7 @@ public interface SpecialOfferService {
 
     SpecialOfferEntity saveAndGetEntity(CreateSpecialOfferRequestDto dto);
     SpecialOfferEntity updateAndGetEntity(UUID id, CreateSpecialOfferRequestDto dto);
+    SpecialOfferEntity getEntityById(UUID id);
+    SpecialOfferEntity save(SpecialOfferEntity entity);
 
 }

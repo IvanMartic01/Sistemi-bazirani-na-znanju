@@ -5,20 +5,24 @@ import com.ftn.sbnz.app.core.user.organizer.service.OrganizerService;
 import com.ftn.sbnz.app.core.user.visitor.service.VisitorService;
 import com.ftn.sbnz.app.data_loader.user.UserDataConstants;
 import com.ftn.sbnz.app.feature.event.service.EventService;
+import com.ftn.sbnz.app.feature.event.service.SpecialOfferService;
 import com.ftn.sbnz.model.event.EventEntity;
 import com.ftn.sbnz.model.event.EventType;
+import com.ftn.sbnz.model.event.SpecialOfferEntity;
+import com.ftn.sbnz.model.event.SpecialOfferType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
 import static com.ftn.sbnz.app.data_loader.country.CountryDataConstants.COUNTRY_ID_1;
 import static com.ftn.sbnz.app.data_loader.country.CountryDataConstants.COUNTRY_ID_2;
-import static com.ftn.sbnz.app.data_loader.event.EventConstants.FINISHED_EVENT_ID;
-import static com.ftn.sbnz.app.data_loader.event.EventConstants.PENDING_EVENT_ID;
+import static com.ftn.sbnz.app.data_loader.event.EventConstants.*;
 import static com.ftn.sbnz.app.data_loader.user.UserDataConstants.ORGANIZER_EMAIL;
 
 @RequiredArgsConstructor
@@ -29,6 +33,9 @@ public class EventDataLoader {
     private final OrganizerService organizerService;
     private final EventService eventService;
     private final CountryRepository countryRepository;
+    private final SpecialOfferService specialOfferService;
+
+    private final Random random = new Random();
 
     private final EventType[] types = new EventType[] {
             EventType.ART_LECTURE,
@@ -41,8 +48,11 @@ public class EventDataLoader {
     private final int EVENT_COUNT = 5;
 
     public void load()  {
+        SpecialOfferEntity specialOffer = specialOfferService.save(buildSpecialOffer());
         eventService.save(buildFinishedEvent());
         eventService.save(buildPendingEvent());
+        eventService.save(buildFilledCapacityEvent());
+        eventService.save(buildEventWithSpecialOffer(specialOffer));
 
         IntStream.range(0, EVENT_COUNT + types.length).forEach(i -> {
             eventService.save(buildRandomPendingEvent(i));
@@ -75,7 +85,6 @@ public class EventDataLoader {
 
     private EventEntity buildPendingEvent() {
         var organizer = organizerService.findByEmail(ORGANIZER_EMAIL).orElseThrow(() -> new RuntimeException("Organizer not found"));
-        var visitor = visitorService.findByEmail(UserDataConstants.VISITOR_EMAIL).orElseThrow(() -> new RuntimeException("Visitor not found"));
         var country = countryRepository.findById(COUNTRY_ID_2).orElseThrow(() -> new RuntimeException("Country not found!"));
 
         return EventEntity.builder()
@@ -96,9 +105,31 @@ public class EventDataLoader {
                 .build();
     }
 
-    private EventEntity buildRandomPendingEvent(int i) {
+    private EventEntity buildFilledCapacityEvent() {
         var organizer = organizerService.findByEmail(ORGANIZER_EMAIL).orElseThrow(() -> new RuntimeException("Organizer not found"));
         var visitor = visitorService.findByEmail(UserDataConstants.VISITOR_EMAIL).orElseThrow(() -> new RuntimeException("Visitor not found"));
+        var country = countryRepository.findById(COUNTRY_ID_2).orElseThrow(() -> new RuntimeException("Country not found!"));
+
+        return EventEntity.builder()
+                .id(FILLED_CAPACITY_EVENT_ID)
+                .name("Filled capacity event")
+                .startDateTime(LocalDateTime.now().plusDays(20))
+                .endDateTime(LocalDateTime.now().plusDays(21))
+                .totalSeats(1)
+                .numberOfAvailableSeats(0)
+                .price(1000)
+                .shortDescription("Short description")
+                .detailedDescription("Detailed description")
+                .organizationPlan("Organization plan")
+                .organizer(organizer)
+                .visitors(List.of(visitor))
+                .type(EventType.HIKING)
+                .country(country)
+                .build();
+    }
+
+    private EventEntity buildRandomPendingEvent(int i) {
+        var organizer = organizerService.findByEmail(ORGANIZER_EMAIL).orElseThrow(() -> new RuntimeException("Organizer not found"));
 
         var countryId = (i % 2 == 0) ? COUNTRY_ID_1 : COUNTRY_ID_2;
         var country = countryRepository.findById(countryId).orElseThrow(() -> new RuntimeException("Country not found!"));
@@ -108,13 +139,14 @@ public class EventDataLoader {
             type = types[i - EVENT_COUNT];
         }
 
+        int visitorCapacity = random.nextInt(50, 1500);
         return EventEntity.builder()
                 .id(UUID.randomUUID())
                 .name("Random pending event " + i)
                 .startDateTime(LocalDateTime.now().plusDays(10))
                 .endDateTime(LocalDateTime.now().plusDays(11))
-                .totalSeats(100)
-                .numberOfAvailableSeats(100)
+                .totalSeats(visitorCapacity)
+                .numberOfAvailableSeats(visitorCapacity)
                 .price(100)
                 .shortDescription("Short description")
                 .detailedDescription("Detailed description")
@@ -146,6 +178,35 @@ public class EventDataLoader {
                 .organizer(organizer)
                 .visitors(List.of(visitor))
                 .type(EventType.CYCLING)
+                .country(country)
+                .build();
+    }
+
+    private SpecialOfferEntity buildSpecialOffer() {
+        return SpecialOfferEntity.builder()
+                .discount(0.33)
+                .type(SpecialOfferType.FOR_LOCALS)
+                .build();
+    }
+    private EventEntity buildEventWithSpecialOffer(SpecialOfferEntity specialOffer) {
+        var organizer = organizerService.findByEmail(ORGANIZER_EMAIL).orElseThrow(() -> new RuntimeException("Organizer not found"));
+        var country = countryRepository.findById(COUNTRY_ID_1).orElseThrow(() -> new RuntimeException("Country not found!"));
+
+        return EventEntity.builder()
+                .id(EVENT_WITH_SPECIAL_OFFER_ID)
+                .name("Event with special offer")
+                .startDateTime(LocalDateTime.now().plusDays(20))
+                .endDateTime(LocalDateTime.now().plusDays(21))
+                .totalSeats(20)
+                .numberOfAvailableSeats(20)
+                .price(200)
+                .shortDescription("Short description")
+                .detailedDescription("Detailed description")
+                .organizationPlan("Organization plan")
+                .organizer(organizer)
+                .visitors(List.of())
+                .specialOffer(specialOffer)
+                .type(EventType.BASKETBALL_GAME)
                 .country(country)
                 .build();
     }

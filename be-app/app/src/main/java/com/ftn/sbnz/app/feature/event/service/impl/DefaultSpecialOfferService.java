@@ -39,5 +39,15 @@ public class DefaultSpecialOfferService implements SpecialOfferService {
         return specialOfferRepository.save(specialOffer);
     }
 
+    @Override
+    public SpecialOfferEntity getEntityById(UUID id) {
+        return specialOfferRepository.findById(id).orElseThrow(SpecialOfferNotFoundException::new);
+    }
+
+    @Override
+    public SpecialOfferEntity save(SpecialOfferEntity entity) {
+        return specialOfferRepository.save(entity);
+    }
+
 
 }
