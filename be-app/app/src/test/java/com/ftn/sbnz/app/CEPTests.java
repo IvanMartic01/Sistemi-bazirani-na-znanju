@@ -130,11 +130,9 @@ class CEPTests {
 
         Collection<EventEntity> eventsToPromote = new HashSet<>();
         Collection<EventEntity> eventsToDelete = new HashSet<>();
-        Collection<EventPurchaseEntity> purchasesToDelete = new HashSet<>();
 
         kSession.setGlobal("eventsToPromote", eventsToPromote);
         kSession.setGlobal("eventsToDelete", eventsToDelete);
-        kSession.setGlobal("purchasesToDelete", purchasesToDelete);
 
         SessionPseudoClock clock = kSession.getSessionClock();
         clock.advanceTime(0, TimeUnit.MINUTES);
@@ -171,11 +169,9 @@ class CEPTests {
 
         Collection<EventEntity> eventsToPromote = new HashSet<>();
         Collection<EventEntity> eventsToDelete = new HashSet<>();
-        Collection<EventPurchaseEntity> purchasesToDelete = new HashSet<>();
 
         kSession.setGlobal("eventsToPromote", eventsToPromote);
         kSession.setGlobal("eventsToDelete", eventsToDelete);
-        kSession.setGlobal("purchasesToDelete", purchasesToDelete);
 
         SessionPseudoClock clock = kSession.getSessionClock();
         clock.advanceTime(0, TimeUnit.MINUTES);
@@ -230,11 +226,9 @@ class CEPTests {
 
         Collection<EventEntity> eventsToPromote = new HashSet<>();
         Collection<EventEntity> eventsToDelete = new HashSet<>();
-        Collection<EventPurchaseEntity> purchasesToDelete = new HashSet<>();
 
         kSession.setGlobal("eventsToPromote", eventsToPromote);
         kSession.setGlobal("eventsToDelete", eventsToDelete);
-        kSession.setGlobal("purchasesToDelete", purchasesToDelete);
 
         SessionPseudoClock clock = kSession.getSessionClock();
         clock.advanceTime(0, TimeUnit.MINUTES);
@@ -299,11 +293,9 @@ class CEPTests {
 
         Collection<EventEntity> eventsToPromote = new HashSet<>();
         Collection<EventEntity> eventsToDelete = new HashSet<>();
-        Collection<EventPurchaseEntity> purchasesToDelete = new HashSet<>();
 
         kSession.setGlobal("eventsToPromote", eventsToPromote);
         kSession.setGlobal("eventsToDelete", eventsToDelete);
-        kSession.setGlobal("purchasesToDelete", purchasesToDelete);
 
         SessionPseudoClock clock = kSession.getSessionClock();
         clock.advanceTime(0, TimeUnit.MINUTES);
@@ -357,11 +349,9 @@ class CEPTests {
 
         Collection<EventEntity> eventsToPromote = new HashSet<>();
         Collection<EventEntity> eventsToDelete = new HashSet<>();
-        Collection<EventPurchaseEntity> purchasesToDelete = new HashSet<>();
 
         kSession.setGlobal("eventsToPromote", eventsToPromote);
         kSession.setGlobal("eventsToDelete", eventsToDelete);
-        kSession.setGlobal("purchasesToDelete", purchasesToDelete);
 
         SessionPseudoClock clock = kSession.getSessionClock();
         clock.advanceTime(0, TimeUnit.MINUTES);
@@ -415,11 +405,9 @@ class CEPTests {
 
         Collection<EventEntity> eventsToPromote = new HashSet<>();
         Collection<EventEntity> eventsToDelete = new HashSet<>();
-        Collection<EventPurchaseEntity> purchasesToDelete = new HashSet<>();
 
         kSession.setGlobal("eventsToPromote", eventsToPromote);
         kSession.setGlobal("eventsToDelete", eventsToDelete);
-        kSession.setGlobal("purchasesToDelete", purchasesToDelete);
 
         SessionPseudoClock clock = kSession.getSessionClock();
         clock.advanceTime(0, TimeUnit.MINUTES);
@@ -473,11 +461,9 @@ class CEPTests {
 
         Collection<EventEntity> eventsToPromote = new HashSet<>();
         Collection<EventEntity> eventsToDelete = new HashSet<>();
-        Collection<EventPurchaseEntity> purchasesToDelete = new HashSet<>();
 
         kSession.setGlobal("eventsToPromote", eventsToPromote);
         kSession.setGlobal("eventsToDelete", eventsToDelete);
-        kSession.setGlobal("purchasesToDelete", purchasesToDelete);
 
         SessionPseudoClock clock = kSession.getSessionClock();
         clock.advanceTime(0, TimeUnit.MINUTES);
@@ -534,11 +520,9 @@ class CEPTests {
 
         Collection<EventEntity> eventsToPromote = new HashSet<>();
         Collection<EventEntity> eventsToDelete = new HashSet<>();
-        Collection<EventPurchaseEntity> purchasesToDelete = new HashSet<>();
 
         kSession.setGlobal("eventsToPromote", eventsToPromote);
         kSession.setGlobal("eventsToDelete", eventsToDelete);
-        kSession.setGlobal("purchasesToDelete", purchasesToDelete);
 
         SessionPseudoClock clock = kSession.getSessionClock();
         clock.advanceTime(0, TimeUnit.MINUTES);
@@ -599,11 +583,9 @@ class CEPTests {
 
         Collection<EventEntity> eventsToPromote = new HashSet<>();
         Collection<EventEntity> eventsToDelete = new HashSet<>();
-        Collection<EventPurchaseEntity> purchasesToDelete = new HashSet<>();
 
         kSession.setGlobal("eventsToPromote", eventsToPromote);
         kSession.setGlobal("eventsToDelete", eventsToDelete);
-        kSession.setGlobal("purchasesToDelete", purchasesToDelete);
 
         SessionPseudoClock clock = kSession.getSessionClock();
         clock.advanceTime(0, TimeUnit.MINUTES);
@@ -682,11 +664,9 @@ class CEPTests {
 
         Collection<EventEntity> eventsToPromote = new HashSet<>();
         Collection<EventEntity> eventsToDelete = new HashSet<>();
-        Collection<EventPurchaseEntity> purchasesToDelete = new HashSet<>();
 
         kSession.setGlobal("eventsToPromote", eventsToPromote);
         kSession.setGlobal("eventsToDelete", eventsToDelete);
-        kSession.setGlobal("purchasesToDelete", purchasesToDelete);
 
         SessionPseudoClock clock = kSession.getSessionClock();
         clock.advanceTime(0, TimeUnit.MINUTES);
@@ -765,11 +745,9 @@ class CEPTests {
 
         Collection<EventEntity> eventsToPromote = new HashSet<>();
         Collection<EventEntity> eventsToDelete = new HashSet<>();
-        Collection<EventPurchaseEntity> purchasesToDelete = new HashSet<>();
 
         kSession.setGlobal("eventsToPromote", eventsToPromote);
         kSession.setGlobal("eventsToDelete", eventsToDelete);
-        kSession.setGlobal("purchasesToDelete", purchasesToDelete);
 
         SessionPseudoClock clock = kSession.getSessionClock();
         clock.advanceTime(0, TimeUnit.MINUTES);

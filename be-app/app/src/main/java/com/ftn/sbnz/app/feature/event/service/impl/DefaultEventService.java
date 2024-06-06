@@ -221,8 +221,8 @@ public class DefaultEventService implements EventService {
         LocalDateTime now = LocalDateTime.now();
         Collection<EventEntity> eventsToPromote = new HashSet<>();
         Collection<EventEntity> eventsToDelete = new HashSet<>();
-        Collection<EventPurchaseEntity> purchasesToDelete = new HashSet<>();
         Collection<VisitorEntity> visitorsForMoneyReturn = new ArrayList<>();
+        Collection<EventPurchaseEntity> purchasesToDelete = new ArrayList<>();
 
         events.forEach(kSession::insert);
         purchases.forEach(kSession::insert);
@@ -232,19 +232,21 @@ public class DefaultEventService implements EventService {
         kSession.setGlobal("now", now);
         kSession.setGlobal("eventsToPromote", eventsToPromote);
         kSession.setGlobal("eventsToDelete", eventsToDelete);
-        kSession.setGlobal("purchasesToDelete", purchasesToDelete);
 
         kSession.fireAllRules();
 
-        purchasesToDelete.forEach(purchase -> {
-            VisitorEntity visitor = purchase.getVisitor();
-            visitor.setMoney(visitor.getMoney() + purchase.getPurchasePrice());
-            mailService.sendTextEmail("Event cancelled", visitor.getEmail(),
-                    "%s has been cancelled".formatted(purchase.getEvent().getName()));
-            visitorsForMoneyReturn.add(visitor);
+        eventsToDelete.forEach(event -> {
+            purchasesToDelete.addAll(eventPurchaseService.getEventPurchaseByEventId(event.getId()));
+            purchasesToDelete.forEach(purchase -> {
+                VisitorEntity visitor = purchase.getVisitor();
+                visitor.setMoney(visitor.getMoney() + purchase.getPurchasePrice());
+                mailService.sendTextEmail("Event cancelled", visitor.getEmail(),
+                        "%s has been cancelled".formatted(purchase.getEvent().getName()));
+                visitorsForMoneyReturn.add(visitor);
+            });
         });
-        visitorsForMoneyReturn.forEach(visitorService::save);
 
+        visitorsForMoneyReturn.forEach(visitorService::save);
         eventRepository.deleteAllInBatch(eventsToDelete);
         eventPurchaseService.deleteAllInBatch(purchasesToDelete);
 

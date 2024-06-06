@@ -14,7 +14,6 @@ import java.util.Collection;
 
 global LocalDateTime now;
 global Collection<EventEntity> eventsToDelete;
-global Collection<EventPurchaseEntity> purchasesToDelete;
 global Collection<EventEntity> eventsToPromote;
 
 rule "Cancel event"
